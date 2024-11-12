@@ -1,0 +1,818 @@
+[
+  {
+    "url": "https://api.worldbank.org/v2/country/ALL/indicator/SH.TBS.INCD?date=2000:2022&format=json",
+    "country": "ALL",
+    "id": "SH.TBS.INCD",
+    "date": "2000:2022"
+  },
+  {
+    "page": 1,
+    "pages": 123,
+    "per_page": 50,
+    "total": 6118,
+    "sourceid": "2",
+    "lastupdated": "2024-09-19"
+  },
+  [
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZH",
+        "value": "Africa Eastern and Southern"
+      },
+      "countryiso3code": "AFE",
+      "date": "2022",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZH",
+        "value": "Africa Eastern and Southern"
+      },
+      "countryiso3code": "AFE",
+      "date": "2021",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZH",
+        "value": "Africa Eastern and Southern"
+      },
+      "countryiso3code": "AFE",
+      "date": "2020",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZH",
+        "value": "Africa Eastern and Southern"
+      },
+      "countryiso3code": "AFE",
+      "date": "2019",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZH",
+        "value": "Africa Eastern and Southern"
+      },
+      "countryiso3code": "AFE",
+      "date": "2018",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZH",
+        "value": "Africa Eastern and Southern"
+      },
+      "countryiso3code": "AFE",
+      "date": "2017",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZH",
+        "value": "Africa Eastern and Southern"
+      },
+      "countryiso3code": "AFE",
+      "date": "2016",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZH",
+        "value": "Africa Eastern and Southern"
+      },
+      "countryiso3code": "AFE",
+      "date": "2015",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZH",
+        "value": "Africa Eastern and Southern"
+      },
+      "countryiso3code": "AFE",
+      "date": "2014",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZH",
+        "value": "Africa Eastern and Southern"
+      },
+      "countryiso3code": "AFE",
+      "date": "2013",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZH",
+        "value": "Africa Eastern and Southern"
+      },
+      "countryiso3code": "AFE",
+      "date": "2012",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZH",
+        "value": "Africa Eastern and Southern"
+      },
+      "countryiso3code": "AFE",
+      "date": "2011",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZH",
+        "value": "Africa Eastern and Southern"
+      },
+      "countryiso3code": "AFE",
+      "date": "2010",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZH",
+        "value": "Africa Eastern and Southern"
+      },
+      "countryiso3code": "AFE",
+      "date": "2009",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZH",
+        "value": "Africa Eastern and Southern"
+      },
+      "countryiso3code": "AFE",
+      "date": "2008",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZH",
+        "value": "Africa Eastern and Southern"
+      },
+      "countryiso3code": "AFE",
+      "date": "2007",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZH",
+        "value": "Africa Eastern and Southern"
+      },
+      "countryiso3code": "AFE",
+      "date": "2006",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZH",
+        "value": "Africa Eastern and Southern"
+      },
+      "countryiso3code": "AFE",
+      "date": "2005",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZH",
+        "value": "Africa Eastern and Southern"
+      },
+      "countryiso3code": "AFE",
+      "date": "2004",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZH",
+        "value": "Africa Eastern and Southern"
+      },
+      "countryiso3code": "AFE",
+      "date": "2003",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZH",
+        "value": "Africa Eastern and Southern"
+      },
+      "countryiso3code": "AFE",
+      "date": "2002",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZH",
+        "value": "Africa Eastern and Southern"
+      },
+      "countryiso3code": "AFE",
+      "date": "2001",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZH",
+        "value": "Africa Eastern and Southern"
+      },
+      "countryiso3code": "AFE",
+      "date": "2000",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZI",
+        "value": "Africa Western and Central"
+      },
+      "countryiso3code": "AFW",
+      "date": "2022",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZI",
+        "value": "Africa Western and Central"
+      },
+      "countryiso3code": "AFW",
+      "date": "2021",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZI",
+        "value": "Africa Western and Central"
+      },
+      "countryiso3code": "AFW",
+      "date": "2020",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZI",
+        "value": "Africa Western and Central"
+      },
+      "countryiso3code": "AFW",
+      "date": "2019",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZI",
+        "value": "Africa Western and Central"
+      },
+      "countryiso3code": "AFW",
+      "date": "2018",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZI",
+        "value": "Africa Western and Central"
+      },
+      "countryiso3code": "AFW",
+      "date": "2017",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZI",
+        "value": "Africa Western and Central"
+      },
+      "countryiso3code": "AFW",
+      "date": "2016",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZI",
+        "value": "Africa Western and Central"
+      },
+      "countryiso3code": "AFW",
+      "date": "2015",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZI",
+        "value": "Africa Western and Central"
+      },
+      "countryiso3code": "AFW",
+      "date": "2014",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZI",
+        "value": "Africa Western and Central"
+      },
+      "countryiso3code": "AFW",
+      "date": "2013",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZI",
+        "value": "Africa Western and Central"
+      },
+      "countryiso3code": "AFW",
+      "date": "2012",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZI",
+        "value": "Africa Western and Central"
+      },
+      "countryiso3code": "AFW",
+      "date": "2011",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZI",
+        "value": "Africa Western and Central"
+      },
+      "countryiso3code": "AFW",
+      "date": "2010",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZI",
+        "value": "Africa Western and Central"
+      },
+      "countryiso3code": "AFW",
+      "date": "2009",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZI",
+        "value": "Africa Western and Central"
+      },
+      "countryiso3code": "AFW",
+      "date": "2008",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZI",
+        "value": "Africa Western and Central"
+      },
+      "countryiso3code": "AFW",
+      "date": "2007",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZI",
+        "value": "Africa Western and Central"
+      },
+      "countryiso3code": "AFW",
+      "date": "2006",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZI",
+        "value": "Africa Western and Central"
+      },
+      "countryiso3code": "AFW",
+      "date": "2005",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZI",
+        "value": "Africa Western and Central"
+      },
+      "countryiso3code": "AFW",
+      "date": "2004",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZI",
+        "value": "Africa Western and Central"
+      },
+      "countryiso3code": "AFW",
+      "date": "2003",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZI",
+        "value": "Africa Western and Central"
+      },
+      "countryiso3code": "AFW",
+      "date": "2002",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZI",
+        "value": "Africa Western and Central"
+      },
+      "countryiso3code": "AFW",
+      "date": "2001",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "ZI",
+        "value": "Africa Western and Central"
+      },
+      "countryiso3code": "AFW",
+      "date": "2000",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "1A",
+        "value": "Arab World"
+      },
+      "countryiso3code": "ARB",
+      "date": "2022",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "1A",
+        "value": "Arab World"
+      },
+      "countryiso3code": "ARB",
+      "date": "2021",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "1A",
+        "value": "Arab World"
+      },
+      "countryiso3code": "ARB",
+      "date": "2020",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    },
+    {
+      "indicator": {
+        "id": "SH.TBS.INCD",
+        "value": "Incidence of tuberculosis (per 100,000 people)"
+      },
+      "country": {
+        "id": "1A",
+        "value": "Arab World"
+      },
+      "countryiso3code": "ARB",
+      "date": "2019",
+      "value": null,
+      "unit": "",
+      "obs_status": "",
+      "decimal": 0
+    }
+  ]
+]
