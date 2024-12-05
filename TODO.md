@@ -49,3 +49,20 @@ Reunion con sebastian cada 2 semanas
   2 al enviar informe preliminar, se comunicara con un tutor de apoyo a desarrollo texto (marco teorico, etc)
 
 ##
+
+# 5-12
+
+<!-- Investigación de la API -->
+
+- Al investigar sobre traducir al español los indicadores, descubri que la API posee la funcionalidad de traducir la informacion
+- La API permite filtrar los indicadores por topicos, en este caso utilizaremos el de salud
+- Tooltip con datos sobre cada pais al pasar el mouse sobre el mapa
+- Modificando fuente de datos de paises en el mapa, traduciendo nombres y agregando continente
+
+# TODO
+
+- ESTILIZAR Y AGREGAR DATOS AL TOOLTIP
+
+- Logica de selección de indicador, y pintar color en el mapa dependiendo el indicador seleccionado
+
+- Agregar filtros por años
