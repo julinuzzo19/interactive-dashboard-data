@@ -12,5 +12,6 @@ export interface Properties {
     | "América Central"
     | "América del Sur"
     | "Asia"
-    | "Oceanía";
+    | "Oceanía"
+    | "Europa/Asia";
 }

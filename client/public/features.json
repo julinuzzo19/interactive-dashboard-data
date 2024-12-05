@@ -1002,7 +1002,7 @@
           "type": "Polygon",
           "arcs": [[651, -312, 652, -111, -348]],
           "id": "SUR",
-          "properties": { "name": "Surinam", "continent": "América del Sur" }
+          "properties": { "name": "Suriname" }
         },
         {
           "type": "Polygon",
@@ -1020,70 +1020,70 @@
           "type": "Polygon",
           "arcs": [[-535, -301, 655]],
           "id": "SWE",
-          "properties": { "name": "Eslovenia", "continent": "Europa" }
+          "properties": { "name": "Suecia", "continent": "Europa" }
         },
         {
           "type": "Polygon",
           "arcs": [[656, -504]],
           "id": "SWZ",
-          "properties": { "name": "Suecia", "continent": "Europa" }
+          "properties": { "name": "Esuatini", "continent": "África" }
         },
         {
           "type": "Polygon",
           "arcs": [[-414, -408, -459, 657, 658, -399]],
           "id": "SYR",
-          "properties": { "name": "Esuatini", "continent": "África" }
+          "properties": { "name": "Siria", "continent": "Asia" }
         },
         {
           "type": "Polygon",
           "arcs": [[-529, 659, -527, 660, -525, -466, -630, -123, -215, 661]],
           "id": "TCD",
-          "properties": { "name": "Siria", "continent": "Asia" }
+          "properties": { "name": "Chad", "continent": "África" }
         },
         {
           "type": "Polygon",
           "arcs": [[662, -326, -73, -66]],
           "id": "TGO",
-          "properties": { "name": "Chad", "continent": "África" }
+          "properties": { "name": "Togo", "continent": "África" }
         },
         {
           "type": "Polygon",
           "arcs": [[663, -518, 664, -489, -455, -442]],
           "id": "THA",
-          "properties": { "name": "Togo", "continent": "África" }
+          "properties": { "name": "Tailandia", "continent": "Asia" }
         },
         {
           "type": "Polygon",
           "arcs": [[-440, -193, -3, 665]],
           "id": "TJK",
-          "properties": { "name": "Tailandia", "continent": "Asia" }
+          "properties": { "name": "Tayikistán", "continent": "Asia" }
         },
         {
           "type": "Polygon",
           "arcs": [[-388, 666, -422, 667, -1]],
           "id": "TKM",
-          "properties": { "name": "Tayikistán", "continent": "Asia" }
+          "properties": { "name": "Turkmenistán", "continent": "Asia" }
         },
         {
           "type": "Polygon",
           "arcs": [[668, -368]],
           "id": "TLS",
-          "properties": { "name": "Turkmenistán", "continent": "Asia" }
+          "properties": { "name": "Timor Oriental", "continent": "Asia" }
         },
         {
           "type": "Polygon",
           "arcs": [[669]],
           "id": "TTO",
-          "properties": { "name": "Timor Oriental", "continent": "Asia" }
+          "properties": {
+            "name": "Trinidad y Tobago",
+            "continent": "América del Norte"
+          }
         },
         {
           "type": "Polygon",
           "arcs": [[-267, 670, -463]],
           "id": "TUN",
-          "properties": {
-            "name": "Trinidad y Tobago",
-            "continent": "América del Norte"
-          }
+          "properties": { "name": "Túnez", "continent": "África" }
         },
         {
           "type": "MultiPolygon",
@@ -1092,13 +1092,13 @@
             [[-341, -80, 673]]
           ],
           "id": "TUR",
-          "properties": { "name": "Túnez", "continent": "África" }
+          "properties": { "name": "Turquía", "continent": "Europa/Asia" }
         },
         {
           "type": "Polygon",
           "arcs": [[674]],
           "id": "TWN",
-          "properties": { "name": "Turquía", "continent": "Europa/Asia" }
+          "properties": { "name": "Taiwán", "continent": "Asia" }
         },
         {
           "type": "Polygon",
@@ -1109,13 +1109,13 @@
             ]
           ],
           "id": "TZA",
-          "properties": { "name": "Taiwán", "continent": "Asia" }
+          "properties": { "name": "Tanzania", "continent": "África" }
         },
         {
           "type": "Polygon",
           "arcs": [[-622, -219, 683, -217, 684, -635, -437, -683]],
           "id": "UGA",
-          "properties": { "name": "Tanzania", "continent": "África" }
+          "properties": { "name": "Uganda", "continent": "África" }
         },
         {
           "type": "Polygon",
@@ -1126,13 +1126,13 @@
             ]
           ],
           "id": "UKR",
-          "properties": { "name": "Uganda", "continent": "África" }
+          "properties": { "name": "Ucrania", "continent": "Europa" }
         },
         {
           "type": "Polygon",
           "arcs": [[-114, 691, -28]],
           "id": "URY",
-          "properties": { "name": "Ucrania", "continent": "Europa" }
+          "properties": { "name": "Uruguay", "continent": "América del Sur" }
         },
         {
           "type": "MultiPolygon",
@@ -1149,12 +1149,6 @@
             [[-144, 702, -142, 703]]
           ],
           "id": "USA",
-          "properties": { "name": "Uruguay", "continent": "América del Sur" }
-        },
-        {
-          "type": "Polygon",
-          "arcs": [[-668, -421, -441, -666, -2]],
-          "id": "UZB",
           "properties": {
             "name": "Estados Unidos",
             "continent": "América del Norte"
@@ -1162,51 +1156,57 @@
         },
         {
           "type": "Polygon",
+          "arcs": [[-668, -421, -441, -666, -2]],
+          "id": "UZB",
+          "properties": { "name": "Uzbekistán", "continent": "Asia" }
+        },
+        {
+          "type": "Polygon",
           "arcs": [[704, -349, -109, -234]],
           "id": "VEN",
-          "properties": { "name": "Uzbekistán", "continent": "Asia" }
+          "properties": { "name": "Venezuela", "continent": "América del Sur" }
         },
         {
           "type": "Polygon",
           "arcs": [[705, -444, -457, -185]],
           "id": "VNM",
-          "properties": { "name": "Venezuela", "continent": "América del Sur" }
+          "properties": { "name": "Vietnam", "continent": "Asia" }
         },
         {
           "type": "MultiPolygon",
           "arcs": [[[706]], [[707]]],
           "id": "VUT",
-          "properties": { "name": "Vietnam", "continent": "Asia" }
+          "properties": { "name": "Vanuatu", "continent": "Oceanía" }
         },
         {
           "type": "Polygon",
           "arcs": [[-417, -404]],
           "id": "PSX",
-          "properties": { "name": "Vanuatu", "continent": "Oceanía" }
+          "properties": { "name": "Cisjordania", "continent": "Asia" }
         },
         {
           "type": "Polygon",
           "arcs": [[708, -627, -542]],
           "id": "YEM",
-          "properties": { "name": "Cisjordania", "continent": "Asia" }
+          "properties": { "name": "Yemen", "continent": "Asia" }
         },
         {
           "type": "Polygon",
           "arcs": [[-523, -119, 709, -505, -657, -503, 710], [-468]],
           "id": "ZAF",
-          "properties": { "name": "Yemen", "continent": "Asia" }
+          "properties": { "name": "Sudáfrica", "continent": "África" }
         },
         {
           "type": "Polygon",
           "arcs": [[-512, -507, 711, -121, -522, -7, -223, 712, -680]],
           "id": "ZMB",
-          "properties": { "name": "Sudáfrica", "continent": "África" }
+          "properties": { "name": "Zambia", "continent": "África" }
         },
         {
           "type": "Polygon",
           "arcs": [[-710, -122, -712, -506]],
           "id": "ZWE",
-          "properties": { "name": "Zambia", "continent": "África" }
+          "properties": { "name": "Zimbabue", "continent": "África" }
         },
         {
           "type": "MultiPolygon",
@@ -1221,73 +1221,73 @@
             [[720]]
           ],
           "id": "CPV",
-          "properties": { "name": "Zimbabue", "continent": "África" }
+          "properties": { "name": "Cabo Verde", "continent": "África" }
         },
         {
           "type": "MultiPolygon",
           "arcs": [[[721]], [[722]], [[723]]],
           "id": "COM",
-          "properties": { "name": "Cabo Verde", "continent": "África" }
+          "properties": { "name": "Comoras", "continent": "África" }
         },
         {
           "type": "Polygon",
           "arcs": [[724]],
           "id": "MUS",
-          "properties": { "name": "Comoras", "continent": "África" }
+          "properties": { "name": "Mauricio", "continent": "África" }
         },
         {
           "type": "Polygon",
           "arcs": [[725]],
           "id": "SYC",
-          "properties": { "name": "Mauricio", "continent": "África" }
+          "properties": { "name": "Seychelles", "continent": "África" }
         },
         {
           "type": "Polygon",
           "arcs": [[726]],
           "id": "BHR",
-          "properties": { "name": "Seychelles", "continent": "África" }
+          "properties": { "name": "Baréin", "continent": "Asia" }
         },
         {
           "type": "MultiPolygon",
           "arcs": [[[727]], [[728]]],
           "id": "MDV",
-          "properties": { "name": "Baréin", "continent": "Asia" }
+          "properties": { "name": "Maldivas", "continent": "Asia" }
         },
         {
           "type": "MultiPolygon",
           "arcs": [[[729]], [[730]]],
           "id": "MHL",
-          "properties": { "name": "Maldivas", "continent": "Asia" }
+          "properties": { "name": "Islas Marshall", "continent": "Oceanía" }
         },
         {
           "type": "MultiPolygon",
           "arcs": [[[731]], [[732]], [[733]], [[734]], [[735]]],
           "id": "FSM",
-          "properties": { "name": "Islas Marshall", "continent": "Oceanía" }
+          "properties": { "name": "Micronesia", "continent": "Oceanía" }
         },
         {
           "type": "Polygon",
           "arcs": [[736]],
           "id": "NRU",
-          "properties": { "name": "Micronesia", "continent": "Oceanía" }
+          "properties": { "name": "Nauru", "continent": "Oceanía" }
         },
         {
           "type": "Polygon",
           "arcs": [[737]],
           "id": "PLW",
-          "properties": { "name": "Nauru", "continent": "Oceanía" }
+          "properties": { "name": "Palau", "continent": "Oceanía" }
         },
         {
           "type": "MultiPolygon",
           "arcs": [[[738]], [[739]]],
           "id": "WSM",
-          "properties": { "name": "Palau", "continent": "Oceanía" }
+          "properties": { "name": "Samoa", "continent": "Oceanía" }
         },
         {
           "type": "Polygon",
           "arcs": [[515, 740]],
           "id": "SGP",
-          "properties": { "name": "Samoa", "continent": "Oceanía" }
+          "properties": { "name": "Singapur", "continent": "Asia" }
         },
         {
           "type": "MultiPolygon",
