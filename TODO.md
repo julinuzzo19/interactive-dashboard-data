@@ -58,11 +58,12 @@ Reunion con sebastian cada 2 semanas
 - La API permite filtrar los indicadores por topicos, en este caso utilizaremos el de salud
 - Tooltip con datos sobre cada pais al pasar el mouse sobre el mapa
 - Modificando fuente de datos de paises en el mapa, traduciendo nombres y agregando continente
+- Logica de seleccionar indicador y obtener valores por paises
+- Filtro por año
 
 # TODO
 
 - ESTILIZAR Y AGREGAR DATOS AL TOOLTIP
 
-- Logica de selección de indicador, y pintar color en el mapa dependiendo el indicador seleccionado
-
-- Agregar filtros por años
+- Logica depintar color en el mapa dependiendo el indicador seleccionado
+- Decidir graficos a utilizar

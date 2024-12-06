@@ -1,12 +1,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Indicador } from "../interfaces/Indicador";
+import { Indicador, IndicatorValue } from "../interfaces/Indicador";
 
 const BASE_URL_WB = "https://api.worldbank.org/v2/es";
 const CODE_TOPIC_HEALTH = 8;
 
 const useFetch = () => {
-  const [indicadores, setIndicadores] = useState<Indicador[]>([]);
+  const [indicators, setIndicators] = useState<Indicador[]>([]);
+  const [dataIndicator, setDataIndicator] = useState<IndicatorValue[]>([]);
 
   useEffect(() => {
     getIndicadores();
@@ -20,14 +21,35 @@ const useFetch = () => {
       )
       .then((res) => {
         // console.log({ res });
-        setIndicadores(res.data[1]);
+        setIndicators(res.data[1]);
       })
       .catch((err) => {
         console.log({ err });
       });
   };
 
-  return { indicadores };
+  const getDataIndicator = async ({
+    indicator,
+    currentYear,
+  }: {
+    indicator: string;
+    currentYear: number;
+  }) => {
+    await axios
+      .get(
+        BASE_URL_WB +
+          `/country/ALL/indicator/${indicator}?format=json&date=${currentYear}`
+      )
+      .then((res) => {
+        // console.log({ res });
+        setDataIndicator(res.data[1]);
+      })
+      .catch((err) => {
+        console.log({ err });
+      });
+  };
+
+  return { indicators, getDataIndicator, dataIndicator };
 };
 
 export default useFetch;

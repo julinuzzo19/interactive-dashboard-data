@@ -10,3 +10,13 @@ export interface Indicador {
   unit: string;
   topics: Item[];
 }
+
+export interface IndicatorValue {
+  country: { id: string; value: string };
+  countryiso3code: string;
+  date: string;
+  value: any;
+  unit: string;
+  obs_status: string;
+  decimal: number;
+}
