@@ -60,10 +60,12 @@ Reunion con sebastian cada 2 semanas
 - Modificando fuente de datos de paises en el mapa, traduciendo nombres y agregando continente
 - Logica de seleccionar indicador y obtener valores por paises
 - Filtro por año
+- Busqueda de indicador por nombre o codigo
 
 # TODO
 
+- Logica de pintar color en el mapa dependiendo el indicador seleccionado
 - ESTILIZAR Y AGREGAR DATOS AL TOOLTIP
-
-- Logica depintar color en el mapa dependiendo el indicador seleccionado
 - Decidir graficos a utilizar
+- Decidir si usar filtro por año o intervalo de tiempo
+- Definir los años que se tienen datos en la API

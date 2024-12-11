@@ -3,6 +3,9 @@ export interface GeoCountry {
   id: string;
   properties: Properties;
 }
+export interface GeoCountryColor extends GeoCountry {
+  value: number;
+}
 
 export interface Properties {
   name: string;

@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import useFetch from "../hooks/useFetch";
 import Select, { SingleValue } from "react-select";
-import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import "react-tooltip/dist/react-tooltip.css";
 import { Tooltip } from "react-tooltip";
-import { GeoCountry } from "../interfaces/Geo";
+import { GeoCountryColor } from "../interfaces/Geo";
+import { formatPrecio } from "../utils/formatPrecio";
+import Geo from "./Geo";
 
 const Home = () => {
   const { indicators, getDataIndicator, dataIndicator } = useFetch();
-  const [tooltipContent, setTooltipContent] = useState<Partial<GeoCountry>>({});
+  const [tooltipContent, setTooltipContent] = useState<
+    Partial<GeoCountryColor>
+  >({});
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const [currentIndicator, setCurrentIndicator] = useState<
     SingleValue<{
@@ -16,16 +19,20 @@ const Home = () => {
       value: string;
     }>
   >({
-    label: "",
-    value: "",
+    // label: "",
+    // value: "",
+    label: "Población, hombres  (SP.POP.TOTL.MA.IN)",
+    value: "SP.POP.TOTL.MA.IN",
   });
+  const [minValueIndicator, setMinValueIndicator] = useState(0);
+  const [maxValueIndicator, setMaxValueIndicator] = useState(0);
 
   useEffect(() => {
-    console.log({ indicators });
-  }, [indicators]);
-  useEffect(() => {
-    // console.log({ tooltipContent });
+    console.log({ tooltipContent });
   }, [tooltipContent]);
+  useEffect(() => {
+    console.log({ maxValueIndicator, minValueIndicator });
+  }, [maxValueIndicator, minValueIndicator]);
 
   useEffect(() => {
     console.log({ currentIndicator });
@@ -38,8 +45,42 @@ const Home = () => {
   }, [currentIndicator?.value, currentYear]);
 
   useEffect(() => {
-    console.log({ dataIndicator });
+    if (dataIndicator?.length > 0) {
+      console.log({ dataIndicator });
+      setMinValueIndicator(
+        Math.min(...dataIndicator.map((item) => item.value))
+      );
+      setMaxValueIndicator(
+        Math.max(...dataIndicator.map((item) => item.value))
+      );
+    } else {
+      setMinValueIndicator(0);
+      setMaxValueIndicator(0);
+    }
   }, [dataIndicator]);
+
+  const generateColorByValue = (value: number) => {
+    // Verifica que la lista no esté vacía
+    if (maxValueIndicator === 0 || minValueIndicator === 0) {
+      // throw new Error("La lista de números no puede estar vacía.");
+      return;
+    }
+
+    // Obtén el valor mínimo y máximo de la lista
+    const min = minValueIndicator;
+    const max = maxValueIndicator;
+
+    // Normaliza el valor entre 0 y 1
+    const normalizedValue = (value - min) / (max - min);
+
+    // Genera componentes RGB basados en la intensidad
+    const red = Math.floor(255 * normalizedValue); // Más alto con mayor intensidad
+    const blue = Math.floor(255 * (1 - normalizedValue)); // Más alto con menor intensidad
+    const green = 100; // Componente fija o ajustable según preferencia
+
+    // Retorna el color en formato RGB
+    return `rgb(${red}, ${green}, ${blue})`;
+  };
 
   return (
     <div className="flex flex-col justify-center items-center mt-10 w-full">
@@ -50,10 +91,11 @@ const Home = () => {
           className="w-8/12"
           options={indicators.map((indicador) => ({
             value: indicador.id,
-            label: indicador.name,
+            label: `${indicador.name}  (${indicador.id})`,
           }))}
           maxMenuHeight={200}
           placeholder="Selecciona un indicador"
+          value={currentIndicator}
           onChange={(data) => setCurrentIndicator(data)}
         />
       </div>
@@ -62,7 +104,6 @@ const Home = () => {
         <div className="text-center">
           <h2>Indicador</h2>
           <h5 className="font-bold">{currentIndicator.label}</h5>
-          <span>({currentIndicator.value})</span>
         </div>
       )}
 
@@ -84,41 +125,21 @@ const Home = () => {
       </div>
 
       <div className="w-8/12">
-        <ComposableMap data-tip="">
-          <Geographies geography="../../public/features.json">
-            {({ geographies }: { geographies: GeoCountry[] }) => {
-              return geographies.map((geo) => {
-                // console.log({ geo });
-                return (
-                  <Geography
-                    key={geo.id}
-                    geography={geo}
-                    fill="grey"
-                    style={{
-                      default: { outline: "none" },
-                      hover: { fill: "#F53", outline: "none" },
-                      pressed: { fill: "#E42", outline: "none" },
-                    }}
-                    data-tooltip-id={"my-tooltip"}
-                    onMouseEnter={() => {
-                      setTooltipContent(geo);
-                    }}
-                    onMouseLeave={() => {
-                      setTooltipContent({});
-                    }}
-                  />
-                );
-              });
-            }}
-          </Geographies>
-        </ComposableMap>
+        <Geo
+          dataIndicator={dataIndicator}
+          generateColorByValue={generateColorByValue}
+          setTooltipContent={setTooltipContent}
+        />
         <Tooltip id="my-tooltip" className="text-center">
-          <div>
-            <h3>{tooltipContent.properties?.name}</h3>
-            <p className="text-sm italic">
-              {tooltipContent.properties?.continent}
-            </p>
-          </div>
+          {tooltipContent?.id && (
+            <div>
+              <h3>{tooltipContent.properties?.name}</h3>
+              <p className="text-sm italic">
+                {tooltipContent.properties?.continent}
+              </p>
+              <b>({formatPrecio(tooltipContent.value)})</b>
+            </div>
+          )}
         </Tooltip>
       </div>
     </div>
