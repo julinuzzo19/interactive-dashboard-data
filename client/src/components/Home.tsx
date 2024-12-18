@@ -1,18 +1,22 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import useFetch from "../hooks/useFetch";
 import Select, { SingleValue } from "react-select";
 import "react-tooltip/dist/react-tooltip.css";
-import { Tooltip } from "react-tooltip";
 import { GeoCountryColor } from "../interfaces/Geo";
 import { formatPrecio } from "../utils/formatPrecio";
 import Geo from "./Geo";
+// import { Tooltip } from "react-tooltip";
+import chroma from "chroma-js";
 
 const Home = () => {
   const { indicators, getDataIndicator, dataIndicator } = useFetch();
-  const [tooltipContent, setTooltipContent] = useState<
-    Partial<GeoCountryColor>
-  >({});
-  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+  // const [tooltipContent, setTooltipContent] = useState<
+  //   Partial<GeoCountryColor>
+  // >({});
+  const [currentYearFrom, setCurrentYearFrom] = useState(
+    new Date().getFullYear()
+  );
+  const [currentYearTo, setCurrentYearTo] = useState(new Date().getFullYear());
   const [currentIndicator, setCurrentIndicator] = useState<
     SingleValue<{
       label: string;
@@ -27,26 +31,33 @@ const Home = () => {
   const [minValueIndicator, setMinValueIndicator] = useState(0);
   const [maxValueIndicator, setMaxValueIndicator] = useState(0);
 
-  useEffect(() => {
-    console.log({ tooltipContent });
-  }, [tooltipContent]);
-  useEffect(() => {
-    console.log({ maxValueIndicator, minValueIndicator });
-  }, [maxValueIndicator, minValueIndicator]);
+  // let colorScale = chroma.scale(["#ADD8E6", "#FF0000"]).domain([0, 1]);
+  let colorScale = chroma.scale(["yellow", "navy"]).mode("lch");
+  // let colorScale = chroma.scale("OrRd").padding([0.2, 0]);
 
   useEffect(() => {
-    console.log({ currentIndicator });
-    if (currentIndicator?.value && currentYear) {
+    if (minValueIndicator !== undefined && maxValueIndicator !== undefined) {
+      colorScale = chroma
+        .scale(["yellow", "navy"])
+        .mode("lch")
+        .domain([minValueIndicator, maxValueIndicator]);
+    }
+  }, [minValueIndicator, maxValueIndicator]);
+
+  useEffect(() => {
+    // console.log({ currentIndicator });
+    if (currentIndicator?.value && currentYearFrom && currentYearTo) {
       getDataIndicator({
         indicator: currentIndicator.value,
-        currentYear,
+        currentYearFrom,
+        currentYearTo,
       });
     }
-  }, [currentIndicator?.value, currentYear]);
+  }, [currentIndicator?.value, currentYearTo, currentYearFrom]);
 
   useEffect(() => {
     if (dataIndicator?.length > 0) {
-      console.log({ dataIndicator });
+      // console.log({ dataIndicator });
       setMinValueIndicator(
         Math.min(...dataIndicator.map((item) => item.value))
       );
@@ -59,28 +70,60 @@ const Home = () => {
     }
   }, [dataIndicator]);
 
-  const generateColorByValue = (value: number) => {
-    // Verifica que la lista no esté vacía
-    if (maxValueIndicator === 0 || minValueIndicator === 0) {
-      // throw new Error("La lista de números no puede estar vacía.");
-      return;
-    }
+  // const generateColorByValue = useCallback(
+  //   (value: number) => {
+  //     // Verifica que la lista no esté vacía
+  //     // if (maxValueIndicator === 0 || minValueIndicator === 0) {
+  //     //   // throw new Error("La lista de números no puede estar vacía.");
+  //     //   return;
+  //     // }
 
-    // Obtén el valor mínimo y máximo de la lista
-    const min = minValueIndicator;
-    const max = maxValueIndicator;
+  //     // // Obtén el valor mínimo y máximo de la lista
+  //     // const min = minValueIndicator;
+  //     // const max = maxValueIndicator;
 
-    // Normaliza el valor entre 0 y 1
-    const normalizedValue = (value - min) / (max - min);
+  //     // console.log({ min, max });
 
-    // Genera componentes RGB basados en la intensidad
-    const red = Math.floor(255 * normalizedValue); // Más alto con mayor intensidad
-    const blue = Math.floor(255 * (1 - normalizedValue)); // Más alto con menor intensidad
-    const green = 100; // Componente fija o ajustable según preferencia
+  //     // return colorScale(value).hex();
+  //     // Normaliza el valor entre 0 y 1
+  //     // const normalizedValueB = (value - min) / (max - min);
 
-    // Retorna el color en formato RGB
-    return `rgb(${red}, ${green}, ${blue})`;
-  };
+  //     // // Escalación logarítmica
+  //     // const logMin = Math.log(min);
+  //     // const logMax = Math.log(max);
+  //     // const logValue = Math.log(value);
+
+  //     // // Normaliza entre 0 y 1
+  //     // const normalizedValue = (logValue - logMin) / (logMax - logMin);
+
+  //     // console.log({ normalizedValueB, normalizedValue });
+
+  //     // // const red = Math.floor(255 * (1 - normalizedValue)); // Disminuye al aumentar el valor
+  //     // // const green = Math.floor(255 * normalizedValue); // Aumenta al aumentar el valor
+  //     // // const blue = 0; // Azul fijo en 0 para simplificar
+
+  //     // const red = Math.floor(173 + (255 - 173) * normalizedValue);   // Aumenta de 173 a 255
+  //     // const green = Math.floor(216 - 216 * normalizedValue);         // Decrece de 216 a 0
+  //     // const blue = Math.floor(230 - 230 * normalizedValue);
+
+  //     // console.log({ red, green, blue, value });
+
+  //     // // Retorna el color en formato RGB
+  //     // return `rgb(${red}, ${green}, ${blue})`;
+  //   },
+  //   [colorScale]
+  // );
+
+  const generateColorByValue = useCallback(
+    (value) => {
+      if (!colorScale || typeof colorScale !== "function") return "#ccc"; // Valor por defecto
+
+      const colorCountry = colorScale(value as number).hex();
+      console.log({ value, colorCountry });
+      return colorCountry;
+    },
+    [colorScale]
+  );
 
   return (
     <div className="flex flex-col justify-center items-center mt-10 w-full">
@@ -109,28 +152,47 @@ const Home = () => {
 
       <div className="flex flex-row justify-end items-end w-10/12">
         <div className="flex flex-col text-center justify-center">
-          <p>Año seleccionado</p>
-          <select
-            className="text-center"
-            value={currentYear}
-            onChange={(e) => setCurrentYear(parseInt(e.target.value))}
-          >
-            <option value="2024">2024</option>
-            <option value="2023">2023</option>
-            <option value="2022">2022</option>
-            <option value="2021">2021</option>
-            <option value="2020">2020</option>
-          </select>
+          <p>Intervalo de tiempo</p>
+
+          <div>
+            <span>Desde</span>
+            <select
+              className="text-center"
+              value={currentYearFrom}
+              onChange={(e) => setCurrentYearFrom(parseInt(e.target.value))}
+            >
+              <option value="2024">2024</option>
+              <option value="2023">2023</option>
+              <option value="2022">2022</option>
+              <option value="2021">2021</option>
+              <option value="2020">2020</option>
+            </select>
+          </div>
+          <div>
+            <span>Hasta</span>
+            <select
+              className="text-center"
+              value={currentYearTo}
+              onChange={(e) => setCurrentYearTo(parseInt(e.target.value))}
+            >
+              <option value="2024">2024</option>
+              <option value="2023">2023</option>
+              <option value="2022">2022</option>
+              <option value="2021">2021</option>
+              <option value="2020">2020</option>
+            </select>
+          </div>
         </div>
       </div>
 
       <div className="w-8/12">
         <Geo
           dataIndicator={dataIndicator}
+          // setTooltipContent={setTooltipContent}
+          // tooltipContent={tooltipContent}
           generateColorByValue={generateColorByValue}
-          setTooltipContent={setTooltipContent}
         />
-        <Tooltip id="my-tooltip" className="text-center">
+        {/* <Tooltip id="my-tooltip" className="text-center">
           {tooltipContent?.id && (
             <div>
               <h3>{tooltipContent.properties?.name}</h3>
@@ -140,7 +202,7 @@ const Home = () => {
               <b>({formatPrecio(tooltipContent.value)})</b>
             </div>
           )}
-        </Tooltip>
+        </Tooltip> */}
       </div>
     </div>
   );

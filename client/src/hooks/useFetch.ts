@@ -37,18 +37,20 @@ const useFetch = () => {
 
   const getDataIndicator = async ({
     indicator,
-    currentYear,
+    currentYearFrom,
+    currentYearTo,
   }: {
     indicator: string;
-    currentYear: number;
+    currentYearFrom: number;
+    currentYearTo: number;
   }) => {
-    console.log({ indicator, currentYear });
+    // console.log({ indicator, currentYearFrom, currentYearTo });
 
     setDataIndicator(VALUES_MOCK?.filter((item) => item.value));
     // await axios
     //   .get(
     //     BASE_URL_WB +
-    //       `/country/ALL/indicator/${indicator}?format=json&date=${currentYear}&per_page=${1000}`
+    //       `/country/ALL/indicator/${indicator}?format=json&per_page=${1000}&date=${currentYearFrom}:${currentYearTo}`
     //   )
     //   .then((res) => {
     //     console.log({ res });
