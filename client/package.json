@@ -25,6 +25,7 @@
     "react-router-dom": "^6.26.2",
     "react-select": "^5.8.2",
     "react-simple-maps": "^3.0.0",
+    "react-tooltip": "^5.28.0",
     "translate": "^3.0.1"
   },
   "devDependencies": {
