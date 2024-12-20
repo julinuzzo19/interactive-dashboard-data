@@ -2,17 +2,12 @@ import { useCallback, useEffect, useState } from "react";
 import useFetch from "../hooks/useFetch";
 import Select, { SingleValue } from "react-select";
 import "react-tooltip/dist/react-tooltip.css";
-import { GeoCountryColor } from "../interfaces/Geo";
-import { formatPrecio } from "../utils/formatPrecio";
 import Geo from "./Geo";
-// import { Tooltip } from "react-tooltip";
 import chroma from "chroma-js";
 
 const Home = () => {
   const { indicators, getDataIndicator, dataIndicator } = useFetch();
-  // const [tooltipContent, setTooltipContent] = useState<
-  //   Partial<GeoCountryColor>
-  // >({});
+
   const [currentYearFrom, setCurrentYearFrom] = useState(
     new Date().getFullYear()
   );
@@ -31,16 +26,18 @@ const Home = () => {
   const [minValueIndicator, setMinValueIndicator] = useState(0);
   const [maxValueIndicator, setMaxValueIndicator] = useState(0);
 
-  // let colorScale = chroma.scale(["#ADD8E6", "#FF0000"]).domain([0, 1]);
-  let colorScale = chroma.scale(["yellow", "navy"]).mode("lch");
-  // let colorScale = chroma.scale("OrRd").padding([0.2, 0]);
+  // let colorScale = chroma.scale(["#ADD8E6", "#FF0000"]).mode("hcl");
+  let colorScale = chroma.scale(chroma.brewer.OrRd).mode("hcl");
 
   useEffect(() => {
     if (minValueIndicator !== undefined && maxValueIndicator !== undefined) {
+      chroma.brewer.OrRd;
       colorScale = chroma
-        .scale(["yellow", "navy"])
-        .mode("lch")
-        .domain([minValueIndicator, maxValueIndicator]);
+        // .scale(["#ADD8E6", "#FF0000"])
+        .scale(chroma.brewer.OrRd)
+        // .domain([minValueIndicator, maxValueIndicator])
+        .domain([Math.log10(minValueIndicator), Math.log10(maxValueIndicator)])
+        .mode("lch");
     }
   }, [minValueIndicator, maxValueIndicator]);
 
@@ -70,55 +67,12 @@ const Home = () => {
     }
   }, [dataIndicator]);
 
-  // const generateColorByValue = useCallback(
-  //   (value: number) => {
-  //     // Verifica que la lista no esté vacía
-  //     // if (maxValueIndicator === 0 || minValueIndicator === 0) {
-  //     //   // throw new Error("La lista de números no puede estar vacía.");
-  //     //   return;
-  //     // }
-
-  //     // // Obtén el valor mínimo y máximo de la lista
-  //     // const min = minValueIndicator;
-  //     // const max = maxValueIndicator;
-
-  //     // console.log({ min, max });
-
-  //     // return colorScale(value).hex();
-  //     // Normaliza el valor entre 0 y 1
-  //     // const normalizedValueB = (value - min) / (max - min);
-
-  //     // // Escalación logarítmica
-  //     // const logMin = Math.log(min);
-  //     // const logMax = Math.log(max);
-  //     // const logValue = Math.log(value);
-
-  //     // // Normaliza entre 0 y 1
-  //     // const normalizedValue = (logValue - logMin) / (logMax - logMin);
-
-  //     // console.log({ normalizedValueB, normalizedValue });
-
-  //     // // const red = Math.floor(255 * (1 - normalizedValue)); // Disminuye al aumentar el valor
-  //     // // const green = Math.floor(255 * normalizedValue); // Aumenta al aumentar el valor
-  //     // // const blue = 0; // Azul fijo en 0 para simplificar
-
-  //     // const red = Math.floor(173 + (255 - 173) * normalizedValue);   // Aumenta de 173 a 255
-  //     // const green = Math.floor(216 - 216 * normalizedValue);         // Decrece de 216 a 0
-  //     // const blue = Math.floor(230 - 230 * normalizedValue);
-
-  //     // console.log({ red, green, blue, value });
-
-  //     // // Retorna el color en formato RGB
-  //     // return `rgb(${red}, ${green}, ${blue})`;
-  //   },
-  //   [colorScale]
-  // );
-
   const generateColorByValue = useCallback(
     (value) => {
       if (!colorScale || typeof colorScale !== "function") return "#ccc"; // Valor por defecto
 
-      const colorCountry = colorScale(value as number).hex();
+      // const colorCountry = colorScale(value as number).hex();
+      const colorCountry = colorScale(Math.log10(value as number)).hex();
       console.log({ value, colorCountry });
       return colorCountry;
     },

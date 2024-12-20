@@ -91,3 +91,5 @@ Reunion con sebastian cada 2 semanas
 # AVANCES
 - Decidir si usar filtro por año o intervalo de tiempo
 - Definir los años que se tienen datos en la API
+
+
