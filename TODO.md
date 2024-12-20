@@ -77,19 +77,24 @@ Reunion con sebastian cada 2 semanas
 
 # 16-12
 
+# AVANCES
+
+- Decidir si usar filtro por año o intervalo de tiempo
+- Definir los años que se tienen datos en la API
+
+# 20-12
+
+# DONE
+
+logica de color por mapas
+
+# VER
+
+- al consultar indicador, cargar fechas de datos disponibles dinamicamente dependiendo datos disponibles del indicador
+- que no renderice geo al cambiar tooltip hover
+- que todos los indicadores tengan sentido con la escala de colores
+
 # CONSULTAS
 
 - Si se usa un rango de fechas, y un año no tiene datos, deberia promediar el valor del pais o como hacerlo?
 - Utilizar api secudnaria en caso d eno tener datos sobre paises de el indicador seleccionado
-
-# TODO
-- al consultar indicador, cargar fechas de datos disponibles dinamicamente dependiendo datos disponibles del indicador
-- que no renderice geo al cambiar tooltip hover
-
-
-
-# AVANCES
-- Decidir si usar filtro por año o intervalo de tiempo
-- Definir los años que se tienen datos en la API
-
-
