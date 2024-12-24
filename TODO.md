@@ -98,3 +98,9 @@ logica de color por mapas
 
 - Si se usa un rango de fechas, y un año no tiene datos, deberia promediar el valor del pais o como hacerlo?
 - Utilizar api secudnaria en caso d eno tener datos sobre paises de el indicador seleccionado
+
+# 24-12
+
+## TODO
+
+- Al cambiar de vista, los colores de mapa se rompen

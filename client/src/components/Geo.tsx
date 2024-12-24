@@ -18,29 +18,13 @@ import { formatPrecio } from "../utils/formatPrecio";
 const Geo = ({
   generateColorByValue,
   dataIndicator,
-}: // tooltipContent,
-// setTooltipContent,
-{
+}: {
   generateColorByValue: (value: number) => string | undefined;
   dataIndicator: IndicatorValue[];
-  // tooltipContent: Partial<GeoCountryColor>;
-  // setTooltipContent: Dispatch<SetStateAction<Partial<GeoCountryColor>>>;
 }) => {
   const [tooltipContent, setTooltipContent] = useState<
     Partial<GeoCountryColor>
   >({});
-
-  // const [colorData, setColorData] = useState<any>(null);
-  // let colorData;
-
-  // useEffect(() => {
-  //   console.log({ max, min });
-  //   if (max && min) {
-  //     // colorData = chroma.scale(["#ADD8E6", "#FF0000"]).domain([min, max]);
-  //     // setColorData(chroma.scale(["#ADD8E6", "#FF0000"]).domain([min, max]));
-  //     console.log({ colorData });
-  //   }
-  // }, [max, min]);
 
   const handleMouseEnter = useCallback((geo) => {
     setTooltipContent(geo);
