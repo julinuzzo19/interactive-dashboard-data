@@ -91,7 +91,6 @@ logica de color por mapas
 # VER
 
 - al consultar indicador, cargar fechas de datos disponibles dinamicamente dependiendo datos disponibles del indicador
-- que no renderice geo al cambiar tooltip hover
 - que todos los indicadores tengan sentido con la escala de colores
 
 # CONSULTAS
@@ -111,4 +110,19 @@ logica de color por mapas
 
 # 26-12
 
-FIX rerender function color map error
+# DONE
+
+- FIX rerender function color map error
+- fix tooltip and hover mapa
+
+## TODO
+
+- agrandar texto eje y grafico horizontal
+- achicar mapa
+- VOLVER A HACER topojson con continentes
+- agregar un grafico principal mas
+
+<!-- CONSULTAR -->
+
+- Si se usa un rango de fechas, y un año no tiene datos, deberia promediar el valor del pais o como hacerlo?
+- Utilizar api secudnaria en caso d eno tener datos sobre paises de el indicador seleccionado

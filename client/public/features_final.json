@@ -35,14 +35,8 @@
           "type": "MultiPolygon",
           "arcs": [[[23, 24]], [[25, 26, 27, 28, 29, 30]]],
           "id": "ARG",
-          "properties": { "name": "Argentina", "continent": "América del Sur" }
-        },
-        {
-          "type": "Polygon",
-          "arcs": [[36]],
-          "id": "FLK",
           "properties": {
-            "name": "Falkland Is.",
+            "name": "Argentina",
             "continent": "América del Sur"
           }
         },
@@ -119,9 +113,11 @@
           "type": "MultiPolygon",
           "arcs": [[[83]], [[84]], [[85]]],
           "id": "BHS",
-          "properties": { "name": "Bahamas", "continent": "América del Norte" }
+          "properties": {
+            "name": "Bahamas",
+            "continent": "América del Norte"
+          }
         },
-
         {
           "type": "Polygon",
           "arcs": [[86, 87, 88, 89]],
@@ -141,19 +137,28 @@
           "type": "Polygon",
           "arcs": [[98, 99, 100]],
           "id": "BLZ",
-          "properties": { "name": "Belice", "continent": "América Central" }
+          "properties": {
+            "name": "Belice",
+            "continent": "América Central"
+          }
         },
         {
           "type": "Polygon",
           "arcs": [[101, 102, 103, 104, -31]],
           "id": "BOL",
-          "properties": { "name": "Bolivia", "continent": "América del Sur" }
+          "properties": {
+            "name": "Bolivia",
+            "continent": "América del Sur"
+          }
         },
         {
           "type": "Polygon",
           "arcs": [[-27, 105, -104, 106, 107, 108, 109, 110, 111, 112, 113]],
           "id": "BRA",
-          "properties": { "name": "Brasil", "continent": "América del Sur" }
+          "properties": {
+            "name": "Brasil",
+            "continent": "América del Sur"
+          }
         },
         {
           "type": "Polygon",
@@ -217,7 +222,10 @@
             [[163]]
           ],
           "id": "CAN",
-          "properties": { "name": "Canadá", "continent": "América del Norte" }
+          "properties": {
+            "name": "Canadá",
+            "continent": "América del Norte"
+          }
         },
         {
           "type": "Polygon",
@@ -250,7 +258,10 @@
           "type": "Polygon",
           "arcs": [[203, 204, 205, 206, -70, 207]],
           "id": "CIV",
-          "properties": { "name": "Costa de Marfil", "continent": "África" }
+          "properties": {
+            "name": "Costa de Marfil",
+            "continent": "África"
+          }
         },
         {
           "type": "Polygon",
@@ -282,19 +293,28 @@
           "type": "Polygon",
           "arcs": [[229, 230, 231, 232, 233, -108, 234]],
           "id": "COL",
-          "properties": { "name": "Colombia", "continent": "América del Sur" }
+          "properties": {
+            "name": "Colombia",
+            "continent": "América del Sur"
+          }
         },
         {
           "type": "Polygon",
           "arcs": [[235, 236, 237, 238]],
           "id": "CRI",
-          "properties": { "name": "Costa Rica", "continent": "América Central" }
+          "properties": {
+            "name": "Costa Rica",
+            "continent": "América Central"
+          }
         },
         {
           "type": "Polygon",
           "arcs": [[239]],
           "id": "CUB",
-          "properties": { "name": "Cuba", "continent": "América del Norte" }
+          "properties": {
+            "name": "Cuba",
+            "continent": "América del Norte"
+          }
         },
         {
           "type": "Polygon",
@@ -354,7 +374,10 @@
           "type": "Polygon",
           "arcs": [[268, -230, 269]],
           "id": "ECU",
-          "properties": { "name": "Ecuador", "continent": "América del Sur" }
+          "properties": {
+            "name": "Ecuador",
+            "continent": "América del Sur"
+          }
         },
         {
           "type": "Polygon",
@@ -455,13 +478,19 @@
           "type": "Polygon",
           "arcs": [[334, 335, -330]],
           "id": "GNB",
-          "properties": { "name": "Guinea-Bisáu", "continent": "África" }
+          "properties": {
+            "name": "Guinea-Bisáu",
+            "continent": "África"
+          }
         },
         {
           "type": "Polygon",
           "arcs": [[336, -210, -315]],
           "id": "GNQ",
-          "properties": { "name": "Guinea Ecuatorial", "continent": "África" }
+          "properties": {
+            "name": "Guinea Ecuatorial",
+            "continent": "África"
+          }
         },
         {
           "type": "MultiPolygon",
@@ -473,19 +502,28 @@
           "type": "Polygon",
           "arcs": [[341, 342, -101, 343, 344, 345]],
           "id": "GTM",
-          "properties": { "name": "Guatemala", "continent": "América Central" }
+          "properties": {
+            "name": "Guatemala",
+            "continent": "América Central"
+          }
         },
         {
           "type": "Polygon",
           "arcs": [[346, 347, -110, 348]],
           "id": "GUY",
-          "properties": { "name": "Guyana", "continent": "América del Sur" }
+          "properties": {
+            "name": "Guyana",
+            "continent": "América del Sur"
+          }
         },
         {
           "type": "Polygon",
           "arcs": [[349, 350, -345, 351, 352]],
           "id": "HND",
-          "properties": { "name": "Honduras", "continent": "América Central" }
+          "properties": {
+            "name": "Honduras",
+            "continent": "América Central"
+          }
         },
         {
           "type": "Polygon",
@@ -497,7 +535,10 @@
           "type": "Polygon",
           "arcs": [[-260, 359]],
           "id": "HTI",
-          "properties": { "name": "Haití", "continent": "América del Norte" }
+          "properties": {
+            "name": "Haití",
+            "continent": "América del Norte"
+          }
         },
         {
           "type": "Polygon",
@@ -571,7 +612,10 @@
           "type": "Polygon",
           "arcs": [[412]],
           "id": "JAM",
-          "properties": { "name": "Jamaica", "continent": "América del Norte" }
+          "properties": {
+            "name": "Jamaica",
+            "continent": "América del Norte"
+          }
         },
         {
           "type": "Polygon",
@@ -708,7 +752,10 @@
           "type": "Polygon",
           "arcs": [[-99, -343, 479, 480, 481]],
           "id": "MEX",
-          "properties": { "name": "México", "continent": "América del Norte" }
+          "properties": {
+            "name": "México",
+            "continent": "América del Norte"
+          }
         },
         {
           "type": "Polygon",
@@ -774,7 +821,10 @@
           "type": "Polygon",
           "arcs": [[523]],
           "id": "NCL",
-          "properties": { "name": "Nueva Caledonia", "continent": "Oceanía" }
+          "properties": {
+            "name": "Nueva Caledonia",
+            "continent": "Oceanía"
+          }
         },
         {
           "type": "Polygon",
@@ -794,7 +844,10 @@
           "type": "Polygon",
           "arcs": [[531, -353, 532, -237]],
           "id": "NIC",
-          "properties": { "name": "Nicaragua", "continent": "América Central" }
+          "properties": {
+            "name": "Nicaragua",
+            "continent": "América Central"
+          }
         },
         {
           "type": "Polygon",
@@ -836,13 +889,19 @@
           "type": "Polygon",
           "arcs": [[546, -239, 547, -232]],
           "id": "PAN",
-          "properties": { "name": "Panamá", "continent": "América Central" }
+          "properties": {
+            "name": "Panamá",
+            "continent": "América Central"
+          }
         },
         {
           "type": "Polygon",
           "arcs": [[-173, 548, -270, -235, -107, -103]],
           "id": "PER",
-          "properties": { "name": "Perú", "continent": "América del Sur" }
+          "properties": {
+            "name": "Perú",
+            "continent": "América del Sur"
+          }
         },
         {
           "type": "MultiPolygon",
@@ -862,7 +921,10 @@
           "type": "MultiPolygon",
           "arcs": [[[556]], [[557]], [[-376, 558]], [[559]]],
           "id": "PNG",
-          "properties": { "name": "Papúa Nueva Guinea", "continent": "Oceanía" }
+          "properties": {
+            "name": "Papúa Nueva Guinea",
+            "continent": "Oceanía"
+          }
         },
         {
           "type": "Polygon",
@@ -895,7 +957,10 @@
           "type": "Polygon",
           "arcs": [[-105, -106, -26]],
           "id": "PRY",
-          "properties": { "name": "Paraguay", "continent": "América del Sur" }
+          "properties": {
+            "name": "Paraguay",
+            "continent": "América del Sur"
+          }
         },
         {
           "type": "Polygon",
@@ -947,7 +1012,10 @@
           "type": "Polygon",
           "arcs": [[-475, -264, -511, 622]],
           "id": "ESH",
-          "properties": { "name": "Sahara Occidental", "continent": "África" }
+          "properties": {
+            "name": "Sahara Occidental",
+            "continent": "África"
+          }
         },
         {
           "type": "Polygon",
@@ -967,7 +1035,10 @@
           "type": "Polygon",
           "arcs": [[633, -296, -438, 634, 635, -226, -126, 636, -628]],
           "id": "SSD",
-          "properties": { "name": "Sudán del Sur", "continent": "África" }
+          "properties": {
+            "name": "Sudán del Sur",
+            "continent": "África"
+          }
         },
         {
           "type": "Polygon",
@@ -979,7 +1050,10 @@
           "type": "MultiPolygon",
           "arcs": [[[639]], [[640]], [[641]], [[642]], [[643]]],
           "id": "SLB",
-          "properties": { "name": "Islas Salomón", "continent": "Oceanía" }
+          "properties": {
+            "name": "Islas Salomón",
+            "continent": "Oceanía"
+          }
         },
         {
           "type": "Polygon",
@@ -1142,7 +1216,10 @@
           "type": "Polygon",
           "arcs": [[-114, 691, -28]],
           "id": "URY",
-          "properties": { "name": "Uruguay", "continent": "América del Sur" }
+          "properties": {
+            "name": "Uruguay",
+            "continent": "América del Sur"
+          }
         },
         {
           "type": "MultiPolygon",
@@ -1174,7 +1251,10 @@
           "type": "Polygon",
           "arcs": [[704, -349, -109, -234]],
           "id": "VEN",
-          "properties": { "name": "Venezuela", "continent": "América del Sur" }
+          "properties": {
+            "name": "Venezuela",
+            "continent": "América del Sur"
+          }
         },
         {
           "type": "Polygon",
@@ -1267,7 +1347,10 @@
           "type": "MultiPolygon",
           "arcs": [[[729]], [[730]]],
           "id": "MHL",
-          "properties": { "name": "Islas Marshall", "continent": "Oceanía" }
+          "properties": {
+            "name": "Islas Marshall",
+            "continent": "Oceanía"
+          }
         },
         {
           "type": "MultiPolygon",
@@ -1332,19 +1415,28 @@
           "type": "Polygon",
           "arcs": [[753]],
           "id": "BRB",
-          "properties": { "name": "Barbados", "continent": "América del Norte" }
+          "properties": {
+            "name": "Barbados",
+            "continent": "América del Norte"
+          }
         },
         {
           "type": "Polygon",
           "arcs": [[754]],
           "id": "DMA",
-          "properties": { "name": "Dominica", "continent": "América del Norte" }
+          "properties": {
+            "name": "Dominica",
+            "continent": "América del Norte"
+          }
         },
         {
           "type": "Polygon",
           "arcs": [[755]],
           "id": "GRD",
-          "properties": { "name": "Granada", "continent": "América del Norte" }
+          "properties": {
+            "name": "Granada",
+            "continent": "América del Norte"
+          }
         },
         {
           "type": "MultiPolygon",
@@ -1416,6 +1508,15 @@
           "properties": {
             "name": "Santo Tomé y Príncipe",
             "continent": "África"
+          }
+        },
+        {
+          "type": "MultiPolygon",
+          "arcs": [],
+          "id": "ARG",
+          "properties": {
+            "name": "Argentina",
+            "continent": "América del Sur"
           }
         }
       ]
@@ -11348,6 +11449,5 @@
       [6.49, 0.31],
       [6.66, 0.42]
     ]
-  ],
-  "bbox": [-180, -55.61183, 180, 83.64513]
+  ]
 }

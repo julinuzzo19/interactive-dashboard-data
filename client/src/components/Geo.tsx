@@ -36,8 +36,11 @@ const Geo = ({
 
   return (
     <>
-      <ComposableMap data-tip="">
+      <ComposableMap>
         <Geographies geography="../../public/features.json">
+        {/* <Geographies geography="../../public/features_final.json"> */}
+        {/* <Geographies geography="../../public/new.json"> */}
+          {/* <Geographies geography="/f.json"> */}
           {({ geographies }: { geographies: GeoCountryColor[] }) => {
             return geographies.map((geo) => {
               const valueCountry = dataIndicator.find(
@@ -55,7 +58,7 @@ const Geo = ({
                   fill={colorCountry}
                   style={{
                     default: { outline: "none" },
-                    // hover: { fill: "#F53", outline: "none" },
+                    hover: { fill: "grey", outline: "none" },
                     // pressed: { fill: "#E42", outline: "none" },
                   }}
                   data-tooltip-id={"my-tooltip"}
@@ -67,7 +70,7 @@ const Geo = ({
           }}
         </Geographies>
       </ComposableMap>
-      <Tooltip id="my-tooltip" className="text-center">
+      <Tooltip id="my-tooltip" className="text-center" float={true}>
         {tooltipContent?.id && (
           <div>
             <h3>{tooltipContent.properties?.name}</h3>

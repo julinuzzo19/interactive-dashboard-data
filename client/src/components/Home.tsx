@@ -6,6 +6,7 @@ import Geo from "./Geo";
 import chroma from "chroma-js";
 import HorizontalBar from "./graphs/HorizontalBar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+// import countriesJson from "../../public/features.json";
 import countriesJson from "../../public/features.json";
 
 const Home = () => {
@@ -32,15 +33,11 @@ const Home = () => {
   const [listCountries, setListCountries] = useState<
     { id: string; name: string }[]
   >([]);
-  console.log("home");
   const colorScaleRef = useRef<chroma.Scale<chroma.Color> | null>(null);
 
   useEffect(() => {
-    console.log({ colorScaleRef });
-  }, [colorScaleRef]);
-
-  useEffect(() => {
     setListCountries(
+      // @ts-ignore
       countriesJson.objects.world.geometries.map((item) => ({
         id: item.id,
         name: item.properties.name,
@@ -49,13 +46,10 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    console.log("yef");
     if (minValueIndicator !== undefined && maxValueIndicator !== undefined) {
       chroma.brewer.OrRd;
       colorScaleRef.current = chroma
-        // .scale(["#ADD8E6", "#FF0000"])
         .scale(chroma.brewer.OrRd)
-        // .domain([minValueIndicator, maxValueIndicator])
         .domain([Math.log10(minValueIndicator), Math.log10(maxValueIndicator)])
         .mode("lch");
     }
@@ -64,7 +58,6 @@ const Home = () => {
   useEffect(() => {
     // console.log({ currentIndicator });
     if (currentIndicator?.value && currentYearFrom && currentYearTo) {
-      console.log("aca");
       getDataIndicator({
         indicator: currentIndicator.value,
         currentYearFrom,
@@ -209,8 +202,6 @@ const Home = () => {
               // const name = item.countryiso3code;
 
               const value = item.value || 0;
-
-              console.log({ name, value });
 
               return {
                 country: name,

@@ -24,7 +24,7 @@ const HorizontalBar = ({ data, width = 1000, height = 1800 }) => {
       .scaleBand()
       .domain(sortedData.map((d) => d.country))
       .range([0, chartHeight])
-      .padding(0.1);
+      .padding(0.2);
 
     const chart = svg
       .attr("width", width)
@@ -43,7 +43,7 @@ const HorizontalBar = ({ data, width = 1000, height = 1800 }) => {
       .style("padding", "8px")
       .style("box-shadow", "0 2px 4px rgba(0, 0, 0, 0.2)")
       .style("visibility", "hidden")
-      .style("font-size", "12px");
+      .style("font-size", "14px");
 
     chart
       .selectAll(".bar")
@@ -73,6 +73,12 @@ const HorizontalBar = ({ data, width = 1000, height = 1800 }) => {
     const yAxis = chart.append("g").call(d3.axisLeft(y)); // Países como etiquetas en el eje Y
 
     yAxis
+      .attr("font-size", "11px")
+      // .attr("font-weight", "bold")
+      .attr("dy", "0.35em")
+      .attr("dx", "-120");
+
+    yAxis
       .selectAll(".tick text")
       .on("mouseover", (event, d) => {
         const countryData = sortedData.find((country) => country.country === d);
@@ -96,6 +102,37 @@ const HorizontalBar = ({ data, width = 1000, height = 1800 }) => {
       .attr("transform", `translate(0,${chartHeight})`)
       .call(d3.axisBottom(x)); // Valores de población en el eje X
   }, [data]);
+
+  // function zoom(svg) {
+  //   const margin = { top: 20, right: 20, bottom: 20, left: 100 };
+
+  //   const extent = [
+  //     [margin.left, margin.top],
+  //     [width - margin.right, height - margin.top],
+  //   ];
+
+  //   svg.call(
+  //     d3
+  //       .zoom()
+  //       .scaleExtent([1, 8])
+  //       .translateExtent(extent)
+  //       .extent(extent)
+  //       .on("zoom", zoomed)
+  //   );
+
+  //   function zoomed(event) {
+  //     x.range(
+  //       [margin.left, width - margin.right].map((d) =>
+  //         event.transform.applyX(d)
+  //       )
+  //     );
+  //     svg
+  //       .selectAll(".bars rect")
+  //       .attr("x", (d) => x(d.letter))
+  //       .attr("width", x.bandwidth());
+  //     svg.selectAll(".x-axis").call(xAxis);
+  //   }
+  // }
 
   return <svg ref={svgRef}></svg>;
 };

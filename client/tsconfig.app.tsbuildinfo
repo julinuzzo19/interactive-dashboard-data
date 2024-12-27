@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/components/geo.tsx","./src/components/home.tsx","./src/components/graphs/horizontalbar.tsx","./src/components/ui/tabs.tsx","./src/hooks/usefetch.ts","./src/interfaces/geo.ts","./src/interfaces/indicador.ts","./src/lib/utils.ts","./src/utils/formatprecio.ts"],"version":"5.6.2"}
