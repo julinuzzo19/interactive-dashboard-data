@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import useFetch from "../hooks/useFetch";
 import Select, { SingleValue } from "react-select";
 import "react-tooltip/dist/react-tooltip.css";
@@ -32,6 +32,12 @@ const Home = () => {
   const [listCountries, setListCountries] = useState<
     { id: string; name: string }[]
   >([]);
+  console.log("home");
+  const colorScaleRef = useRef<chroma.Scale<chroma.Color> | null>(null);
+
+  useEffect(() => {
+    console.log({ colorScaleRef });
+  }, [colorScaleRef]);
 
   useEffect(() => {
     setListCountries(
@@ -43,15 +49,10 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    console.log({ listCountries });
-  }, [listCountries]);
-
-  let colorScale = chroma.scale(chroma.brewer.OrRd).mode("hcl");
-
-  useEffect(() => {
+    console.log("yef");
     if (minValueIndicator !== undefined && maxValueIndicator !== undefined) {
       chroma.brewer.OrRd;
-      colorScale = chroma
+      colorScaleRef.current = chroma
         // .scale(["#ADD8E6", "#FF0000"])
         .scale(chroma.brewer.OrRd)
         // .domain([minValueIndicator, maxValueIndicator])
@@ -63,6 +64,7 @@ const Home = () => {
   useEffect(() => {
     // console.log({ currentIndicator });
     if (currentIndicator?.value && currentYearFrom && currentYearTo) {
+      console.log("aca");
       getDataIndicator({
         indicator: currentIndicator.value,
         currentYearFrom,
@@ -89,11 +91,14 @@ const Home = () => {
 
   const generateColorByValue = useCallback(
     (value) => {
-      if (!colorScale || typeof colorScale !== "function") return "#ccc"; // Valor por defecto
-      const colorCountry = colorScale(Math.log10(value as number)).hex();
+      if (!colorScaleRef.current || typeof colorScaleRef.current !== "function")
+        return "#ccc"; // Valor por defecto
+      const colorCountry = colorScaleRef
+        .current(Math.log10(value as number))
+        .hex();
       return colorCountry;
     },
-    [colorScale]
+    [colorScaleRef]
   );
 
   return (

@@ -104,3 +104,11 @@ logica de color por mapas
 ## TODO
 
 - Al cambiar de vista, los colores de mapa se rompen
+
+# DONE
+
+- grafico barras horizontales
+
+# 26-12
+
+FIX rerender function color map error
