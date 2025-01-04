@@ -100,10 +100,6 @@ logica de color por mapas
 
 # 24-12
 
-## TODO
-
-- Al cambiar de vista, los colores de mapa se rompen
-
 # DONE
 
 - grafico barras horizontales
@@ -119,10 +115,43 @@ logica de color por mapas
 
 - agrandar texto eje y grafico horizontal
 - achicar mapa
-- VOLVER A HACER topojson con continentes
-- agregar un grafico principal mas
+- agregar un grafico principal mas? SI ES NECESARIO
+- feature noticias/notas sobre indicador seleccionado ?? CAPAZ NO VA
+- agrupar indicadores por topicos
 
 <!-- CONSULTAR -->
 
-- Si se usa un rango de fechas, y un año no tiene datos, deberia promediar el valor del pais o como hacerlo?
-- Utilizar api secudnaria en caso d eno tener datos sobre paises de el indicador seleccionado
+- Si se usa un rango de fechas, y un año no tiene datos, deberia promediar el valor del pais o como hacerlo? : usar funciones a seleccioanr
+- Utilizar api secudnaria en caso de no tener datos sobre paises de el indicador seleccionado
+
+quie funcion utiliozar en rangos de fechas por indicador
+
+<!-- pregunta: que indicador tiene datos de cada pais por año (que tantos registros haysobre los indnicadores en los paises) -->
+
+disponibilidad O calidad de datos,
+deteccion de datos anomalos
+
+<!--  -->
+
+grafico de progreso de indicadores, ver disponibilidad de datos, si no hay demasiados datos no permitirlo
+
+<!--  2-1 -->
+
+## DONE
+
+- La base de datos que se utiliza es World Development Indicators (source id 2), viene por defecto, al acceder a la ruta "indicator"
+- [FEATURE] Metadata de indicador, viene preferentemente en español, si no existe o faltan campos, trae el resto en ingles
+
+## FUNCIONALIDADES QUE DIFERENCIEN DE DASHBOARD DE BANCO MUNDIAL
+
+- interfaz mas simple para usuario no tecnicos
+- grafico de cambvios en el tiempo sobre un indicador en paises
+- OBTENER INFO DE OTRAS FUETNES PUBLICAS
+
+# AVANCES
+
+bar chart race
+
+# TODO
+
+- combinar bar chart con rango de años y valores del indicador

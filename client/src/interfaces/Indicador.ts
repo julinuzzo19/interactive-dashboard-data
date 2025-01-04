@@ -20,3 +20,13 @@ export interface IndicatorValue {
   obs_status: string;
   decimal: number;
 }
+
+export interface IndicatorMetadata {
+  id: string;
+  name: string;
+  unit: string;
+  source: { id: string; value: string };
+  sourceNote: string;
+  sourceOrganization: string;
+  topics: { id: string; value: string }[];
+}

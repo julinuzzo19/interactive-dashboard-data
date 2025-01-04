@@ -5,9 +5,10 @@ import "react-tooltip/dist/react-tooltip.css";
 import Geo from "./Geo";
 import chroma from "chroma-js";
 import HorizontalBar from "./graphs/HorizontalBar";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
 // import countriesJson from "../../public/features.json";
 import countriesJson from "../../public/features.json";
+import BarChartRace from "./graphs/BarChartRace";
 
 const Home = () => {
   const { indicators, getDataIndicator, dataIndicator } = useFetch();
@@ -29,7 +30,9 @@ const Home = () => {
   });
   const [minValueIndicator, setMinValueIndicator] = useState(0);
   const [maxValueIndicator, setMaxValueIndicator] = useState(0);
-  const [selectedView, setSelectedView] = useState<"MAP" | "GRAPH1">("MAP");
+  const [selectedView, setSelectedView] = useState<
+    "MAP" | "GRAPH1" | "BAR_CHART_RACE"
+  >("MAP");
   const [listCountries, setListCountries] = useState<
     { id: string; name: string }[]
   >([]);
@@ -47,7 +50,6 @@ const Home = () => {
 
   useEffect(() => {
     if (minValueIndicator !== undefined && maxValueIndicator !== undefined) {
-      chroma.brewer.OrRd;
       colorScaleRef.current = chroma
         .scale(chroma.brewer.OrRd)
         .domain([Math.log10(minValueIndicator), Math.log10(maxValueIndicator)])
@@ -170,6 +172,13 @@ const Home = () => {
           >
             Gráfico de barras
           </TabsTrigger>
+          <TabsTrigger
+            className="w-64"
+            value="BAR_CHART_RACE"
+            onClick={() => setSelectedView("BAR_CHART_RACE")}
+          >
+            Gráfico de barras animado
+          </TabsTrigger>
         </TabsList>
       </Tabs>
       {/* <div className="w-8/12"> */}
@@ -217,6 +226,44 @@ const Home = () => {
           //   { country: "F", value: 90 },
           //   { country: "G", value: 55 },
           // ]}
+        />
+      )}
+      {selectedView === "BAR_CHART_RACE" && (
+        <BarChartRace
+          data={[
+            {
+              year: 1960,
+              values: [
+                { name: "Argentina", value: 22229411765 },
+                { name: "Brasil", value: 151812883235 },
+                { name: "México", value: 13926941176 },
+              ],
+            },
+            {
+              year: 1970,
+              values: [
+                { name: "Brasil", value: 200000000000 },
+                { name: "Argentina", value: 25000000000 },
+                { name: "México", value: 18000000000 },
+              ],
+            },
+            {
+              year: 1971,
+              values: [
+                { name: "Brasil", value: 300000000000 },
+                { name: "Argentina", value: 35000000000 },
+                { name: "México", value: 28000000000 },
+              ],
+            },
+            {
+              year: 1972,
+              values: [
+                { name: "Brasil", value: 400000000000 },
+                { name: "Argentina", value: 55000000000 },
+                { name: "México", value: 68000000000 },
+              ],
+            },
+          ]}
         />
       )}
       {/* </div> */}

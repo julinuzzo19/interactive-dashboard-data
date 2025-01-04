@@ -1,14 +1,7 @@
 import "react-tooltip/dist/react-tooltip.css";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { GeoCountryColor } from "../interfaces/Geo";
-import {
-  Dispatch,
-  memo,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { useCallback, useEffect, useState } from "react";
 import { IndicatorValue } from "../interfaces/Indicador";
 import { Tooltip } from "react-tooltip";
 import { formatPrecio } from "../utils/formatPrecio";
@@ -38,9 +31,6 @@ const Geo = ({
     <>
       <ComposableMap>
         <Geographies geography="../../public/features.json">
-        {/* <Geographies geography="../../public/features_final.json"> */}
-        {/* <Geographies geography="../../public/new.json"> */}
-          {/* <Geographies geography="/f.json"> */}
           {({ geographies }: { geographies: GeoCountryColor[] }) => {
             return geographies.map((geo) => {
               const valueCountry = dataIndicator.find(
