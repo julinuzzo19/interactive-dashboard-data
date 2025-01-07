@@ -7,6 +7,7 @@ import {
 } from "../interfaces/Indicador";
 import DATA_MOCK from "../mocks/data.json";
 import VALUES_MOCK from "../mocks/values.json";
+import VALUES_FROM_TO_MOCK from "../mocks/values_from_to.json";
 import METADATA_ES_MOCK from "../mocks/metadata_es.json";
 import METADATA_EN_MOCK from "../mocks/metadata_en.json";
 
@@ -53,7 +54,8 @@ const useFetch = () => {
   }) => {
     // console.log({ indicator, currentYearFrom, currentYearTo });
 
-    setDataIndicator(VALUES_MOCK?.filter((item) => item.value));
+    setDataIndicator(VALUES_FROM_TO_MOCK?.filter((item) => item.value));
+    // setDataIndicator(VALUES_MOCK?.filter((item) => item.value));
     getMetadataIndicator(indicator);
     // await axios
     //   .get(

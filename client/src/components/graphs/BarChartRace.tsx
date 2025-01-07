@@ -2,18 +2,19 @@ import { useEffect, useRef } from "react";
 import * as d3 from "d3";
 import { formatPrecio } from "@/utils/formatPrecio";
 
-interface PropsBarChartRace {
-  data: { year: number; values: { name: string; value: number }[] }[];
-}
+export type PropsBarChartRace = {
+  year: number;
+  values: { name: string; value: number }[];
+}[];
 
-const BarChartRace = ({ data }: PropsBarChartRace) => {
+const BarChartRace = ({ data }: { data: PropsBarChartRace }) => {
   const svgRef = useRef(null);
 
   useEffect(() => {
     const svg = d3.select(svgRef.current);
-    const width = 800;
+    const width = 1000;
     const height = 400;
-    const margin = { top: 50, right: 20, bottom: 20, left: 100 };
+    const margin = { top: 50, right: 120, bottom: 20, left: 100 };
 
     svg.attr("width", width).attr("height", height);
 
@@ -27,6 +28,12 @@ const BarChartRace = ({ data }: PropsBarChartRace) => {
     // Set up the axes
     const xAxis = d3.axisTop(xScale).ticks(5).tickSize(-height);
     const yAxis = d3.axisLeft(yScale).tickSize(0);
+
+    // ESCALA DE COLORES
+    const colorScale = d3
+      // .scaleOrdinal(d3.schemeCategory10) // Usa un esquema predefinido
+      .scaleOrdinal(d3.schemePaired) // Usa un esquema predefinido
+      .domain(data.flatMap((d) => d.values.map((v) => v.name))); // Domina todos los nombres de países
 
     svg
       .append("g")
@@ -79,16 +86,17 @@ const BarChartRace = ({ data }: PropsBarChartRace) => {
         .attr("x", xScale(0))
         .attr("y", (d) => yScale(d.name))
         .attr("height", yScale.bandwidth())
-        .attr("fill", "steelblue")
+        // .attr("fill", "steelblue")
+        .attr("fill", (d) => colorScale(d.name))
         .attr("width", 0)
         .transition()
-        .duration(1000)
+        .duration(800)
         .attr("width", (d) => xScale(d.value) - xScale(0));
 
       // Update
       bars
         .transition()
-        .duration(1000)
+        .duration(800)
         .attr("y", (d) => yScale(d.name))
         .attr("width", (d) => xScale(d.value) - xScale(0));
 

@@ -6,9 +6,8 @@ import Geo from "./Geo";
 import chroma from "chroma-js";
 import HorizontalBar from "./graphs/HorizontalBar";
 import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
-// import countriesJson from "../../public/features.json";
 import countriesJson from "../../public/features.json";
-import BarChartRace from "./graphs/BarChartRace";
+import BarChartRace, { PropsBarChartRace } from "./graphs/BarChartRace";
 
 const Home = () => {
   const { indicators, getDataIndicator, dataIndicator } = useFetch();
@@ -33,6 +32,9 @@ const Home = () => {
   const [selectedView, setSelectedView] = useState<
     "MAP" | "GRAPH1" | "BAR_CHART_RACE"
   >("MAP");
+  const [dataBarChartRace, setDataBarChartRace] = useState<PropsBarChartRace>(
+    []
+  );
   const [listCountries, setListCountries] = useState<
     { id: string; name: string }[]
   >([]);
@@ -47,6 +49,16 @@ const Home = () => {
       }))
     );
   }, []);
+
+  useEffect(() => {
+    if (selectedView === "BAR_CHART_RACE") {
+      handleDataBarChartRace();
+    }
+  }, [selectedView, dataIndicator]);
+
+  useEffect(() => {
+    console.log({ dataBarChartRace });
+  }, [dataBarChartRace]);
 
   useEffect(() => {
     if (minValueIndicator !== undefined && maxValueIndicator !== undefined) {
@@ -95,6 +107,51 @@ const Home = () => {
     },
     [colorScaleRef]
   );
+
+  const handleDataBarChartRace = () => {
+    const dataBarChart: PropsBarChartRace = [];
+
+    dataIndicator.forEach((value) => {
+      const indexListYear = dataBarChart.findIndex(
+        (item) => item.year === parseInt(value.date)
+      );
+
+      const nameCountry = (listCountries.find(
+        (elem) => elem.id === value.countryiso3code
+      )?.name ||
+        listCountries.find((elem) => elem.id === value.country.id)
+          ?.name) as string;
+
+      if (!nameCountry) {
+        // console.log({
+        //   indexListYear,
+        //   nameCountry,
+        //   isocode: value.countryiso3code,
+        // });
+
+        return;
+      }
+
+      if (indexListYear > -1) {
+        dataBarChart[indexListYear].values.push({
+          name: nameCountry,
+          value: value.value,
+        });
+      } else {
+        dataBarChart.push({
+          year: parseInt(value.date),
+          values: [
+            {
+              name: nameCountry,
+              value: value.value,
+            },
+          ],
+        });
+      }
+    });
+
+    setDataBarChartRace(dataBarChart.sort((a, b) => a.year - b.year));
+  };
 
   return (
     <div className="flex flex-col justify-center items-center mt-10 w-full">
@@ -208,8 +265,6 @@ const Home = () => {
                   ?.name ||
                 "";
 
-              // const name = item.countryiso3code;
-
               const value = item.value || 0;
 
               return {
@@ -217,54 +272,10 @@ const Home = () => {
                 value,
               };
             })}
-          // data={[
-          //   { country: "A", value: 30 },
-          //   { country: "B", value: 80 },
-          //   { country: "C", value: 45 },
-          //   { country: "D", value: 60 },
-          //   { country: "E", value: 20 },
-          //   { country: "F", value: 90 },
-          //   { country: "G", value: 55 },
-          // ]}
         />
       )}
       {selectedView === "BAR_CHART_RACE" && (
-        <BarChartRace
-          data={[
-            {
-              year: 1960,
-              values: [
-                { name: "Argentina", value: 22229411765 },
-                { name: "Brasil", value: 151812883235 },
-                { name: "México", value: 13926941176 },
-              ],
-            },
-            {
-              year: 1970,
-              values: [
-                { name: "Brasil", value: 200000000000 },
-                { name: "Argentina", value: 25000000000 },
-                { name: "México", value: 18000000000 },
-              ],
-            },
-            {
-              year: 1971,
-              values: [
-                { name: "Brasil", value: 300000000000 },
-                { name: "Argentina", value: 35000000000 },
-                { name: "México", value: 28000000000 },
-              ],
-            },
-            {
-              year: 1972,
-              values: [
-                { name: "Brasil", value: 400000000000 },
-                { name: "Argentina", value: 55000000000 },
-                { name: "México", value: 68000000000 },
-              ],
-            },
-          ]}
-        />
+        <BarChartRace data={dataBarChartRace} />
       )}
       {/* </div> */}
     </div>
@@ -272,3 +283,39 @@ const Home = () => {
 };
 
 export default Home;
+
+// BAR CHART RACE TEST DATA
+// [
+//             {
+//               year: 1960,
+//               values: [
+//                 { name: "Argentina", value: 22229411765 },
+//                 { name: "Brasil", value: 151812883235 },
+//                 { name: "México", value: 13926941176 },
+//               ],
+//             },
+//             {
+//               year: 1970,
+//               values: [
+//                 { name: "Brasil", value: 200000000000 },
+//                 { name: "Argentina", value: 25000000000 },
+//                 { name: "México", value: 18000000000 },
+//               ],
+//             },
+//             {
+//               year: 1971,
+//               values: [
+//                 { name: "Brasil", value: 300000000000 },
+//                 { name: "Argentina", value: 35000000000 },
+//                 { name: "México", value: 28000000000 },
+//               ],
+//             },
+//             {
+//               year: 1972,
+//               values: [
+//                 { name: "Brasil", value: 400000000000 },
+//                 { name: "Argentina", value: 55000000000 },
+//                 { name: "México", value: 68000000000 },
+//               ],
+//             },
+//           ]
