@@ -155,3 +155,9 @@ bar chart race
 # TODO
 
 - combinar bar chart con rango de años y valores del indicador
+
+# 7-1
+
+## DONE
+
+- logica valores de indicadores por fechas, en bar chart race
