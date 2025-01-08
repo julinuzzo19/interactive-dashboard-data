@@ -159,3 +159,4 @@ bar chart race
 ## DONE
 
 - logica valores de indicadores por fechas, en bar chart race
+- logica de rango de años del indicador seleccionado
