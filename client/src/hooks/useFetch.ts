@@ -19,6 +19,7 @@ const LIMIT_INDICATORS = 5;
 const useFetch = () => {
   const [indicators, setIndicators] = useState<Indicador[]>([]);
   const [dataIndicator, setDataIndicator] = useState<IndicatorValue[]>([]);
+  const [rangeYearsIndicator, setRangeYearsIndicator] = useState<number[]>([]);
 
   useEffect(() => {
     getIndicadores();
@@ -104,7 +105,51 @@ const useFetch = () => {
     };
   };
 
-  return { indicators, getDataIndicator, dataIndicator };
+  const getYearsRangeIndicator = async (indicator: string) => {
+    const result = await axios
+      .get(
+        BASE_URL_WB_ES +
+          `/country/ALL/indicator/${indicator}?format=json&per_page=1`
+      )
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        console.log({ errgetYearsRangeIndicator: err });
+      });
+
+    const lastPage = result[0].pages;
+
+    const lastYearResult = parseInt(result[1][0].date);
+
+    const result2 = await axios
+      .get(
+        BASE_URL_WB_ES +
+          `/country/ALL/indicator/${indicator}?format=json&per_page=1&page=${lastPage}`
+      )
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        console.log({ errgetYeasRangeIndicator: err });
+      });
+
+    const firstYearResult = parseInt(result2[1][0].date);
+
+    const dataYears = Array.from(
+      { length: lastYearResult - firstYearResult + 1 },
+      (_, i) => firstYearResult + i
+    );
+    setRangeYearsIndicator(dataYears.sort((a, b) => b - a));
+  };
+
+  return {
+    indicators,
+    getDataIndicator,
+    dataIndicator,
+    getYearsRangeIndicator,
+    rangeYearsIndicator,
+  };
 };
 
 export default useFetch;

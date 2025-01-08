@@ -10,7 +10,13 @@ import countriesJson from "../../public/features.json";
 import BarChartRace, { PropsBarChartRace } from "./graphs/BarChartRace";
 
 const Home = () => {
-  const { indicators, getDataIndicator, dataIndicator } = useFetch();
+  const {
+    indicators,
+    getDataIndicator,
+    dataIndicator,
+    getYearsRangeIndicator,
+    rangeYearsIndicator,
+  } = useFetch();
 
   const [currentYearFrom, setCurrentYearFrom] = useState(
     new Date().getFullYear()
@@ -39,6 +45,12 @@ const Home = () => {
     { id: string; name: string }[]
   >([]);
   const colorScaleRef = useRef<chroma.Scale<chroma.Color> | null>(null);
+
+  useEffect(() => {
+    if (currentIndicator?.value) {
+      getYearsRangeIndicator(currentIndicator.value);
+    }
+  }, [currentIndicator?.value]);
 
   useEffect(() => {
     setListCountries(
@@ -189,11 +201,9 @@ const Home = () => {
               value={currentYearFrom}
               onChange={(e) => setCurrentYearFrom(parseInt(e.target.value))}
             >
-              <option value="2024">2024</option>
-              <option value="2023">2023</option>
-              <option value="2022">2022</option>
-              <option value="2021">2021</option>
-              <option value="2020">2020</option>
+              {rangeYearsIndicator.map((year) => {
+                return <option value={year}>{year}</option>;
+              })}
             </select>
           </div>
           <div>
@@ -203,11 +213,9 @@ const Home = () => {
               value={currentYearTo}
               onChange={(e) => setCurrentYearTo(parseInt(e.target.value))}
             >
-              <option value="2024">2024</option>
-              <option value="2023">2023</option>
-              <option value="2022">2022</option>
-              <option value="2021">2021</option>
-              <option value="2020">2020</option>
+              {rangeYearsIndicator.map((year) => {
+                return <option value={year}>{year}</option>;
+              })}
             </select>
           </div>
         </div>

@@ -148,13 +148,11 @@ grafico de progreso de indicadores, ver disponibilidad de datos, si no hay demas
 - grafico de cambvios en el tiempo sobre un indicador en paises
 - OBTENER INFO DE OTRAS FUETNES PUBLICAS
 
+##
+
 # AVANCES
 
 bar chart race
-
-# TODO
-
-- combinar bar chart con rango de años y valores del indicador
 
 # 7-1
 
