@@ -8,6 +8,9 @@ import HorizontalBar from "./graphs/HorizontalBar";
 import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
 import countriesJson from "../../public/features.json";
 import BarChartRace, { PropsBarChartRace } from "./graphs/BarChartRace";
+import { off } from "process";
+
+const LIMIT_COUNTRIES_GRAPH = 25;
 
 const Home = () => {
   const {
@@ -45,6 +48,29 @@ const Home = () => {
     { id: string; name: string }[]
   >([]);
   const colorScaleRef = useRef<chroma.Scale<chroma.Color> | null>(null);
+  const [dataGraph, setDataGraph] = useState<any[]>([]);
+  const [seeMore, setSeeMore] = useState(false);
+  const [offset, setOffset] = useState(0);
+
+  useEffect(() => {
+    console.log({ dataIndicator });
+  }, [dataIndicator]);
+
+  useEffect(() => {
+    setOffset(0);
+  }, [selectedView]);
+
+  useEffect(() => {
+    if (seeMore) {
+      setOffset((prevState) => prevState + LIMIT_COUNTRIES_GRAPH);
+      setSeeMore(false);
+    }
+  }, [seeMore]);
+
+  useEffect(() => {
+    console.log({ offset });
+    handleDataGraph();
+  }, [offset]);
 
   useEffect(() => {
     if (currentIndicator?.value) {
@@ -135,12 +161,6 @@ const Home = () => {
           ?.name) as string;
 
       if (!nameCountry) {
-        // console.log({
-        //   indexListYear,
-        //   nameCountry,
-        //   isocode: value.countryiso3code,
-        // });
-
         return;
       }
 
@@ -163,6 +183,40 @@ const Home = () => {
     });
 
     setDataBarChartRace(dataBarChart.sort((a, b) => a.year - b.year));
+  };
+
+  const handleDataGraph = () => {
+    console.log({ dataIndicator });
+
+    const data = dataIndicator
+      .filter((item) => {
+        return (
+          (listCountries.find((elem) => elem.id === item.countryiso3code)
+            ?.name ||
+            listCountries.find((elem) => elem.id === item.country.id)?.name) &&
+          item.value > 0
+        );
+      })
+      .map((item) => {
+        const name =
+          listCountries.find((elem) => elem.id === item.countryiso3code)
+            ?.name ||
+          listCountries.find((elem) => elem.id === item.country.id)?.name ||
+          "";
+
+        const value = item.value || 0;
+
+        return {
+          country: name,
+          value,
+        };
+      })
+      .sort((a, b) => b.value - a.value)
+      .slice(0, offset + LIMIT_COUNTRIES_GRAPH);
+
+    console.log({ data });
+
+    setDataGraph(data);
   };
 
   return (
@@ -233,7 +287,10 @@ const Home = () => {
           <TabsTrigger
             className="w-64"
             value="graph1"
-            onClick={() => setSelectedView("GRAPH1")}
+            onClick={() => {
+              handleDataGraph();
+              setSelectedView("GRAPH1");
+            }}
           >
             Gráfico de barras
           </TabsTrigger>
@@ -254,33 +311,21 @@ const Home = () => {
         />
       )}
       {selectedView === "GRAPH1" && (
-        <HorizontalBar
-          data={dataIndicator
-            .filter((item) => {
-              return (
-                (listCountries.find((elem) => elem.id === item.countryiso3code)
-                  ?.name ||
-                  listCountries.find((elem) => elem.id === item.country.id)
-                    ?.name) &&
-                item.value > 0
-              );
-            })
-            .map((item) => {
-              const name =
-                listCountries.find((elem) => elem.id === item.countryiso3code)
-                  ?.name ||
-                listCountries.find((elem) => elem.id === item.country.id)
-                  ?.name ||
-                "";
+        <>
+          <HorizontalBar data={dataGraph} />
 
-              const value = item.value || 0;
-
-              return {
-                country: name,
-                value,
-              };
-            })}
-        />
+          {dataGraph.length <= dataIndicator.length ? (
+            <button
+              onClick={() => {
+                setSeeMore(true);
+              }}
+            >
+              Mostrar más paises
+            </button>
+          ) : (
+            ""
+          )}
+        </>
       )}
       {selectedView === "BAR_CHART_RACE" && (
         <BarChartRace data={dataBarChartRace} />

@@ -2,33 +2,39 @@
 import { useRef, useEffect } from "react";
 import * as d3 from "d3";
 
-const HorizontalBar = ({ data, width = 1000, height = 1800 }) => {
+const HorizontalBar = ({ data, width = 1000, height = 1000 }) => {
   const svgRef = useRef();
 
   useEffect(() => {
-    const sortedData = data.sort((a, b) => b.value - a.value);
+    // const sortedData = data.sort((a, b) => b.value - a.value);
 
     const svg = d3.select(svgRef.current);
     svg.selectAll("*").remove(); // Limpiar contenido previo
 
     const margin = { top: 20, right: 30, bottom: 40, left: 150 };
+    // const chartWidth = width - margin.left - margin.right;
+    // const chartHeight = height - margin.top - margin.bottom;
+
+    const dynamicHeight = data.length * 30 + margin.top + margin.bottom;
     const chartWidth = width - margin.left - margin.right;
-    const chartHeight = height - margin.top - margin.bottom;
+    const chartHeight = dynamicHeight - margin.top - margin.bottom;
+
+    svg.attr("width", width).attr("height", chartHeight);
 
     const x = d3
       .scaleLinear()
-      .domain([0, d3.max(sortedData, (d) => d.value)])
+      .domain([0, d3.max(data, (d) => d.value)])
       .range([0, chartWidth]);
 
     const y = d3
       .scaleBand()
-      .domain(sortedData.map((d) => d.country))
-      .range([0, chartHeight])
-      .padding(0.2);
+      .domain(data.map((d) => d.country))
+      .range([0, chartHeight + 10])
+      .padding(1.5);
 
     const chart = svg
       .attr("width", width)
-      .attr("height", height)
+      .attr("height", chartHeight)
       .append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`);
 
@@ -45,16 +51,20 @@ const HorizontalBar = ({ data, width = 1000, height = 1800 }) => {
       .style("visibility", "hidden")
       .style("font-size", "14px");
 
+    const heightBar = 25;
+
     chart
       .selectAll(".bar")
-      .data(sortedData)
+      .data(data)
       .enter()
       .append("rect")
       .attr("class", "bar")
-      .attr("y", (d) => y(d.country))
+      // .attr("y", (d) => y(d.country))
+      .attr("y", (d) => y(d.country) + (y.bandwidth() - heightBar) / 2)
       .attr("x", 0)
       .attr("width", (d) => x(d.value))
-      .attr("height", y.bandwidth())
+      // .attr("height", y.bandwidth())
+      .attr("height", heightBar)
       .attr("fill", "steelblue")
       .on("mouseover", (event, d) => {
         tooltip
@@ -72,16 +82,12 @@ const HorizontalBar = ({ data, width = 1000, height = 1800 }) => {
 
     const yAxis = chart.append("g").call(d3.axisLeft(y)); // Países como etiquetas en el eje Y
 
-    yAxis
-      .attr("font-size", "11px")
-      // .attr("font-weight", "bold")
-      .attr("dy", "0.35em")
-      .attr("dx", "-120");
+    yAxis.attr("font-size", "11px").attr("dy", "0.35em").attr("dx", "-120");
 
     yAxis
       .selectAll(".tick text")
       .on("mouseover", (event, d) => {
-        const countryData = sortedData.find((country) => country.country === d);
+        const countryData = data.find((country) => country.country === d);
         tooltip
           .style("visibility", "visible")
           .text(
