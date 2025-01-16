@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import useFetch from "../hooks/useFetch";
+import "../App.css";
 import Select, { SingleValue } from "react-select";
 import "react-tooltip/dist/react-tooltip.css";
 import Geo from "./Geo";
@@ -8,7 +9,7 @@ import HorizontalBar from "./graphs/HorizontalBar";
 import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
 import countriesJson from "../../public/features.json";
 import BarChartRace, { PropsBarChartRace } from "./graphs/BarChartRace";
-import { off } from "process";
+import { TopicSelector } from "./Topics";
 
 const LIMIT_COUNTRIES_GRAPH = 25;
 
@@ -51,10 +52,20 @@ const Home = () => {
   const [dataGraph, setDataGraph] = useState<any[]>([]);
   const [seeMore, setSeeMore] = useState(false);
   const [offset, setOffset] = useState(0);
+  const [allTopics, setAllTopics] = useState<{ id: string; value: string }[]>(
+    []
+  );
+  const [selectedTopic, setSelectedTopic] = useState<string>("");
 
   useEffect(() => {
     console.log({ dataIndicator });
   }, [dataIndicator]);
+  useEffect(() => {
+    console.log({ allTopics });
+  }, [allTopics]);
+  useEffect(() => {
+    console.log({ selectedTopic });
+  }, [selectedTopic]);
 
   useEffect(() => {
     setOffset(0);
@@ -68,7 +79,6 @@ const Home = () => {
   }, [seeMore]);
 
   useEffect(() => {
-    console.log({ offset });
     handleDataGraph();
   }, [offset]);
 
@@ -87,6 +97,11 @@ const Home = () => {
       }))
     );
   }, []);
+
+  useEffect(() => {
+    console.log({ indicators });
+    getTopicsAllIndicators();
+  }, [indicators]);
 
   useEffect(() => {
     if (selectedView === "BAR_CHART_RACE") {
@@ -219,17 +234,45 @@ const Home = () => {
     setDataGraph(data);
   };
 
+  const getTopicsAllIndicators = () => {
+    const topics: { id: string; value: string }[] = [];
+
+    indicators.forEach((indicator) =>
+      indicator.topics.forEach((topic) => {
+        if (!topics.some((item) => item.id === topic.id)) {
+          topics.push(topic);
+        }
+      })
+    );
+    console.log({ topics });
+    setAllTopics(topics);
+  };
+
   return (
     <div className="flex flex-col justify-center items-center mt-10 w-full">
       <h2>Indicadores</h2>
 
       <div className="w-full flex flex-col justify-center items-center mt-10 mb-10">
+        <TopicSelector
+          topics={allTopics}
+          setSelectedTopic={setSelectedTopic}
+          selectedTopic={selectedTopic}
+        />
+
         <Select
           className="w-8/12"
-          options={indicators.map((indicador) => ({
-            value: indicador.id,
-            label: `${indicador.name}  (${indicador.id})`,
-          }))}
+          options={indicators
+            .filter((item) => {
+              if (!selectedTopic) return true;
+              else {
+                console.log({ item });
+                return item.topics.some((elem) => elem.id === selectedTopic);
+              }
+            })
+            .map((indicador) => ({
+              value: indicador.id,
+              label: `${indicador.name}  (${indicador.id})`,
+            }))}
           maxMenuHeight={200}
           placeholder="Selecciona un indicador"
           value={currentIndicator}
@@ -256,7 +299,11 @@ const Home = () => {
               onChange={(e) => setCurrentYearFrom(parseInt(e.target.value))}
             >
               {rangeYearsIndicator.map((year) => {
-                return <option value={year}>{year}</option>;
+                return (
+                  <option value={year} key={year}>
+                    {year}
+                  </option>
+                );
               })}
             </select>
           </div>
@@ -268,7 +315,11 @@ const Home = () => {
               onChange={(e) => setCurrentYearTo(parseInt(e.target.value))}
             >
               {rangeYearsIndicator.map((year) => {
-                return <option value={year}>{year}</option>;
+                return (
+                  <option value={year} key={year}>
+                    {year}
+                  </option>
+                );
               })}
             </select>
           </div>

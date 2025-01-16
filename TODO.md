@@ -158,27 +158,47 @@ grafico de progreso de indicadores, ver disponibilidad de datos, si no hay demas
 - [FEATURE] Metadata de indicador, viene preferentemente en español, si no existe o faltan campos, trae el resto en ingles
 - [FEATURE] Bar chart race
 - [FEATURE] Determinar rango de años del indicador seleccionado
+- [FEATURE] Paginado graph
 
 # FALTA
 
 - Funcion utilizar en rangos de fechas por indicador
-- Paginar Grafico de barras
 - Agrupar indicadores por topicos
 - Estilizar pagina y graficos
+- Logica de agrupar o filtrar indicadores por topicos
+- Donde mostrar metadata
 - Comprobar disponibilidad y calidad de los datos (deteccion de datos anomalos) ## Integrar con resto de funcionalidades
 
 ## FUNCIONALIDADES QUE DIFERENCIEN DE DASHBOARD DE BANCO MUNDIAL
 
 - interfaz mas simple para usuario no tecnicos
 - grafico de cambios en el tiempo sobre un indicador en paises
-- OBTENER INFO DE OTRAS FUETNES PUBLICAS
+- OBTENER INFO DE OTRAS FUENTES PUBLICAS
 
 ##
 
-# DONE
-
-- Paginado graph
-
-# TODO
+# TODO 14-1
 
 - Ocultar ver mas, al no haber mas paises
+
+
+# 14-1
+
+# Notas
+- Al faltar valor de indicador en año, completar ... funcionalidad posible
+- filtro posible de ultimo dato disponible, para poaises con pocos datos
+- fuente secundaria, ver si los datos 
+
+
+# Prioridad:
+mostrar metadados
+filtro ultimo dato disponible
+disponibilidad de datos o fuente secundaria  (decidir)
+agrupar por topicos
+
+
+29-1 fecha reunion
+
+
+# TODO
+al mapear colores tailwind no asigna a los topcicos, pero poniendolo a mano si
