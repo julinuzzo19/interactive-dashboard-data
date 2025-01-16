@@ -181,24 +181,25 @@ grafico de progreso de indicadores, ver disponibilidad de datos, si no hay demas
 
 - Ocultar ver mas, al no haber mas paises
 
-
 # 14-1
 
 # Notas
+
 - Al faltar valor de indicador en año, completar ... funcionalidad posible
 - filtro posible de ultimo dato disponible, para poaises con pocos datos
-- fuente secundaria, ver si los datos 
-
+- fuente secundaria, ver si los datos
 
 # Prioridad:
+
 mostrar metadados
 filtro ultimo dato disponible
-disponibilidad de datos o fuente secundaria  (decidir)
+disponibilidad de datos o fuente secundaria (decidir)
 agrupar por topicos
-
 
 29-1 fecha reunion
 
+# 15-1
 
-# TODO
-al mapear colores tailwind no asigna a los topcicos, pero poniendolo a mano si
+# DONE
+
+[FEATURE] topics filtro
