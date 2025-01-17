@@ -20,6 +20,9 @@ const useFetch = () => {
   const [indicators, setIndicators] = useState<Indicador[]>([]);
   const [dataIndicator, setDataIndicator] = useState<IndicatorValue[]>([]);
   const [rangeYearsIndicator, setRangeYearsIndicator] = useState<number[]>([]);
+  const [metadataIndicator, setMetadataIndicator] = useState<
+    Partial<IndicatorMetadata>
+  >({});
 
   useEffect(() => {
     getIndicadores();
@@ -57,7 +60,8 @@ const useFetch = () => {
 
     // setDataIndicator(VALUES_FROM_TO_MOCK?.filter((item) => item.value));
     setDataIndicator(VALUES_MOCK?.filter((item) => item.value));
-    getMetadataIndicator(indicator);
+    const metadata = await getMetadataIndicator(indicator);
+    setMetadataIndicator(metadata);
     // await axios
     //   .get(
     //     BASE_URL_WB_ES +
@@ -149,6 +153,7 @@ const useFetch = () => {
     dataIndicator,
     getYearsRangeIndicator,
     rangeYearsIndicator,
+    metadataIndicator,
   };
 };
 

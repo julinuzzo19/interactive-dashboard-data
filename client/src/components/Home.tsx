@@ -10,6 +10,8 @@ import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
 import countriesJson from "../../public/features.json";
 import BarChartRace, { PropsBarChartRace } from "./graphs/BarChartRace";
 import { TopicSelector } from "./Topics";
+import { FaInfoCircle } from "react-icons/fa";
+import ModalMetadata from "./ModalMetadata";
 
 const LIMIT_COUNTRIES_GRAPH = 25;
 
@@ -20,6 +22,7 @@ const Home = () => {
     dataIndicator,
     getYearsRangeIndicator,
     rangeYearsIndicator,
+    metadataIndicator,
   } = useFetch();
 
   const [currentYearFrom, setCurrentYearFrom] = useState(
@@ -56,16 +59,11 @@ const Home = () => {
     []
   );
   const [selectedTopic, setSelectedTopic] = useState<string>("");
+  const [showModalMetadata, setShowModalMetadata] = useState(false);
 
   useEffect(() => {
-    console.log({ dataIndicator });
-  }, [dataIndicator]);
-  useEffect(() => {
-    console.log({ allTopics });
-  }, [allTopics]);
-  useEffect(() => {
-    console.log({ selectedTopic });
-  }, [selectedTopic]);
+    console.log({ metadataIndicator });
+  }, [metadataIndicator]);
 
   useEffect(() => {
     setOffset(0);
@@ -282,8 +280,11 @@ const Home = () => {
 
       {currentIndicator?.value && (
         <div className="text-center">
-          <h2>Indicador</h2>
-          <h5 className="font-bold">{currentIndicator.label}</h5>
+          <h2>Indicador seleccionado</h2>
+          <div className="flex flex-row gap-2 justify-center items-center">
+            <h5 className="font-bold">{currentIndicator.label}</h5>
+            <FaInfoCircle onClick={() => setShowModalMetadata(true)} />
+          </div>
         </div>
       )}
 
@@ -382,6 +383,12 @@ const Home = () => {
         <BarChartRace data={dataBarChartRace} />
       )}
       {/* </div> */}
+
+      <ModalMetadata
+        show={showModalMetadata}
+        setShow={setShowModalMetadata}
+        metadata={metadataIndicator}
+      />
     </div>
   );
 };
