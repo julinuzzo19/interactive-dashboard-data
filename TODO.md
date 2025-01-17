@@ -191,15 +191,17 @@ grafico de progreso de indicadores, ver disponibilidad de datos, si no hay demas
 
 # Prioridad:
 
-mostrar metadados
 filtro ultimo dato disponible
 disponibilidad de datos o fuente secundaria (decidir)
-agrupar por topicos
 
-29-1 fecha reunion
+29-1 fecha posible reunion
 
 # 15-1
 
 # DONE
 
 [FEATURE] topics filtro
+
+# 16-1
+
+[FEATURE] metadata front
