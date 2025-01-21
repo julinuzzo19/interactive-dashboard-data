@@ -91,7 +91,12 @@ export function TopicSelector({
             <button
               key={topic.id}
               onClick={(e) => {
-                setSelectedTopic(topic.id);
+                if (topic.id !== selectedTopic) {
+                  setSelectedTopic(topic.id);
+                } else {
+                  setSelectedTopic("");
+                }
+
                 if (scrollContainerRef.current) {
                   const button = e.currentTarget;
                   const container = scrollContainerRef.current;
@@ -110,10 +115,7 @@ export function TopicSelector({
               }}
               className={cn(
                 "px-4 py-2 rounded-full text-sm font-medium transition-colors whitespace-nowrap",
-                "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500",
-                "focus:bg-blue-400",
-                selectedTopic === topic.id &&
-                  "ring-2 ring-blue-500 ring-offset-2"
+                selectedTopic === topic.id && "bg-blue-400"
               )}
             >
               {topic.value}

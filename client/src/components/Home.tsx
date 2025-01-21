@@ -62,10 +62,6 @@ const Home = () => {
   const [showModalMetadata, setShowModalMetadata] = useState(false);
 
   useEffect(() => {
-    console.log({ metadataIndicator });
-  }, [metadataIndicator]);
-
-  useEffect(() => {
     setOffset(0);
   }, [selectedView]);
 
@@ -283,7 +279,10 @@ const Home = () => {
           <h2>Indicador seleccionado</h2>
           <div className="flex flex-row gap-2 justify-center items-center">
             <h5 className="font-bold">{currentIndicator.label}</h5>
-            <FaInfoCircle onClick={() => setShowModalMetadata(true)} />
+            <FaInfoCircle
+              role="button"
+              onClick={() => setShowModalMetadata(true)}
+            />
           </div>
         </div>
       )}
@@ -355,7 +354,6 @@ const Home = () => {
           </TabsTrigger>
         </TabsList>
       </Tabs>
-      {/* <div className="w-8/12"> */}
       {selectedView === "MAP" && (
         <Geo
           dataIndicator={dataIndicator}
@@ -382,7 +380,6 @@ const Home = () => {
       {selectedView === "BAR_CHART_RACE" && (
         <BarChartRace data={dataBarChartRace} />
       )}
-      {/* </div> */}
 
       <ModalMetadata
         show={showModalMetadata}
