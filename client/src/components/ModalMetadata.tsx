@@ -11,7 +11,6 @@ const ModalMetadata = ({
   setShow: Dispatch<SetStateAction<boolean>>;
   metadata: Partial<IndicatorMetadata>;
 }) => {
-  console.log({ metadata });
   return (
     <Modal isOpen={show} onClose={() => setShow(false)}>
       <div>

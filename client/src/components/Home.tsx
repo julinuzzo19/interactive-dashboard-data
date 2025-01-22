@@ -12,6 +12,7 @@ import BarChartRace, { PropsBarChartRace } from "./graphs/BarChartRace";
 import { TopicSelector } from "./Topics";
 import { FaInfoCircle } from "react-icons/fa";
 import ModalMetadata from "./ModalMetadata";
+import { IndicatorValue } from "@/interfaces/Indicador";
 
 const LIMIT_COUNTRIES_GRAPH = 25;
 
@@ -61,6 +62,36 @@ const Home = () => {
   const [selectedTopic, setSelectedTopic] = useState<string>("");
   const [showModalMetadata, setShowModalMetadata] = useState(false);
 
+  const [dataValues, setDataValues] = useState<IndicatorValue[]>([]);
+  // Funciones
+  const [funcionSelected, setFuncionSelected] = useState("");
+  const [listFunciones] = useState<string[]>(["%", "/", "*"]);
+
+  useEffect(() => {
+    console.log({ rangeYearsIndicator });
+    if (rangeYearsIndicator?.length > 0) {
+      setCurrentYearFrom(rangeYearsIndicator[0] || new Date().getFullYear());
+      setCurrentYearTo(rangeYearsIndicator[0] || new Date().getFullYear());
+    }
+  }, [rangeYearsIndicator]);
+
+  useEffect(() => {
+    if (funcionSelected) {
+      handleFunctionData();
+    }
+  }, [funcionSelected]);
+
+  useEffect(() => {
+    console.log({ dataValues });
+  }, [dataValues]);
+
+  useEffect(() => {
+    console.log({ currentYearFrom, currentYearTo });
+    if (dataIndicator?.length > 0 && currentYearTo !== currentYearFrom) {
+      console.log({ currentYearFrom, currentYearTo, dataIndicator });
+    }
+  }, [currentYearFrom, currentYearTo, dataIndicator]);
+
   useEffect(() => {
     setOffset(0);
   }, [selectedView]);
@@ -84,7 +115,6 @@ const Home = () => {
 
   useEffect(() => {
     setListCountries(
-      // @ts-ignore
       countriesJson.objects.world.geometries.map((item) => ({
         id: item.id,
         name: item.properties.name,
@@ -93,19 +123,19 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    console.log({ indicators });
     getTopicsAllIndicators();
   }, [indicators]);
 
   useEffect(() => {
+    console.log({ dataIndicator });
     if (selectedView === "BAR_CHART_RACE") {
       handleDataBarChartRace();
     }
   }, [selectedView, dataIndicator]);
 
-  useEffect(() => {
-    console.log({ dataBarChartRace });
-  }, [dataBarChartRace]);
+  // useEffect(() => {
+  //   console.log({ dataBarChartRace });
+  // }, [dataBarChartRace]);
 
   useEffect(() => {
     if (minValueIndicator !== undefined && maxValueIndicator !== undefined) {
@@ -128,7 +158,6 @@ const Home = () => {
   }, [currentIndicator?.value, currentYearTo, currentYearFrom]);
 
   useEffect(() => {
-    console.log({ dataIndicator });
     if (dataIndicator?.length > 0) {
       // console.log({ dataIndicator });
       setMinValueIndicator(
@@ -195,8 +224,6 @@ const Home = () => {
   };
 
   const handleDataGraph = () => {
-    console.log({ dataIndicator });
-
     const data = dataIndicator
       .filter((item) => {
         return (
@@ -223,8 +250,6 @@ const Home = () => {
       .sort((a, b) => b.value - a.value)
       .slice(0, offset + LIMIT_COUNTRIES_GRAPH);
 
-    console.log({ data });
-
     setDataGraph(data);
   };
 
@@ -238,8 +263,44 @@ const Home = () => {
         }
       })
     );
-    console.log({ topics });
     setAllTopics(topics);
+  };
+
+  const handleFunctionData = () => {
+    console.log({ dataIndicator });
+
+    let objectValuesCountries: { [key in string]: IndicatorValue[] } = {};
+
+    dataIndicator.forEach((indicatorValue) => {
+      if (!objectValuesCountries[indicatorValue.countryiso3code]) {
+        objectValuesCountries[indicatorValue.countryiso3code] = [
+          indicatorValue,
+        ];
+      } else {
+        objectValuesCountries[indicatorValue.countryiso3code].push(
+          indicatorValue
+        );
+      }
+    });
+
+    console.log({ objectValuesCountries });
+
+    const dataFinal: IndicatorValue[] = [];
+
+    Object.values(objectValuesCountries).forEach((value) => {
+      console.log({ value });
+
+      const itemData = value[0];
+
+      const valueFinal = value.reduce((acc, curr) => {
+        // usar funcion
+        return acc + curr.value;
+      }, 0);
+
+      dataFinal.push({ ...itemData, value: valueFinal });
+    });
+
+    setDataValues(dataFinal);
   };
 
   return (
@@ -259,7 +320,6 @@ const Home = () => {
             .filter((item) => {
               if (!selectedTopic) return true;
               else {
-                console.log({ item });
                 return item.topics.some((elem) => elem.id === selectedTopic);
               }
             })
@@ -287,9 +347,10 @@ const Home = () => {
         </div>
       )}
 
-      <div className="flex flex-row justify-end items-end w-10/12">
+      {/* FECHAS */}
+      <div className="flex flex-row justify-end items-end w-10/12 mb-5">
         <div className="flex flex-col text-center justify-center">
-          <p>Intervalo de tiempo</p>
+          <b>Intervalo de tiempo</b>
 
           <div>
             <span>Desde</span>
@@ -325,6 +386,31 @@ const Home = () => {
           </div>
         </div>
       </div>
+      {/* FIN FECHAS */}
+
+      {/* FUNCION */}
+      <div className="flex flex-row justify-end items-end w-10/12">
+        <div className="flex flex-col text-center justify-center">
+          <b>Función a utilizar</b>
+
+          <div>
+            <select
+              className="text-center"
+              value={funcionSelected}
+              onChange={(e) => setFuncionSelected(e.target.value)}
+            >
+              {listFunciones.map((func) => {
+                return (
+                  <option value={func} key={func}>
+                    {func}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+        </div>
+      </div>
+      {/* FIN FUNCION */}
 
       <Tabs defaultValue="map" className="text-center">
         <TabsList>
@@ -381,11 +467,13 @@ const Home = () => {
         <BarChartRace data={dataBarChartRace} />
       )}
 
-      <ModalMetadata
-        show={showModalMetadata}
-        setShow={setShowModalMetadata}
-        metadata={metadataIndicator}
-      />
+      {showModalMetadata && (
+        <ModalMetadata
+          show={showModalMetadata}
+          setShow={setShowModalMetadata}
+          metadata={metadataIndicator}
+        />
+      )}
     </div>
   );
 };

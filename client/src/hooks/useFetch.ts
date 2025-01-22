@@ -88,8 +88,6 @@ const useFetch = () => {
     const metadataEnglish = METADATA_EN_MOCK[1]?.[0];
     const metadataEspañol = METADATA_ES_MOCK[1]?.[0];
 
-    console.log({ metadataEnglish, metadataEspañol });
-
     return {
       id: metadataEspañol.id || metadataEnglish.id,
       name: metadataEspañol.name || metadataEnglish.name,
