@@ -16,7 +16,6 @@ import { IndicatorValue } from "@/interfaces/Indicador";
 import useFunctions, {
   DEFAULT_VALUE_FUNCTION,
   FUNCTIONS_LIST,
-  FunctionType,
   FunctionValue,
 } from "@/hooks/useFunctions";
 import ModalFunction from "./modals/ModalFunction";
@@ -60,7 +59,6 @@ const Home = () => {
     { id: string; name: string }[]
   >([]);
   const colorScaleRef = useRef<chroma.Scale<chroma.Color> | null>(null);
-  const [dataGraph, setDataGraph] = useState<any[]>([]);
   const [seeMore, setSeeMore] = useState(false);
   const [offset, setOffset] = useState(0);
   const [allTopics, setAllTopics] = useState<{ id: string; value: string }[]>(
@@ -95,7 +93,11 @@ const Home = () => {
   }, [dataValues]);
 
   useEffect(() => {
-    if (dataIndicator?.length > 0 && currentYearTo !== currentYearFrom) {
+    if (
+      dataIndicator?.length > 0 &&
+      currentYearTo !== currentYearFrom &&
+      selectedView !== "BAR_CHART_RACE"
+    ) {
       console.log({ currentYearFrom, currentYearTo, dataIndicator });
       setShowModalFunction(true);
     }
@@ -167,19 +169,15 @@ const Home = () => {
   }, [currentIndicator?.value, currentYearTo, currentYearFrom]);
 
   useEffect(() => {
-    if (dataIndicator?.length > 0) {
-      // console.log({ dataIndicator });
-      setMinValueIndicator(
-        Math.min(...dataIndicator.map((item) => item.value))
-      );
-      setMaxValueIndicator(
-        Math.max(...dataIndicator.map((item) => item.value))
-      );
+    if (dataValues?.length > 0) {
+      // console.log({ dataValues });
+      setMinValueIndicator(Math.min(...dataValues.map((item) => item.value)));
+      setMaxValueIndicator(Math.max(...dataValues.map((item) => item.value)));
     } else {
       setMinValueIndicator(0);
       setMaxValueIndicator(0);
     }
-  }, [dataIndicator]);
+  }, [dataValues]);
 
   const generateColorByValue = useCallback(
     (value) => {
@@ -233,7 +231,7 @@ const Home = () => {
   };
 
   const handleDataGraph = () => {
-    const data = dataIndicator
+    const data = dataValues
       .filter((item) => {
         return (
           (listCountries.find((elem) => elem.id === item.countryiso3code)
@@ -259,7 +257,8 @@ const Home = () => {
       .sort((a, b) => b.value - a.value)
       .slice(0, offset + LIMIT_COUNTRIES_GRAPH);
 
-    setDataGraph(data);
+    // @ts-ignore
+    setDataValues(data);
   };
 
   const getTopicsAllIndicators = () => {
@@ -292,13 +291,9 @@ const Home = () => {
       }
     });
 
-    console.log({ objectValuesCountries });
-
     const dataFinal: IndicatorValue[] = [];
 
     Object.values(objectValuesCountries).forEach((value) => {
-      console.log({ value });
-
       const itemData = value[0];
 
       const valueFinal = value.reduce((acc, curr) => {
@@ -398,35 +393,37 @@ const Home = () => {
       {/* FIN FECHAS */}
 
       {/* FUNCION */}
-      {dataIndicator?.length > 0 && currentYearTo !== currentYearFrom && (
-        <div className="flex flex-row justify-end items-end w-10/12">
-          <div className="flex flex-col text-center justify-center">
-            <b>Función a utilizar</b>
+      {dataIndicator?.length > 0 &&
+        currentYearTo !== currentYearFrom &&
+        selectedView !== "BAR_CHART_RACE" && (
+          <div className="flex flex-row justify-end items-end w-10/12">
+            <div className="flex flex-col text-center justify-center">
+              <b>Función a utilizar</b>
 
-            <div>
-              <select
-                className="text-center"
-                value={functionSelected.value}
-                onChange={(e) =>
-                  setFunctionSelected(
-                    (FUNCTIONS_LIST.find(
-                      (item) => e.target.value === item.value
-                    ) || DEFAULT_VALUE_FUNCTION) as FunctionValue
-                  )
-                }
-              >
-                {FUNCTIONS_LIST.map((func) => {
-                  return (
-                    <option value={func.value} key={func.value}>
-                      {func.label}
-                    </option>
-                  );
-                })}
-              </select>
+              <div>
+                <select
+                  className="text-center"
+                  value={functionSelected.value}
+                  onChange={(e) =>
+                    setFunctionSelected(
+                      (FUNCTIONS_LIST.find(
+                        (item) => e.target.value === item.value
+                      ) || DEFAULT_VALUE_FUNCTION) as FunctionValue
+                    )
+                  }
+                >
+                  {FUNCTIONS_LIST.map((func) => {
+                    return (
+                      <option value={func.value} key={func.value}>
+                        {func.label}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
       {/* FIN FUNCION */}
 
       <Tabs defaultValue="map" className="text-center">
@@ -459,15 +456,15 @@ const Home = () => {
       </Tabs>
       {selectedView === "MAP" && (
         <Geo
-          dataIndicator={dataIndicator}
+          dataIndicator={dataValues}
           generateColorByValue={generateColorByValue}
         />
       )}
       {selectedView === "GRAPH1" && (
         <>
-          <HorizontalBar data={dataGraph} />
+          <HorizontalBar data={dataValues} />
 
-          {dataGraph.length <= dataIndicator.length ? (
+          {dataValues.length <= dataIndicator.length ? (
             <button
               onClick={() => {
                 setSeeMore(true);

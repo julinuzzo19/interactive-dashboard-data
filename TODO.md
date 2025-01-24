@@ -207,5 +207,14 @@ disponibilidad de datos o fuente secundaria (decidir)
 [FEATURE] metadata front
 
 # 21-1
+
 [FIX] styles topics
 [AVANCE] logica de funcion en rango de años en indicadores
+
+# 23-1
+
+[AVANCE] funciones en rango de años
+
+# TODO
+
+verificar que al seleccionar vista y modificar años se utilize datavalues correctamente y no dataindicator, cuando sea un solo año o rango
