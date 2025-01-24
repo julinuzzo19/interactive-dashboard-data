@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import Modal from "./Modal";
+import Modal from "../Modal";
 import { IndicatorMetadata } from "@/interfaces/Indicador";
 
 const ModalMetadata = ({

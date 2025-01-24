@@ -11,8 +11,15 @@ import countriesJson from "../../public/features.json";
 import BarChartRace, { PropsBarChartRace } from "./graphs/BarChartRace";
 import { TopicSelector } from "./Topics";
 import { FaInfoCircle } from "react-icons/fa";
-import ModalMetadata from "./ModalMetadata";
+import ModalMetadata from "./modals/ModalMetadata";
 import { IndicatorValue } from "@/interfaces/Indicador";
+import useFunctions, {
+  DEFAULT_VALUE_FUNCTION,
+  FUNCTIONS_LIST,
+  FunctionType,
+  FunctionValue,
+} from "@/hooks/useFunctions";
+import ModalFunction from "./modals/ModalFunction";
 
 const LIMIT_COUNTRIES_GRAPH = 25;
 
@@ -25,7 +32,7 @@ const Home = () => {
     rangeYearsIndicator,
     metadataIndicator,
   } = useFetch();
-
+  const { getValueFunction } = useFunctions();
   const [currentYearFrom, setCurrentYearFrom] = useState(
     new Date().getFullYear()
   );
@@ -61,11 +68,12 @@ const Home = () => {
   );
   const [selectedTopic, setSelectedTopic] = useState<string>("");
   const [showModalMetadata, setShowModalMetadata] = useState(false);
-
   const [dataValues, setDataValues] = useState<IndicatorValue[]>([]);
   // Funciones
-  const [funcionSelected, setFuncionSelected] = useState("");
-  const [listFunciones] = useState<string[]>(["%", "/", "*"]);
+  const [functionSelected, setFunctionSelected] = useState<FunctionValue>(
+    DEFAULT_VALUE_FUNCTION
+  );
+  const [showModalFunction, setShowModalFunction] = useState(false);
 
   useEffect(() => {
     console.log({ rangeYearsIndicator });
@@ -76,19 +84,20 @@ const Home = () => {
   }, [rangeYearsIndicator]);
 
   useEffect(() => {
-    if (funcionSelected) {
+    console.log({ functionSelected });
+    if (functionSelected) {
       handleFunctionData();
     }
-  }, [funcionSelected]);
+  }, [functionSelected]);
 
   useEffect(() => {
     console.log({ dataValues });
   }, [dataValues]);
 
   useEffect(() => {
-    console.log({ currentYearFrom, currentYearTo });
     if (dataIndicator?.length > 0 && currentYearTo !== currentYearFrom) {
       console.log({ currentYearFrom, currentYearTo, dataIndicator });
+      setShowModalFunction(true);
     }
   }, [currentYearFrom, currentYearTo, dataIndicator]);
 
@@ -389,27 +398,35 @@ const Home = () => {
       {/* FIN FECHAS */}
 
       {/* FUNCION */}
-      <div className="flex flex-row justify-end items-end w-10/12">
-        <div className="flex flex-col text-center justify-center">
-          <b>Función a utilizar</b>
+      {dataIndicator?.length > 0 && currentYearTo !== currentYearFrom && (
+        <div className="flex flex-row justify-end items-end w-10/12">
+          <div className="flex flex-col text-center justify-center">
+            <b>Función a utilizar</b>
 
-          <div>
-            <select
-              className="text-center"
-              value={funcionSelected}
-              onChange={(e) => setFuncionSelected(e.target.value)}
-            >
-              {listFunciones.map((func) => {
-                return (
-                  <option value={func} key={func}>
-                    {func}
-                  </option>
-                );
-              })}
-            </select>
+            <div>
+              <select
+                className="text-center"
+                value={functionSelected.value}
+                onChange={(e) =>
+                  setFunctionSelected(
+                    (FUNCTIONS_LIST.find(
+                      (item) => e.target.value === item.value
+                    ) || DEFAULT_VALUE_FUNCTION) as FunctionValue
+                  )
+                }
+              >
+                {FUNCTIONS_LIST.map((func) => {
+                  return (
+                    <option value={func.value} key={func.value}>
+                      {func.label}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
           </div>
         </div>
-      </div>
+      )}
       {/* FIN FUNCION */}
 
       <Tabs defaultValue="map" className="text-center">
@@ -472,6 +489,14 @@ const Home = () => {
           show={showModalMetadata}
           setShow={setShowModalMetadata}
           metadata={metadataIndicator}
+        />
+      )}
+      {showModalFunction && (
+        <ModalFunction
+          show={showModalFunction}
+          setShow={setShowModalFunction}
+          setFunctionSelected={setFunctionSelected}
+          functionSelected={functionSelected}
         />
       )}
     </div>
