@@ -36,7 +36,6 @@ const ModalFunction = ({
                 // @ts-ignore
                 const value = e.target.value as FunctionType;
 
-                console.log({ value });
                 if (func.value !== functionSelected.value) {
                   setFunctionSelected(
                     FUNCTIONS_LIST.find(

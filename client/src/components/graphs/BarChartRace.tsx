@@ -1,20 +1,36 @@
 import { useEffect, useRef } from "react";
 import * as d3 from "d3";
 import { formatPrecio } from "@/utils/formatPrecio";
+import { off } from "process";
 
 export type PropsBarChartRace = {
   year: number;
   values: { name: string; value: number }[];
 }[];
 
-const BarChartRace = ({ data }: { data: PropsBarChartRace }) => {
+export const LIMIT_COUNTRIES_RACE = 10;
+
+const BarChartRace = ({
+  data,
+  offset = 0,
+}: {
+  data: PropsBarChartRace;
+  offset: number;
+}) => {
   const svgRef = useRef(null);
 
+  useEffect(() => {
+    console.log({ offset });
+  }, [offset]);
   useEffect(() => {
     const svg = d3.select(svgRef.current);
     const width = 1000;
     const height = 400;
     const margin = { top: 50, right: 120, bottom: 20, left: 100 };
+
+    const padding = 10; // Espaciado adicional entre barras
+
+    // const svgHeight = data.length * (barHeight + padding) + margin.top + margin.bottom;
 
     svg.attr("width", width).attr("height", height);
 
@@ -63,20 +79,27 @@ const BarChartRace = ({ data }: { data: PropsBarChartRace }) => {
       const yearData = data[yearIndex];
       const sortedData = yearData.values
         .sort((a, b) => b.value - a.value)
-        .slice(0, 10);
+        .slice(0, LIMIT_COUNTRIES_RACE + offset);
 
-      xScale.domain([0, d3.max(sortedData, (d) => d.value)]);
+      console.log({ sortedData });
+
+      xScale.domain([0, d3.max(sortedData, (d) => d.value)] as any);
       yScale.domain(sortedData.map((d) => d.name));
 
       // Update year text
       yearText.text(yearData.year);
 
       // Update axes
-      svg.select(".x-axis").call(xAxis);
-      svg.select(".y-axis").call(yAxis);
+      svg.select(".x-axis").call(xAxis as any);
+      svg.select(".y-axis").call(yAxis as any);
 
       // Bind data
+      // @ts-ignore
       const bars = svg.selectAll(".bar").data(sortedData, (d) => d.name);
+
+      const barHeight = 30;
+
+      // || yScale.bandwidth();
 
       // Enter
       bars
@@ -84,8 +107,9 @@ const BarChartRace = ({ data }: { data: PropsBarChartRace }) => {
         .append("rect")
         .attr("class", "bar")
         .attr("x", xScale(0))
-        .attr("y", (d) => yScale(d.name))
-        .attr("height", yScale.bandwidth())
+        .attr("y", (d) => yScale(d.name) as any)
+        // .attr("height", yScale.bandwidth())
+        .attr("height", barHeight)
         // .attr("fill", "steelblue")
         .attr("fill", (d) => colorScale(d.name))
         .attr("width", 0)
@@ -97,13 +121,14 @@ const BarChartRace = ({ data }: { data: PropsBarChartRace }) => {
       bars
         .transition()
         .duration(800)
-        .attr("y", (d) => yScale(d.name))
+        .attr("y", (d) => yScale(d.name) as any)
         .attr("width", (d) => xScale(d.value) - xScale(0));
 
       // Exit
       bars.exit().transition().duration(500).attr("width", 0).remove();
 
       // Agregar etiquetas de texto (nombre y valor)
+      // @ts-ignore
       const labels = svg.selectAll(".label").data(sortedData, (d) => d.name);
 
       // Enter para las etiquetas
@@ -112,7 +137,10 @@ const BarChartRace = ({ data }: { data: PropsBarChartRace }) => {
         .append("text")
         .attr("class", "label")
         .attr("x", (d) => xScale(d.value) + 5) // Posición al final de la barra
-        .attr("y", (d) => yScale(d.name) + yScale.bandwidth() / 2 + 5) // Centrado vertical
+        .attr(
+          "y",
+          (d) => ((yScale(d.name) as any) + yScale.bandwidth() / 2 + 5) as any
+        ) // Centrado vertical
         .attr("fill", "black")
         .attr("font-size", "12px")
         .text((d) => `${d.name} ${d.value}`);
@@ -122,7 +150,10 @@ const BarChartRace = ({ data }: { data: PropsBarChartRace }) => {
         .transition()
         .duration(1000)
         .attr("x", (d) => xScale(d.value) + 5)
-        .attr("y", (d) => yScale(d.name) + yScale.bandwidth() / 2 + 5)
+        .attr(
+          "y",
+          (d) => ((yScale(d.name) as any) + yScale.bandwidth() / 2 + 5) as any
+        )
         .text((d) => `${d.name} ${formatPrecio(d.value)}`);
 
       // Exit para las etiquetas
@@ -136,7 +167,7 @@ const BarChartRace = ({ data }: { data: PropsBarChartRace }) => {
     return () => clearInterval(interval); // Clean up
   }, [data]);
 
-  return <svg ref={svgRef}></svg>;
+  return <svg height={"100px"} ref={svgRef}></svg>;
 };
 
 export default BarChartRace;

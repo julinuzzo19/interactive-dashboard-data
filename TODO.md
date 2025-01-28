@@ -215,6 +215,26 @@ disponibilidad de datos o fuente secundaria (decidir)
 
 [AVANCE] funciones en rango de años
 
+# 27-1
+
 # TODO
 
-verificar que al seleccionar vista y modificar años se utilize datavalues correctamente y no dataindicator, cuando sea un solo año o rango
+- al mostrar mas paises en bar chart race se rompe los estilos
+- Falta formula tasa de cambio
+
+# DONE
+
+- [FEATURE] logica de funciones
+- [FEATURE] modal de funcion seleccionable
+
+# TODO FEATURES
+
+- Al faltar valor de indicador en año, completar
+- filtro ultimo dato disponible
+- disponibilidad de datos o fuente secundaria (decidir)
+
+# HECHO DESDE ULTIMA REUNION
+
+- Modal Metadata
+- Topicos
+- Funciones utilizadas en indicadores

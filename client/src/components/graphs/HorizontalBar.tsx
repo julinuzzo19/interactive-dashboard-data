@@ -109,37 +109,6 @@ const HorizontalBar = ({ data, width = 1000, height = 1000 }) => {
       .call(d3.axisBottom(x)); // Valores de población en el eje X
   }, [data]);
 
-  // function zoom(svg) {
-  //   const margin = { top: 20, right: 20, bottom: 20, left: 100 };
-
-  //   const extent = [
-  //     [margin.left, margin.top],
-  //     [width - margin.right, height - margin.top],
-  //   ];
-
-  //   svg.call(
-  //     d3
-  //       .zoom()
-  //       .scaleExtent([1, 8])
-  //       .translateExtent(extent)
-  //       .extent(extent)
-  //       .on("zoom", zoomed)
-  //   );
-
-  //   function zoomed(event) {
-  //     x.range(
-  //       [margin.left, width - margin.right].map((d) =>
-  //         event.transform.applyX(d)
-  //       )
-  //     );
-  //     svg
-  //       .selectAll(".bars rect")
-  //       .attr("x", (d) => x(d.letter))
-  //       .attr("width", x.bandwidth());
-  //     svg.selectAll(".x-axis").call(xAxis);
-  //   }
-  // }
-
   return <svg ref={svgRef}></svg>;
 };
 

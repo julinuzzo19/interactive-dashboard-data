@@ -2245,6 +2245,70 @@
             "value": "Población, hombres"
         },
         "country": {
+            "id": "XY",
+            "value": "No clasificado"
+        },
+        "countryiso3code": "",
+        "date": "2023",
+        "value": null,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "XY",
+            "value": "No clasificado"
+        },
+        "countryiso3code": "",
+        "date": "2022",
+        "value": null,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "XY",
+            "value": "No clasificado"
+        },
+        "countryiso3code": "",
+        "date": "2021",
+        "value": null,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "XY",
+            "value": "No clasificado"
+        },
+        "countryiso3code": "",
+        "date": "2020",
+        "value": null,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
             "id": "OE",
             "value": "Miembros OCDE"
         },
@@ -15931,6 +15995,1030 @@
         "countryiso3code": "TCA",
         "date": "2020",
         "value": 22263,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "TV",
+            "value": "Tuvalu"
+        },
+        "countryiso3code": "TUV",
+        "date": "2023",
+        "value": 5021,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "TV",
+            "value": "Tuvalu"
+        },
+        "countryiso3code": "TUV",
+        "date": "2022",
+        "value": 5110,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "TV",
+            "value": "Tuvalu"
+        },
+        "countryiso3code": "TUV",
+        "date": "2021",
+        "value": 5213,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "TV",
+            "value": "Tuvalu"
+        },
+        "countryiso3code": "TUV",
+        "date": "2020",
+        "value": 5322,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "UG",
+            "value": "Uganda"
+        },
+        "countryiso3code": "UGA",
+        "date": "2023",
+        "value": 24122612,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "UG",
+            "value": "Uganda"
+        },
+        "countryiso3code": "UGA",
+        "date": "2022",
+        "value": 23449750,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "UG",
+            "value": "Uganda"
+        },
+        "countryiso3code": "UGA",
+        "date": "2021",
+        "value": 22747489,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "UG",
+            "value": "Uganda"
+        },
+        "countryiso3code": "UGA",
+        "date": "2020",
+        "value": 22019413,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "UA",
+            "value": "Ucrania"
+        },
+        "countryiso3code": "UKR",
+        "date": "2023",
+        "value": 17544336,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "UA",
+            "value": "Ucrania"
+        },
+        "countryiso3code": "UKR",
+        "date": "2022",
+        "value": 19117441,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "UA",
+            "value": "Ucrania"
+        },
+        "countryiso3code": "UKR",
+        "date": "2021",
+        "value": 20644066,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "UA",
+            "value": "Ucrania"
+        },
+        "countryiso3code": "UKR",
+        "date": "2020",
+        "value": 20820757,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "AE",
+            "value": "Emiratos Árabes Unidos"
+        },
+        "countryiso3code": "ARE",
+        "date": "2023",
+        "value": 6710892,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "AE",
+            "value": "Emiratos Árabes Unidos"
+        },
+        "countryiso3code": "ARE",
+        "date": "2022",
+        "value": 6458376,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "AE",
+            "value": "Emiratos Árabes Unidos"
+        },
+        "countryiso3code": "ARE",
+        "date": "2021",
+        "value": 6149382,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "AE",
+            "value": "Emiratos Árabes Unidos"
+        },
+        "countryiso3code": "ARE",
+        "date": "2020",
+        "value": 6052695,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "GB",
+            "value": "Reino Unido"
+        },
+        "countryiso3code": "GBR",
+        "date": "2023",
+        "value": 33648677,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "GB",
+            "value": "Reino Unido"
+        },
+        "countryiso3code": "GBR",
+        "date": "2022",
+        "value": 33367124,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "GB",
+            "value": "Reino Unido"
+        },
+        "countryiso3code": "GBR",
+        "date": "2021",
+        "value": 32982002,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "GB",
+            "value": "Reino Unido"
+        },
+        "countryiso3code": "GBR",
+        "date": "2020",
+        "value": 32995645,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "US",
+            "value": "Estados Unidos"
+        },
+        "countryiso3code": "USA",
+        "date": "2023",
+        "value": 168286299,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "US",
+            "value": "Estados Unidos"
+        },
+        "countryiso3code": "USA",
+        "date": "2022",
+        "value": 167519513,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "US",
+            "value": "Estados Unidos"
+        },
+        "countryiso3code": "USA",
+        "date": "2021",
+        "value": 166957773,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "US",
+            "value": "Estados Unidos"
+        },
+        "countryiso3code": "USA",
+        "date": "2020",
+        "value": 166732375,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "UY",
+            "value": "Uruguay"
+        },
+        "countryiso3code": "URY",
+        "date": "2023",
+        "value": 1643010,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "UY",
+            "value": "Uruguay"
+        },
+        "countryiso3code": "URY",
+        "date": "2022",
+        "value": 1644412,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "UY",
+            "value": "Uruguay"
+        },
+        "countryiso3code": "URY",
+        "date": "2021",
+        "value": 1647432,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "UY",
+            "value": "Uruguay"
+        },
+        "countryiso3code": "URY",
+        "date": "2020",
+        "value": 1648503,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "UZ",
+            "value": "Uzbekistán"
+        },
+        "countryiso3code": "UZB",
+        "date": "2023",
+        "value": 17982214,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "UZ",
+            "value": "Uzbekistán"
+        },
+        "countryiso3code": "UZB",
+        "date": "2022",
+        "value": 17618709,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "UZ",
+            "value": "Uzbekistán"
+        },
+        "countryiso3code": "UZB",
+        "date": "2021",
+        "value": 17264132,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "UZ",
+            "value": "Uzbekistán"
+        },
+        "countryiso3code": "UZB",
+        "date": "2020",
+        "value": 16928447,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "VU",
+            "value": "Vanuatu"
+        },
+        "countryiso3code": "VUT",
+        "date": "2023",
+        "value": 161798,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "VU",
+            "value": "Vanuatu"
+        },
+        "countryiso3code": "VUT",
+        "date": "2022",
+        "value": 158130,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "VU",
+            "value": "Vanuatu"
+        },
+        "countryiso3code": "VUT",
+        "date": "2021",
+        "value": 154582,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "VU",
+            "value": "Vanuatu"
+        },
+        "countryiso3code": "VUT",
+        "date": "2020",
+        "value": 151162,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "VE",
+            "value": "Venezuela"
+        },
+        "countryiso3code": "VEN",
+        "date": "2023",
+        "value": 13988508,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "VE",
+            "value": "Venezuela"
+        },
+        "countryiso3code": "VEN",
+        "date": "2022",
+        "value": 13952027,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "VE",
+            "value": "Venezuela"
+        },
+        "countryiso3code": "VEN",
+        "date": "2021",
+        "value": 13972114,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "VE",
+            "value": "Venezuela"
+        },
+        "countryiso3code": "VEN",
+        "date": "2020",
+        "value": 14083715,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "VN",
+            "value": "Viet Nam"
+        },
+        "countryiso3code": "VNM",
+        "date": "2023",
+        "value": 49150969,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "VN",
+            "value": "Viet Nam"
+        },
+        "countryiso3code": "VNM",
+        "date": "2022",
+        "value": 48821207,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "VN",
+            "value": "Viet Nam"
+        },
+        "countryiso3code": "VNM",
+        "date": "2021",
+        "value": 48448495,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "VN",
+            "value": "Viet Nam"
+        },
+        "countryiso3code": "VNM",
+        "date": "2020",
+        "value": 48017590,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "VI",
+            "value": "Islas Vírgenes (EE.UU.)"
+        },
+        "countryiso3code": "VIR",
+        "date": "2023",
+        "value": 50142,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "VI",
+            "value": "Islas Vírgenes (EE.UU.)"
+        },
+        "countryiso3code": "VIR",
+        "date": "2022",
+        "value": 50595,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "VI",
+            "value": "Islas Vírgenes (EE.UU.)"
+        },
+        "countryiso3code": "VIR",
+        "date": "2021",
+        "value": 51040,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "VI",
+            "value": "Islas Vírgenes (EE.UU.)"
+        },
+        "countryiso3code": "VIR",
+        "date": "2020",
+        "value": 51479,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "PS",
+            "value": "Ribera Occidental y Gaza"
+        },
+        "countryiso3code": "PSE",
+        "date": "2023",
+        "value": 2567330,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "PS",
+            "value": "Ribera Occidental y Gaza"
+        },
+        "countryiso3code": "PSE",
+        "date": "2022",
+        "value": 2507671,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "PS",
+            "value": "Ribera Occidental y Gaza"
+        },
+        "countryiso3code": "PSE",
+        "date": "2021",
+        "value": 2446625,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "PS",
+            "value": "Ribera Occidental y Gaza"
+        },
+        "countryiso3code": "PSE",
+        "date": "2020",
+        "value": 2386360,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "YE",
+            "value": "Yemen, Rep. del"
+        },
+        "countryiso3code": "YEM",
+        "date": "2023",
+        "value": 19950332,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "YE",
+            "value": "Yemen, Rep. del"
+        },
+        "countryiso3code": "YEM",
+        "date": "2022",
+        "value": 19356445,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "YE",
+            "value": "Yemen, Rep. del"
+        },
+        "countryiso3code": "YEM",
+        "date": "2021",
+        "value": 18809390,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "YE",
+            "value": "Yemen, Rep. del"
+        },
+        "countryiso3code": "YEM",
+        "date": "2020",
+        "value": 18304570,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "ZM",
+            "value": "Zambia"
+        },
+        "countryiso3code": "ZMB",
+        "date": "2023",
+        "value": 10256248,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "ZM",
+            "value": "Zambia"
+        },
+        "countryiso3code": "ZMB",
+        "date": "2022",
+        "value": 9973857,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "ZM",
+            "value": "Zambia"
+        },
+        "countryiso3code": "ZMB",
+        "date": "2021",
+        "value": 9702842,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "ZM",
+            "value": "Zambia"
+        },
+        "countryiso3code": "ZMB",
+        "date": "2020",
+        "value": 9433237,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "ZW",
+            "value": "Zimbabwe"
+        },
+        "countryiso3code": "ZWE",
+        "date": "2023",
+        "value": 7780934,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "ZW",
+            "value": "Zimbabwe"
+        },
+        "countryiso3code": "ZWE",
+        "date": "2022",
+        "value": 7642717,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "ZW",
+            "value": "Zimbabwe"
+        },
+        "countryiso3code": "ZWE",
+        "date": "2021",
+        "value": 7505482,
+        "unit": "",
+        "obs_status": "",
+        "decimal": 0
+    },
+    {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "ZW",
+            "value": "Zimbabwe"
+        },
+        "countryiso3code": "ZWE",
+        "date": "2020",
+        "value": 7370588,
         "unit": "",
         "obs_status": "",
         "decimal": 0

@@ -21,6 +21,7 @@ import useFunctions, {
 import ModalFunction from "./modals/ModalFunction";
 
 const LIMIT_COUNTRIES_GRAPH = 25;
+const LIMIT_COUNTRIES_RACE = 10;
 
 const Home = () => {
   const {
@@ -67,6 +68,7 @@ const Home = () => {
   const [selectedTopic, setSelectedTopic] = useState<string>("");
   const [showModalMetadata, setShowModalMetadata] = useState(false);
   const [dataValues, setDataValues] = useState<IndicatorValue[]>([]);
+  const [dataGraph1, setDataGraph1] = useState<any[]>([]);
   // Funciones
   const [functionSelected, setFunctionSelected] = useState<FunctionValue>(
     DEFAULT_VALUE_FUNCTION
@@ -74,7 +76,18 @@ const Home = () => {
   const [showModalFunction, setShowModalFunction] = useState(false);
 
   useEffect(() => {
-    console.log({ rangeYearsIndicator });
+    console.log({ dataBarChartRace });
+  }, [dataBarChartRace]);
+
+  useEffect(() => {
+    console.log({ dataIndicator });
+  }, [dataIndicator]);
+
+  useEffect(() => {
+    console.log({ dataValues });
+  }, [dataValues]);
+
+  useEffect(() => {
     if (rangeYearsIndicator?.length > 0) {
       setCurrentYearFrom(rangeYearsIndicator[0] || new Date().getFullYear());
       setCurrentYearTo(rangeYearsIndicator[0] || new Date().getFullYear());
@@ -82,26 +95,18 @@ const Home = () => {
   }, [rangeYearsIndicator]);
 
   useEffect(() => {
-    console.log({ functionSelected });
+    console.log({ functionSelected, dataIndicator });
     if (functionSelected) {
       handleFunctionData();
     }
-  }, [functionSelected]);
+  }, [functionSelected, dataIndicator]);
 
   useEffect(() => {
-    console.log({ dataValues });
-  }, [dataValues]);
-
-  useEffect(() => {
-    if (
-      dataIndicator?.length > 0 &&
-      currentYearTo !== currentYearFrom &&
-      selectedView !== "BAR_CHART_RACE"
-    ) {
-      console.log({ currentYearFrom, currentYearTo, dataIndicator });
+    console.log({ currentYearFrom, currentYearTo, dataValues });
+    if (currentYearTo !== currentYearFrom) {
       setShowModalFunction(true);
     }
-  }, [currentYearFrom, currentYearTo, dataIndicator]);
+  }, [currentYearFrom, currentYearTo]);
 
   useEffect(() => {
     setOffset(0);
@@ -109,13 +114,21 @@ const Home = () => {
 
   useEffect(() => {
     if (seeMore) {
-      setOffset((prevState) => prevState + LIMIT_COUNTRIES_GRAPH);
+      if (selectedView === "GRAPH1") {
+        setOffset((prevState) => prevState + LIMIT_COUNTRIES_GRAPH);
+      } else if (selectedView === "BAR_CHART_RACE") {
+        setOffset((prevState) => prevState + LIMIT_COUNTRIES_RACE);
+      }
       setSeeMore(false);
     }
   }, [seeMore]);
 
   useEffect(() => {
-    handleDataGraph();
+    if (selectedView === "GRAPH1") {
+      handleDataGraph();
+    } else if (selectedView === "BAR_CHART_RACE") {
+      handleDataBarChartRace();
+    }
   }, [offset]);
 
   useEffect(() => {
@@ -138,11 +151,18 @@ const Home = () => {
   }, [indicators]);
 
   useEffect(() => {
-    console.log({ dataIndicator });
+    if (selectedView === "GRAPH1") {
+      handleDataGraph();
+    } else if (selectedView === "BAR_CHART_RACE") {
+      handleDataBarChartRace();
+    }
+  }, [selectedView]);
+
+  useEffect(() => {
     if (selectedView === "BAR_CHART_RACE") {
       handleDataBarChartRace();
     }
-  }, [selectedView, dataIndicator]);
+  }, [dataIndicator]);
 
   // useEffect(() => {
   //   console.log({ dataBarChartRace });
@@ -227,6 +247,8 @@ const Home = () => {
       }
     });
 
+    console.log({ dataBarChart });
+
     setDataBarChartRace(dataBarChart.sort((a, b) => a.year - b.year));
   };
 
@@ -257,8 +279,7 @@ const Home = () => {
       .sort((a, b) => b.value - a.value)
       .slice(0, offset + LIMIT_COUNTRIES_GRAPH);
 
-    // @ts-ignore
-    setDataValues(data);
+    setDataGraph1(data);
   };
 
   const getTopicsAllIndicators = () => {
@@ -296,10 +317,17 @@ const Home = () => {
     Object.values(objectValuesCountries).forEach((value) => {
       const itemData = value[0];
 
-      const valueFinal = value.reduce((acc, curr) => {
-        // usar funcion
-        return acc + curr.value;
-      }, 0);
+      let valueFinal;
+      if (functionSelected?.value) {
+        const valueFunction = getValueFunction({
+          func: functionSelected.value,
+          indicatorValues: value,
+        });
+
+        valueFinal = valueFunction.value;
+      } else {
+        valueFinal = value[0].value;
+      }
 
       dataFinal.push({ ...itemData, value: valueFinal });
     });
@@ -393,13 +421,18 @@ const Home = () => {
       {/* FIN FECHAS */}
 
       {/* FUNCION */}
-      {dataIndicator?.length > 0 &&
+      {dataValues?.length > 0 &&
         currentYearTo !== currentYearFrom &&
         selectedView !== "BAR_CHART_RACE" && (
           <div className="flex flex-row justify-end items-end w-10/12">
             <div className="flex flex-col text-center justify-center">
-              <b>Función a utilizar</b>
-
+              <div className="flex flex-row gap-2 justify-center items-center">
+                <b>Función a utilizar</b>
+                <FaInfoCircle
+                  role="button"
+                  onClick={() => setShowModalFunction(true)}
+                />
+              </div>
               <div>
                 <select
                   className="text-center"
@@ -439,7 +472,6 @@ const Home = () => {
             className="w-64"
             value="graph1"
             onClick={() => {
-              handleDataGraph();
               setSelectedView("GRAPH1");
             }}
           >
@@ -462,7 +494,7 @@ const Home = () => {
       )}
       {selectedView === "GRAPH1" && (
         <>
-          <HorizontalBar data={dataValues} />
+          <HorizontalBar data={dataGraph1} />
 
           {dataValues.length <= dataIndicator.length ? (
             <button
@@ -478,7 +510,20 @@ const Home = () => {
         </>
       )}
       {selectedView === "BAR_CHART_RACE" && (
-        <BarChartRace data={dataBarChartRace} />
+        <>
+          <BarChartRace data={dataBarChartRace} offset={offset} />
+          {dataValues.length <= dataIndicator.length ? (
+            <button
+              onClick={() => {
+                setSeeMore(true);
+              }}
+            >
+              Mostrar más paises
+            </button>
+          ) : (
+            ""
+          )}
+        </>
       )}
 
       {showModalMetadata && (

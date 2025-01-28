@@ -58,8 +58,8 @@ const useFetch = () => {
   }) => {
     // console.log({ indicator, currentYearFrom, currentYearTo });
 
-    // setDataIndicator(VALUES_FROM_TO_MOCK?.filter((item) => item.value));
-    setDataIndicator(VALUES_MOCK?.filter((item) => item.value));
+    setDataIndicator(VALUES_FROM_TO_MOCK?.filter((item) => item.value));
+    // setDataIndicator(VALUES_MOCK?.filter((item) => item.value));
     const metadata = await getMetadataIndicator(indicator);
     setMetadataIndicator(metadata);
     // await axios
