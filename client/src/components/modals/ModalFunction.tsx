@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import Modal from "../Modal";
 import {
   DEFAULT_VALUE_FUNCTION,
@@ -19,6 +19,8 @@ const ModalFunction = ({
   setFunctionSelected: Dispatch<SetStateAction<FunctionValue>>;
   functionSelected: FunctionValue;
 }) => {
+  const [funcionShowData, setFuncionShowData] =
+    useState<FunctionValue>(functionSelected);
   return (
     <Modal isOpen={show} onClose={() => setShow(false)}>
       <div>
@@ -36,19 +38,19 @@ const ModalFunction = ({
                 // @ts-ignore
                 const value = e.target.value as FunctionType;
 
-                if (func.value !== functionSelected.value) {
-                  setFunctionSelected(
+                if (func.value !== funcionShowData.value) {
+                  setFuncionShowData(
                     FUNCTIONS_LIST.find(
                       (item) => value === item.value
                     ) as FunctionValue
                   );
                 } else {
-                  setFunctionSelected(DEFAULT_VALUE_FUNCTION);
+                  setFuncionShowData(DEFAULT_VALUE_FUNCTION);
                 }
               }}
               className={cn(
                 "px-4 py-2 rounded-full text-sm font-medium transition-colors whitespace-nowrap",
-                functionSelected.value === func.value && "bg-blue-400"
+                funcionShowData.value === func.value && "bg-blue-400"
               )}
             >
               {func.label}
@@ -56,10 +58,10 @@ const ModalFunction = ({
           ))}
         </div>
 
-        {functionSelected && (
+        {funcionShowData && (
           <div>
-            <p className="text-xl font-bold mb-3">{functionSelected.label}</p>
-            {functionSelected.value === "AVERAGE" && (
+            <p className="text-xl font-bold mb-3">{funcionShowData.label}</p>
+            {funcionShowData.value === "AVERAGE" && (
               <div className="font-serif">
                 <p className="font-bold">Descripción:</p>
                 <p className="indent-4 mb-2">
@@ -77,7 +79,7 @@ const ModalFunction = ({
                 </p>
               </div>
             )}
-            {functionSelected.value === "MAX" && (
+            {funcionShowData.value === "MAX" && (
               <div className="font-serif">
                 <p className="font-bold">Descripción:</p>
                 <p className="indent-4 mb-2">
@@ -94,7 +96,7 @@ const ModalFunction = ({
                 </p>
               </div>
             )}
-            {functionSelected.value === "MIN" && (
+            {funcionShowData.value === "MIN" && (
               <div className="font-serif">
                 <p className="font-bold">Descripción:</p>
                 <p className="indent-4 mb-2">
@@ -112,7 +114,7 @@ const ModalFunction = ({
                 </p>
               </div>
             )}
-            {functionSelected.value === "TASA_CAMBIO" && (
+            {funcionShowData.value === "TASA_CAMBIO" && (
               <div className="font-serif">
                 <p className="font-bold">Descripción:</p>
                 <p className="indent-4 mb-2">
@@ -135,10 +137,13 @@ const ModalFunction = ({
 
         <div className="text-end">
           <button
-            onClick={() => setShow(false)}
+            onClick={() => {
+              setFunctionSelected(funcionShowData);
+              setShow(false);
+            }}
             className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
           >
-            Cerrar
+            Aceptar
           </button>
         </div>
       </div>

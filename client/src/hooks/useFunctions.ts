@@ -31,13 +31,15 @@ export const FUNCTIONS_LIST: FunctionValue[] = [
 const useFunctions = () => {
   const getValueFunction = ({
     func,
-    indicatorValues,
+    indicatorValues = [],
   }: {
     func: FunctionType;
     indicatorValues: IndicatorValue[];
   }): IndicatorValue => {
     try {
       let dataFinal: IndicatorValue;
+
+      // console.log({ indicatorValues });
 
       if (func === "MAX") {
         dataFinal = {
@@ -67,11 +69,20 @@ const useFunctions = () => {
           value: total / count,
         };
       } else if (func === "TASA_CAMBIO") {
+        const valuesSortLastYear = indicatorValues.sort(
+          (a, b) => parseInt(b.date) - parseInt(a.date)
+        );
+
+        const initialValue = valuesSortLastYear.at(-1)?.value ?? 0;
+        const lastValue = valuesSortLastYear.at(0)?.value ?? 0;
+
+        const tasaCambioResult = parseFloat(
+          (((lastValue - initialValue) / initialValue) * 100).toFixed(2)
+        );
+
         dataFinal = {
           ...indicatorValues[0],
-          value: Math.min(
-            ...indicatorValues.map((valueCountry) => valueCountry.value)
-          ),
+          value: tasaCambioResult,
         };
       } else {
         throw new Error("La función a utilizar no existe");

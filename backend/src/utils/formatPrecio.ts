@@ -7,6 +7,7 @@ export const formatPrecio = (valor: any) => {
         valorFormat += 0;
       } else if (valorFormat.split(",")[1].length > 2) {
         const decimals = valorFormat.split(",")[1];
+        console.log({ decimals });
         valorFormat = valorFormat.split(",")[0];
         valorFormat += `,${decimals.slice(0, 2)}`;
       }

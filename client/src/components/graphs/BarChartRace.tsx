@@ -77,9 +77,11 @@ const BarChartRace = ({
 
     const updateChart = () => {
       const yearData = data[yearIndex];
+
+      console.log({ vals: yearData.values });
       const sortedData = yearData.values
         .sort((a, b) => b.value - a.value)
-        .slice(0, LIMIT_COUNTRIES_RACE + offset);
+        ?.slice(0, LIMIT_COUNTRIES_RACE + offset);
 
       console.log({ sortedData });
 

@@ -217,24 +217,43 @@ disponibilidad de datos o fuente secundaria (decidir)
 
 # 27-1
 
-# TODO
-
-- al mostrar mas paises en bar chart race se rompe los estilos
-- Falta formula tasa de cambio
-
 # DONE
 
 - [FEATURE] logica de funciones
 - [FEATURE] modal de funcion seleccionable
 
-# TODO FEATURES
+#
 
-- Al faltar valor de indicador en año, completar
-- filtro ultimo dato disponible
-- disponibilidad de datos o fuente secundaria (decidir)
+# 28-1
+
+# DONE
+
+- [FEATURE] tasa de cambio function
+- [FIX] tasa de cambio, cuando los valores son chicos no se puede utilizar logaritmo para escala de valores
+- [FIX] Funciones no deben aparecer en bar chart race
+
+# BUGS
+
+- al mostrar mas paises en bar chart race se rompe los estilos
+- al cambiar de tasa de cambio a otra, el mapa se qeuda en rojo hasta q se hace hover sobre el mapa
+- AL CAMBIAR FUNCIONES ESTANDO EN VISTRA GRAPH HORIZONTAL, NO ACTUALIZA VALORES
+
+#
+
+# TODO
+
+- Agregar funcionalidad en seleccion de años, de ultimo dato disponible (mostrar en tooltip que año es)
+- logica de completar valor de indicador teniendo en cuenta años anteriores y proximos
+- informar sobre disponibilidad de datos y solucion utilizada en caso de no existir
 
 # HECHO DESDE ULTIMA REUNION
 
 - Modal Metadata
 - Topicos
 - Funciones utilizadas en indicadores
+
+# TODO FEATURES
+
+- Al faltar valor de indicador en año, completar
+- filtro ultimo dato disponible
+- disponibilidad de datos o fuente secundaria (decidir)

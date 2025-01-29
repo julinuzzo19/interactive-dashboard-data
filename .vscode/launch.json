@@ -1,22 +1,12 @@
 {
   "version": "0.2.0",
   "configurations": [
-    // {
-    //   "name": "Run client npm dev",
-    //   "type": "node-terminal",
-    //   "request": "launch",
-    //   "command": "npm run dev",
-    //   "cwd": "${workspaceFolder}/client"
-    // }
-    // {
-    //   "type": "node",
-    //   "request": "launch",
-    //   "name": "Run npm script",
-    //   "runtimeExecutable": "npm",
-    //   "runtimeArgs": [
-    //     "run",
-    //     "dev"
-    //   ],
-    // }
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "Launch Chrome against localhost",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}/client/src"
+    }
   ]
 }

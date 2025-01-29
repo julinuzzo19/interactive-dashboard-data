@@ -76,10 +76,6 @@ const Home = () => {
   const [showModalFunction, setShowModalFunction] = useState(false);
 
   useEffect(() => {
-    console.log({ dataBarChartRace });
-  }, [dataBarChartRace]);
-
-  useEffect(() => {
     console.log({ dataIndicator });
   }, [dataIndicator]);
 
@@ -95,14 +91,14 @@ const Home = () => {
   }, [rangeYearsIndicator]);
 
   useEffect(() => {
-    console.log({ functionSelected, dataIndicator });
+    // console.log({ functionSelected, dataIndicator });
     if (functionSelected) {
       handleFunctionData();
     }
   }, [functionSelected, dataIndicator]);
 
   useEffect(() => {
-    console.log({ currentYearFrom, currentYearTo, dataValues });
+    // console.log({ currentYearFrom, currentYearTo, dataValues });
     if (currentYearTo !== currentYearFrom) {
       setShowModalFunction(true);
     }
@@ -172,7 +168,14 @@ const Home = () => {
     if (minValueIndicator !== undefined && maxValueIndicator !== undefined) {
       colorScaleRef.current = chroma
         .scale(chroma.brewer.OrRd)
-        .domain([Math.log10(minValueIndicator), Math.log10(maxValueIndicator)])
+        .domain([
+          minValueIndicator > 1
+            ? Math.log10(minValueIndicator)
+            : Math.sqrt(minValueIndicator),
+          maxValueIndicator > 1
+            ? Math.log10(maxValueIndicator)
+            : Math.sqrt(maxValueIndicator),
+        ])
         .mode("lch");
     }
   }, [minValueIndicator, maxValueIndicator]);
@@ -189,10 +192,12 @@ const Home = () => {
   }, [currentIndicator?.value, currentYearTo, currentYearFrom]);
 
   useEffect(() => {
+    // console.log({ dataValues });
     if (dataValues?.length > 0) {
-      // console.log({ dataValues });
-      setMinValueIndicator(Math.min(...dataValues.map((item) => item.value)));
-      setMaxValueIndicator(Math.max(...dataValues.map((item) => item.value)));
+      const minValue = Math.min(...dataValues.map((item) => item.value));
+      const maxValue = Math.max(...dataValues.map((item) => item.value));
+      setMinValueIndicator(minValue > 0 ? minValue : Math.sqrt(minValue) || 0);
+      setMaxValueIndicator(maxValue > 0 ? maxValue : Math.sqrt(maxValue) || 0);
     } else {
       setMinValueIndicator(0);
       setMaxValueIndicator(0);
@@ -200,13 +205,24 @@ const Home = () => {
   }, [dataValues]);
 
   const generateColorByValue = useCallback(
-    (value) => {
-      if (!colorScaleRef.current || typeof colorScaleRef.current !== "function")
-        return "#ccc"; // Valor por defecto
-      const colorCountry = colorScaleRef
-        .current(Math.log10(value as number))
-        .hex();
-      return colorCountry;
+    (value: number) => {
+      try {
+        if (
+          !colorScaleRef.current ||
+          typeof colorScaleRef.current !== "function"
+        )
+          return "#ccc"; // Valor por defecto
+
+        const valueLog = Math.log10(value);
+        const valueFinal = valueLog > 1 ? valueLog : Math.sqrt(value);
+
+        const colorCountry = colorScaleRef.current(valueFinal).hex();
+
+        return colorCountry;
+      } catch (error) {
+        // console.log({ error });
+        console.log("err");
+      }
     },
     [colorScaleRef]
   );
@@ -253,6 +269,7 @@ const Home = () => {
   };
 
   const handleDataGraph = () => {
+    console.log({ dataValues });
     const data = dataValues
       .filter((item) => {
         return (
@@ -277,7 +294,7 @@ const Home = () => {
         };
       })
       .sort((a, b) => b.value - a.value)
-      .slice(0, offset + LIMIT_COUNTRIES_GRAPH);
+      ?.slice(0, offset + LIMIT_COUNTRIES_GRAPH);
 
     setDataGraph1(data);
   };
@@ -296,8 +313,6 @@ const Home = () => {
   };
 
   const handleFunctionData = () => {
-    console.log({ dataIndicator });
-
     let objectValuesCountries: { [key in string]: IndicatorValue[] } = {};
 
     dataIndicator.forEach((indicatorValue) => {

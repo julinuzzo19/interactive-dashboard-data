@@ -33,9 +33,10 @@ const Geo = ({
         <Geographies geography="../../public/features.json">
           {({ geographies }: { geographies: GeoCountryColor[] }) => {
             return geographies.map((geo) => {
-              const valueCountry = dataIndicator.find(
+              const valueCountry = dataIndicator?.find(
                 (item) => item.countryiso3code === geo.id
               );
+
               geo.value = valueCountry?.value || 0;
 
               const colorCountry = generateColorByValue(geo.value);
