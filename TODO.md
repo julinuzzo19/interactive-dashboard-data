@@ -240,20 +240,49 @@ disponibilidad de datos o fuente secundaria (decidir)
 
 #
 
-# TODO
-
-- Agregar funcionalidad en seleccion de años, de ultimo dato disponible (mostrar en tooltip que año es)
-- logica de completar valor de indicador teniendo en cuenta años anteriores y proximos
-- informar sobre disponibilidad de datos y solucion utilizada en caso de no existir
-
 # HECHO DESDE ULTIMA REUNION
 
 - Modal Metadata
 - Topicos
 - Funciones utilizadas en indicadores
 
-# TODO FEATURES
+# TODO
 
-- Al faltar valor de indicador en año, completar
-- filtro ultimo dato disponible
-- disponibilidad de datos o fuente secundaria (decidir)
+- Agregar funcionalidad en seleccion de años, de ultimo dato disponible (mostrar en tooltip que año es)
+- logica de completar valor de indicador teniendo en cuenta años anteriores y proximos
+- informar sobre disponibilidad de datos y solucion utilizada en caso de no existir
+
+<!-- NOTAS -->
+
+aggreagar funcion mas reciente y mas antiguo
+
+ultima dato disponible solo para rangod e años
+
+SUITUACIONES DE CUANDO UN VALOR NOE XISTE, IONTERMEDIO O FINAL O INICIAL
+
+# SUGERENCIAS: FUENTA DE DATOS SECUNDARIA
+
+info agregada son las funciones
+
+# Investigar
+
+prediccion valores, (mineria de datos area)
+-progresion lineal, curvas sp, exponenciales, modelos predictivos
+
+usar primero progresioon lineal o ampliarlo
+
+
+libreria escala d evalores ver calculos, domiunio como se calculan los colores, para explicar en el informe, si teinee sentido usar log10 y cuadrado
+
+
+
+<!-- FECHAS -->
+
+26-2
+
+revisar trabajo preliminar, adapratlo a lo actual
+ver fechas de informe
+
+
+
+# 30-1

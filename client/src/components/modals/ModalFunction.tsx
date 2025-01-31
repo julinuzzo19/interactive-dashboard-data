@@ -132,6 +132,43 @@ const ModalFunction = ({
                 </p>
               </div>
             )}
+            {funcionShowData.value === "RECIENTE" && (
+              <div className="font-serif">
+                <p className="font-bold">Descripción:</p>
+                <p className="indent-4 mb-2">
+                  Esta función devuelve el valor del indicador correspondiente
+                  al año más reciente dentro del rango seleccionado
+                </p>
+                <p className="font-bold">Sentido de uso:</p>
+                <p className="indent-4 mb-2">
+                  Permite obtener el valor más actual del indicador en el rango
+                  seleccionado. Es útil para comparaciones con el valor inicial
+                  o para visualizar tendencias actuales.
+                </p>
+                <p className="font-bold">Fórmula:</p>
+                <p className="indent-4 mb-2">
+                  - {/* Promedio: total / cantidad de valores */}
+                </p>
+              </div>
+            )}
+            {funcionShowData.value === "ANTIGUO" && (
+              <div className="font-serif">
+                <p className="font-bold">Descripción:</p>
+                <p className="indent-4 mb-2">
+                  Esta función devuelve el valor del indicador correspondiente
+                  al año más antiguo dentro del rango seleccionado
+                </p>
+                <p className="font-bold">Sentido de uso:</p>
+                <p className="indent-4 mb-2">
+                  Permite analizar el valor inicial de un indicador en el rango
+                  seleccionado. Es útil para comparaciones históricas.
+                </p>
+                <p className="font-bold">Fórmula:</p>
+                <p className="indent-4 mb-2">
+                  -{/* Promedio: total / cantidad de valores */}
+                </p>
+              </div>
+            )}
           </div>
         )}
 
