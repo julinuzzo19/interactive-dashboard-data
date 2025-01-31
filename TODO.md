@@ -286,3 +286,6 @@ ver fechas de informe
 
 
 # 30-1
+
+# DONE
+[FEATURE] function mas reciente y mas antiguo
