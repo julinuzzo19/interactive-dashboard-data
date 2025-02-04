@@ -254,13 +254,11 @@ disponibilidad de datos o fuente secundaria (decidir)
 
 <!-- NOTAS -->
 
-aggreagar funcion mas reciente y mas antiguo
 
-ultima dato disponible solo para rangod e años
 
 SUITUACIONES DE CUANDO UN VALOR NOE XISTE, IONTERMEDIO O FINAL O INICIAL
 
-# SUGERENCIAS: FUENTA DE DATOS SECUNDARIA
+# SUGERENCIAS a informar: FUENTE DE DATOS SECUNDARIA
 
 info agregada son las funciones
 
@@ -289,3 +287,9 @@ ver fechas de informe
 
 # DONE
 [FEATURE] function mas reciente y mas antiguo
+
+
+
+# 3-2
+
+[FEATURE] mostrar año del valor de indicador cuando se usa una determinada funcion

@@ -57,18 +57,30 @@ const useFunctions = () => {
       // console.log({ indicatorValues });
 
       if (func === "MAX") {
+        const maxValue = Math.max(
+          ...indicatorValues.map((valueCountry) => valueCountry.value)
+        );
+        const resultValue = indicatorValues.find(
+          (item) => item.value === maxValue
+        );
+
         dataFinal = {
           ...indicatorValues[0],
-          value: Math.max(
-            ...indicatorValues.map((valueCountry) => valueCountry.value)
-          ),
+          value: maxValue,
+          date: resultValue?.date as string,
         };
       } else if (func === "MIN") {
+        const minValue = Math.min(
+          ...indicatorValues.map((valueCountry) => valueCountry.value)
+        );
+        const resultValue = indicatorValues.find(
+          (item) => item.value === minValue
+        );
+
         dataFinal = {
           ...indicatorValues[0],
-          value: Math.min(
-            ...indicatorValues.map((valueCountry) => valueCountry.value)
-          ),
+          value: minValue,
+          date: resultValue?.date as string,
         };
       } else if (func === "AVERAGE") {
         let total = 0;
@@ -107,6 +119,7 @@ const useFunctions = () => {
         dataFinal = {
           ...indicatorValues[0],
           value: valueReciente.value,
+          date: valueReciente.date,
         };
       } else if (func === "ANTIGUO") {
         const valueAntiguo = indicatorValues.sort(
@@ -116,6 +129,7 @@ const useFunctions = () => {
         dataFinal = {
           ...indicatorValues[0],
           value: valueAntiguo.value,
+          date: valueAntiguo.date,
         };
       } else {
         throw new Error("La función a utilizar no existe");

@@ -2,6 +2,7 @@ export interface GeoCountry {
   type: string;
   id: string;
   properties: Properties;
+  date?: string;
 }
 export interface GeoCountryColor extends GeoCountry {
   value: number;

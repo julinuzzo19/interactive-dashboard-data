@@ -333,6 +333,7 @@ const Home = () => {
       const itemData = value[0];
 
       let valueFinal;
+      let yearFinal;
       if (functionSelected?.value) {
         const valueFunction = getValueFunction({
           func: functionSelected.value,
@@ -340,11 +341,13 @@ const Home = () => {
         });
 
         valueFinal = valueFunction.value;
+        yearFinal = valueFunction.date;
       } else {
         valueFinal = value[0].value;
+        yearFinal = value[0].date;
       }
 
-      dataFinal.push({ ...itemData, value: valueFinal });
+      dataFinal.push({ ...itemData, value: valueFinal, date: yearFinal });
     });
 
     setDataValues(dataFinal);
@@ -505,6 +508,9 @@ const Home = () => {
         <Geo
           dataIndicator={dataValues}
           generateColorByValue={generateColorByValue}
+          hasYearFunction={["MAX", "MIN", "RECIENTE", "ANTIGUO"].includes(
+            functionSelected.value
+          )}
         />
       )}
       {selectedView === "GRAPH1" && (
