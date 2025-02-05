@@ -19,6 +19,7 @@ import useFunctions, {
   FunctionValue,
 } from "@/hooks/useFunctions";
 import ModalFunction from "./modals/ModalFunction";
+import usePredictions from "@/hooks/predictions/usePredictions";
 
 const LIMIT_COUNTRIES_GRAPH = 25;
 const LIMIT_COUNTRIES_RACE = 10;
@@ -74,6 +75,7 @@ const Home = () => {
     DEFAULT_VALUE_FUNCTION
   );
   const [showModalFunction, setShowModalFunction] = useState(false);
+  const { linearRegression } = usePredictions();
 
   useEffect(() => {
     console.log({ dataIndicator });
@@ -356,6 +358,14 @@ const Home = () => {
   return (
     <div className="flex flex-col justify-center items-center mt-10 w-full">
       <h2>Indicadores</h2>
+
+      <button
+        onClick={() => {
+          linearRegression([2000, 2005, 2010], [70, 72, 74], 2015);
+        }}
+      >
+        test
+      </button>
 
       <div className="w-full flex flex-col justify-center items-center mt-10 mb-10">
         <TopicSelector
