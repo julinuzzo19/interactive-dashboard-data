@@ -259,11 +259,14 @@ disponibilidad de datos o fuente secundaria (decidir)
 [FEATURE] mostrar año del valor de indicador cuando se usa una determinada funcion
 
 # 4-2
+
 - Logica de manejar predicciones
 - Tecnica regresion lineal
-
-
 
 <!-- FECHAS -->
 
 posible fecha reunion 26-2
+
+# 5-2
+
+[FEATURE] Determinar si es viable utilizar regresion lineal para predecir valor de indicador

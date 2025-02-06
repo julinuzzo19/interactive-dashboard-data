@@ -8,6 +8,7 @@ import {
 import DATA_MOCK from "../mocks/data.json";
 import VALUES_MOCK from "../mocks/values.json";
 import VALUES_FROM_TO_MOCK from "../mocks/values_from_to.json";
+import VALUES_FROM_TO_PREDICTIONS_MOCK from "../mocks/data_predictions.json";
 import METADATA_ES_MOCK from "../mocks/metadata_es.json";
 import METADATA_EN_MOCK from "../mocks/metadata_en.json";
 import usePredictions from "./predictions/usePredictions";
@@ -28,7 +29,11 @@ const useFetch = () => {
   const [metadataIndicator, setMetadataIndicator] = useState<
     Partial<IndicatorMetadata>
   >({});
-  const { linearRegression, determinarTecnicaPredictiva } = usePredictions();
+  const {
+    linearRegression,
+    determinarTecnicaPredictiva,
+    processDataFetchPredictions,
+  } = usePredictions();
 
   useEffect(() => {
     getIndicadores();
@@ -64,60 +69,45 @@ const useFetch = () => {
   }) => {
     // console.log({ indicator, currentYearFrom, currentYearTo });
 
+    // MOCK
     // setDataIndicator(VALUES_FROM_TO_MOCK?.filter((item) => item.value));
     // // setDataIndicator(VALUES_MOCK?.filter((item) => item.value));
     // const metadata = await getMetadataIndicator(indicator);
     // setMetadataIndicator(metadata);
-    await axios
-      .get(
-        BASE_URL_WB_ES +
-          `/country/ALL/indicator/${indicator}?format=json&per_page=${1000}&date=${
-            currentYearFrom - EXTENDED_YEARS_LIMIT
-          }:${currentYearTo + EXTENDED_YEARS_LIMIT}`
-      )
-      .then((res) => {
-        console.log({ res });
-        const data: IndicatorValue[] = (res.data[1] as IndicatorValue[]).sort(
-          (a, b) => parseInt(a.date) - parseInt(b.date)
-        );
+    // FIN MOCK
 
-        const dataFinal: IndicatorValue[] = [];
+    // await axios
+    //   .get(
+    //     BASE_URL_WB_ES +
+    //       `/country/ALL/indicator/${indicator}?format=json&per_page=${1000}&date=${
+    //         currentYearFrom - EXTENDED_YEARS_LIMIT
+    //       }:${currentYearTo + EXTENDED_YEARS_LIMIT}`
+    //   )
+    //   .then((res) => {
+    // console.log({ res });
+    // const data: IndicatorValue[] = (res.data[1] as IndicatorValue[]).sort(
+    //   (a, b) => parseInt(a.date) - parseInt(b.date)
+    // );
 
-        // Get data indicators and handle predictions
-        data.forEach((item) => {
-          const dateItem = parseInt(item.date);
+    console.log({ VALUES_FROM_TO_PREDICTIONS_MOCK });
+    const data: IndicatorValue[] =
+      VALUES_FROM_TO_PREDICTIONS_MOCK as IndicatorValue[];
 
-          // Ignora valores de años pasados o posteriores a años seleccionados
-          if (!(dateItem >= currentYearFrom && dateItem <= currentYearTo)) {
-            return;
-          }
+    console.log({ data });
 
-          // Si valor no existe funcion de analizar que tecnica de prediccion utilizar
-          if (!item.value) {
-            // TODO Logica determinar tecnica
-            const tecnicaDeterminada = determinarTecnicaPredictiva(data);
+    // Procesar data para predictions
+    const dataFinal = processDataFetchPredictions({
+      data: VALUES_FROM_TO_PREDICTIONS_MOCK,
+      currentYearFrom,
+      currentYearTo,
+    });
 
-            // Al determinar que funcion utilizar
-            if (tecnicaDeterminada === "REGRESION LINEAL") {
-              item.value = linearRegression(
-                data.map((item) => parseInt(item.date)),
-                data.map((item) => parseInt(item.value)),
-                parseInt(item.date)
-              );
-
-              console.log({ valuePredicted: item.value });
-            }
-          }
-
-          dataFinal.push(item);
-        });
-
-        setDataIndicator(dataFinal);
-        setDataIndicatorExtended(data);
-      })
-      .catch((err) => {
-        console.log({ err });
-      });
+    setDataIndicator(dataFinal);
+    setDataIndicatorExtended(data);
+    // })
+    // .catch((err) => {
+    //   console.log({ err });
+    // });
   };
 
   const getMetadataIndicator = async (

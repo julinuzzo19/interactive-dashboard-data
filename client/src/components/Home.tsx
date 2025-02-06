@@ -75,7 +75,7 @@ const Home = () => {
     DEFAULT_VALUE_FUNCTION
   );
   const [showModalFunction, setShowModalFunction] = useState(false);
-  const { linearRegression } = usePredictions();
+  const { linearRegression,determinarTecnicaPredictiva } = usePredictions();
 
   useEffect(() => {
     console.log({ dataIndicator });
@@ -362,6 +362,7 @@ const Home = () => {
       <button
         onClick={() => {
           linearRegression([2000, 2005, 2010], [70, 72, 74], 2015);
+          determinarTecnicaPredictiva([])
         }}
       >
         test

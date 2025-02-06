@@ -21,6 +21,8 @@
 - usar primero progresioon lineal o ampliarlo
 - libreria escala d evalores ver calculos, domiunio como se calculan los colores, para explicar en el informe, si teinee sentido usar log10 y cuadrado
 
+- Teoria sobre correlacion de pearson y uso de regresion lineal, con un modulo de 0.7
+
 # Predicciones: Situaciones posibles
 
 - Al tener un rango de solo 2 años y tenes 1 solo año
@@ -29,4 +31,6 @@
 
 # Preguntas
 
+- Para determinar tecnica de prediccion, deberia analizar pais por pais como varia el indicador en el tiempo o globalmente?
 - Si tengo solo 2 valores y el dato de uno, deberia buscar datos de otros valores en la API?
+- Una vez predicho un valor de indicador de un año en un pais, si necesito predecir otro valor de indicador de otro año del mismo pais, deberia utilizar el dato de la prediccion anterior para la nueva?
