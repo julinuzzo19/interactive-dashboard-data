@@ -9,7 +9,8 @@ import DATA_MOCK from "../mocks/data.json";
 import VALUES_MOCK from "../mocks/values.json";
 import VALUES_FROM_TO_MOCK from "../mocks/values_from_to.json";
 import VALUES_FROM_TO_PREDICTIONS_MOCK from "../mocks/data_predictions.json";
-import VALUES_FROM_TO_PREDICTIONS_MOCK_EJEMPLO from "../mocks/data_predictions_ej.json";
+import VALUES_FROM_TO_PREDICTIONS_MOCK_REG_LINEAL from "../mocks/data_predictions_REG_LINEAL.json";
+import VALUES_FROM_TO_PREDICTIONS_MOCK_REG_EXP from "../mocks/data_predictions_REG_EXP.json";
 import METADATA_ES_MOCK from "../mocks/metadata_es.json";
 import METADATA_EN_MOCK from "../mocks/metadata_en.json";
 import usePredictions from "./predictions/usePredictions";
@@ -91,13 +92,13 @@ const useFetch = () => {
     // );
 
     const data: IndicatorValue[] =
-      VALUES_FROM_TO_PREDICTIONS_MOCK_EJEMPLO as IndicatorValue[];
+    VALUES_FROM_TO_PREDICTIONS_MOCK_REG_EXP as IndicatorValue[];
 
-    console.log({ data });
+    // console.log({ data });
 
     // Procesar data para predictions
     const dataFinal = processDataFetchPredictions({
-      data: VALUES_FROM_TO_PREDICTIONS_MOCK_EJEMPLO,
+      data: VALUES_FROM_TO_PREDICTIONS_MOCK_REG_EXP as any,
       currentYearFrom,
       currentYearTo,
     });

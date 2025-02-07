@@ -1,0 +1,27 @@
+[
+    {
+        "countryiso3code": "ARG",
+        "date": "2014",
+        "value": 100
+    },
+    {
+        "countryiso3code": "ARG",
+        "date": "2015",
+        "value": 120
+    },
+    {
+        "countryiso3code": "ARG",
+        "date": "2016",
+        "value": 150
+    },
+    {
+        "countryiso3code": "ARG",
+        "date": "2017",
+        "value": ""
+    },
+    {
+        "countryiso3code": "ARG",
+        "date": "2018",
+        "value": 300
+    }
+]

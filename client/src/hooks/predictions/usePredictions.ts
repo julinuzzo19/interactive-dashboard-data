@@ -27,12 +27,31 @@ const usePredictions = () => {
       const correlacionPearson = pearsonCorrelation(years, valuesIndicator);
       console.log({ years, valuesIndicator, correlacionPearson });
 
-      if (Math.abs(correlacionPearson) > 0.7) {
-        tecnicaDeterminada = "REGRESION LINEAL";
+      // Si la correlación es baja o hay muchas variaciones irregulares.
+      if (Math.abs(correlacionPearson) <= 0.7) {
+        tecnicaDeterminada = "CURVAS SP";
       } else {
-        // Determinar otros metodos
-        console.log("DETERMINAR OTRO METODO");
-        tecnicaDeterminada = "REGRESION LINEAL";
+        // determinar si usar regresion exponencial
+
+        // 2️⃣ Calcular el crecimiento relativo entre puntos consecutivos
+        let diferencias: number[] = [];
+        for (let i = 1; i < valuesIndicator.length; i++) {
+          diferencias.push(valuesIndicator[i] / valuesIndicator[i - 1]);
+        }
+
+        const promedioCrecimiento =
+          diferencias.reduce((a, b) => a + b, 0) / diferencias.length;
+
+        console.log({ diferencias, promedioCrecimiento });
+
+        // Si el promedio de crecimiento es hasta un 10%, usa regresión lineal
+        if (promedioCrecimiento <= 1.1) {
+          tecnicaDeterminada = "REGRESION LINEAL";
+        }
+        // Si el promedio de crecimiento es mayor, usa regresion exponencial
+        else {
+          tecnicaDeterminada = "REGRESION EXPONENCIAL";
+        }
       }
 
       return tecnicaDeterminada;
@@ -167,14 +186,7 @@ const usePredictions = () => {
       }
     });
 
-    // analizar valores
-
-    // predecir valores faltantes
-
-    // retornar datos dentro del rango de años seleccionado
-
-    // Get data indicators and handle predictions
-
+    // Buscar valores nulos para analizar tecnica de prediccion a utilizar con los valores del pais en el rango de años
     Object.entries(objectCountriesData).forEach(
       ([countryCode, valuesCountry]) => {
         valuesCountry.forEach((item) => {

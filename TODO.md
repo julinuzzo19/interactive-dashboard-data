@@ -34,3 +34,10 @@
 - Para determinar tecnica de prediccion, deberia analizar pais por pais como varia el indicador en el tiempo o globalmente?
 - Si tengo solo 2 valores y el dato de uno, deberia buscar datos de otros valores en la API? actualmente trae resultados de 10 años antes y despues a la fehca seleccionada para los calculos predictivos
 - Una vez predicho un valor de indicador de un año en un pais, si necesito predecir otro valor de indicador de otro año del mismo pais, deberia utilizar el dato de la prediccion anterior para la nueva?
+- En que limites de deberia elegir una tecnica u otra (coeficiente pearson, promedio de crecimiento  > 1.05)
+
+
+
+
+# TODO 6-2
+tecnica regresion exponencial y curvas sp

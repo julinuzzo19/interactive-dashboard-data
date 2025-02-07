@@ -77,13 +77,13 @@ const Home = () => {
   const [showModalFunction, setShowModalFunction] = useState(false);
   const { linearRegression, determinarTecnicaPredictiva } = usePredictions();
 
-  useEffect(() => {
-    console.log({ dataIndicator });
-  }, [dataIndicator]);
+  // useEffect(() => {
+  //   console.log({ dataIndicator });
+  // }, [dataIndicator]);
 
-  useEffect(() => {
-    console.log({ dataValues });
-  }, [dataValues]);
+  // useEffect(() => {
+  //   console.log({ dataValues });
+  // }, [dataValues]);
 
   useEffect(() => {
     if (rangeYearsIndicator?.length > 0) {
