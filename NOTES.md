@@ -270,3 +270,7 @@ posible fecha reunion 26-2
 # 5-2
 
 [FEATURE] Determinar si es viable utilizar regresion lineal para predecir valor de indicador
+
+# 6-2
+
+[FIX] prediccion regresion lineal
