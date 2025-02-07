@@ -75,7 +75,7 @@ const Home = () => {
     DEFAULT_VALUE_FUNCTION
   );
   const [showModalFunction, setShowModalFunction] = useState(false);
-  const { linearRegression,determinarTecnicaPredictiva } = usePredictions();
+  const { linearRegression, determinarTecnicaPredictiva } = usePredictions();
 
   useEffect(() => {
     console.log({ dataIndicator });
@@ -101,7 +101,7 @@ const Home = () => {
 
   useEffect(() => {
     // console.log({ currentYearFrom, currentYearTo, dataValues });
-    if (currentYearTo !== currentYearFrom) {
+    if (currentYearTo !== currentYearFrom && !functionSelected?.value) {
       setShowModalFunction(true);
     }
   }, [currentYearFrom, currentYearTo]);
@@ -362,7 +362,7 @@ const Home = () => {
       <button
         onClick={() => {
           linearRegression([2000, 2005, 2010], [70, 72, 74], 2015);
-          determinarTecnicaPredictiva([])
+          determinarTecnicaPredictiva([]);
         }}
       >
         test

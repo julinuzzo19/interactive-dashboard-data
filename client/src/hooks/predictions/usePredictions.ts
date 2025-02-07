@@ -17,18 +17,15 @@ const usePredictions = () => {
         (a, b) => parseInt(a.date) - parseInt(b.date)
       );
 
-      const years = valuesSorted.map((item) => parseInt(item.date));
-      const valuesIndicator = valuesSorted.map((item) => item.value);
+      const years = valuesSorted
+        .filter((item) => item?.value)
+        .map((item) => parseInt(item.date));
+      const valuesIndicator = valuesSorted
+        .filter((item) => item?.value)
+        .map((item) => item.value);
 
-      console.log({ years, valuesIndicator });
-
-      const correlacionPearson = pearsonCorrelation(
-        // [2000, 2005, 2010],
-        // [70, 72, 74]
-        years,
-        valuesIndicator
-      );
-      console.log({ correlacionPearson });
+      const correlacionPearson = pearsonCorrelation(years, valuesIndicator);
+      console.log({ years, valuesIndicator, correlacionPearson });
 
       if (Math.abs(correlacionPearson) > 0.7) {
         tecnicaDeterminada = "REGRESION LINEAL";
@@ -57,8 +54,12 @@ const usePredictions = () => {
       (a, b) => parseInt(a.date) - parseInt(b.date)
     );
 
-    const years = valuesSorted.map((item) => parseInt(item.date));
-    const valuesIndicator = valuesSorted.map((item) => item.value);
+    const years = valuesSorted
+      .filter((item) => item?.value)
+      .map((item) => parseInt(item.date));
+    const valuesIndicator = valuesSorted
+      .filter((item) => item?.value)
+      .map((item) => item.value);
 
     if (years.length < 2) {
       throw new Error(
@@ -77,7 +78,7 @@ const usePredictions = () => {
     // Y: valores de los datos ordenados con el año en X
     // PredictYear: Año a predecir valor
 
-    console.log({ x, y });
+    // console.log({ x, y });
 
     // Número de años disponibles
     let n = x.length;
@@ -102,8 +103,6 @@ const usePredictions = () => {
 
     // Calculo de valor del indicador en el año a predecir
     const result = m * predictYear + b;
-
-    console.log({ result });
 
     return result;
   }
@@ -180,27 +179,27 @@ const usePredictions = () => {
       ([countryCode, valuesCountry]) => {
         valuesCountry.forEach((item) => {
           const dateItem = parseInt(item.date);
+
           if (!(dateItem >= currentYearFrom && dateItem <= currentYearTo)) {
             return;
           }
 
           if (!item.value) {
-            // Accedo desde el objeto objectCountriesData para obtener los valores actualizados
-            const tecnicaDeterminada = determinarTecnicaPredictiva(
-              objectCountriesData[countryCode]
+            const listItemsCountry = objectCountriesData[countryCode].filter(
+              (item) => item.value && item.date
             );
 
-            console.log({ tecnicaDeterminada });
+            // Accedo desde el objeto objectCountriesData para obtener los valores actualizados
+            const tecnicaDeterminada =
+              determinarTecnicaPredictiva(listItemsCountry);
 
             // Al determinar que funcion utilizar
             if (tecnicaDeterminada === "REGRESION LINEAL") {
               item.value = linearRegression(
-                data.map((item) => parseInt(item.date)),
-                data.map((item) => parseInt(item.value)),
+                listItemsCountry.map((item) => parseInt(item.date)),
+                listItemsCountry.map((item) => parseInt(item.value)),
                 parseInt(item.date)
               );
-
-              console.log({ valuePredicted: item.value });
             }
 
             if (!item.value) {
@@ -233,33 +232,3 @@ const usePredictions = () => {
 };
 
 export default usePredictions;
-
-// dataSorted.forEach((item) => {
-//   const dateItem = parseInt(item.date);
-
-//   // Ignora valores de años pasados o posteriores a años seleccionados
-//   if (!(dateItem >= currentYearFrom && dateItem <= currentYearTo)) {
-//     return;
-//   }
-
-//   // Si valor no existe funcion de analizar que tecnica de prediccion utilizar
-//   if (!item.value) {
-//     // TODO Logica determinar tecnica
-//     const tecnicaDeterminada = determinarTecnicaPredictiva(dataSorted);
-
-//     console.log({ tecnicaDeterminada });
-
-//     // Al determinar que funcion utilizar
-//     if (tecnicaDeterminada === "REGRESION LINEAL") {
-//       item.value = linearRegression(
-//         data.map((item) => parseInt(item.date)),
-//         data.map((item) => parseInt(item.value)),
-//         parseInt(item.date)
-//       );
-
-//       console.log({ valuePredicted: item.value });
-//     }
-//   }
-
-//   dataFinal.push(item);
-// });

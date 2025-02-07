@@ -9,6 +9,7 @@ import DATA_MOCK from "../mocks/data.json";
 import VALUES_MOCK from "../mocks/values.json";
 import VALUES_FROM_TO_MOCK from "../mocks/values_from_to.json";
 import VALUES_FROM_TO_PREDICTIONS_MOCK from "../mocks/data_predictions.json";
+import VALUES_FROM_TO_PREDICTIONS_MOCK_EJEMPLO from "../mocks/data_predictions_ej.json";
 import METADATA_ES_MOCK from "../mocks/metadata_es.json";
 import METADATA_EN_MOCK from "../mocks/metadata_en.json";
 import usePredictions from "./predictions/usePredictions";
@@ -89,18 +90,19 @@ const useFetch = () => {
     //   (a, b) => parseInt(a.date) - parseInt(b.date)
     // );
 
-    console.log({ VALUES_FROM_TO_PREDICTIONS_MOCK });
     const data: IndicatorValue[] =
-      VALUES_FROM_TO_PREDICTIONS_MOCK as IndicatorValue[];
+      VALUES_FROM_TO_PREDICTIONS_MOCK_EJEMPLO as IndicatorValue[];
 
     console.log({ data });
 
     // Procesar data para predictions
     const dataFinal = processDataFetchPredictions({
-      data: VALUES_FROM_TO_PREDICTIONS_MOCK,
+      data: VALUES_FROM_TO_PREDICTIONS_MOCK_EJEMPLO,
       currentYearFrom,
       currentYearTo,
     });
+
+    console.log({ dataFinal });
 
     setDataIndicator(dataFinal);
     setDataIndicatorExtended(data);
