@@ -1,5 +1,6 @@
 import { IndicatorValue } from "@/interfaces/Indicador";
 import { TecnicaPredictiva } from "./predictions.interface";
+import * as d3 from "d3-interpolate";
 
 const usePredictions = () => {
   // analizar variaciones entre rango de años para determinar tecnicas a utilizar
@@ -49,8 +50,10 @@ const usePredictions = () => {
           tecnicaDeterminada = "REGRESION LINEAL";
         }
         // Si el promedio de crecimiento es mayor, usa regresion exponencial
-        else {
+        else if (promedioCrecimiento <= 1.3) {
           tecnicaDeterminada = "REGRESION EXPONENCIAL";
+        } else {
+          tecnicaDeterminada = "CURVAS SP";
         }
       }
 
@@ -91,7 +94,28 @@ const usePredictions = () => {
     }
   };
 
-  // Función para calcular la regresión lineal
+  // Función para calcular la regresión exponencial
+  function exponentialRegression(x, y) {
+    // X: años de los datos
+    // Y: valores de los datos ordenados con el año en X
+    // PredictYear: Año a predecir valor
+
+    // Transformamos y en escala logarítmica: ln(y)
+    let lnY = y.map((value) => Math.log(value));
+
+    // Cálculo de regresión lineal sobre x y ln(y)
+    let n = x.length;
+    let sumX = x.reduce((a, b) => a + b, 0);
+    let sumLnY = lnY.reduce((a, b) => a + b, 0);
+    let sumXlnY = x.map((xi, i) => xi * lnY[i]).reduce((a, b) => a + b, 0);
+    let sumX2 = x.map((xi) => xi * xi).reduce((a, b) => a + b, 0);
+
+    // Cálculo de coeficientes b y a
+    let b = (n * sumXlnY - sumX * sumLnY) / (n * sumX2 - sumX ** 2);
+    let a = Math.exp((sumLnY - b * sumX) / n);
+
+    return { a, b };
+  }
   function linearRegression(x, y, predictYear) {
     // X: años de los datos
     // Y: valores de los datos ordenados con el año en X
@@ -205,17 +229,71 @@ const usePredictions = () => {
             const tecnicaDeterminada =
               determinarTecnicaPredictiva(listItemsCountry);
 
+            console.log({ tecnicaDeterminada });
+
+            const years = listItemsCountry.map((item) => parseInt(item.date));
+            const values = listItemsCountry.map((item) => parseInt(item.value));
+
+            console.log({ years, values });
+
             // Al determinar que funcion utilizar
             if (tecnicaDeterminada === "REGRESION LINEAL") {
-              item.value = linearRegression(
-                listItemsCountry.map((item) => parseInt(item.date)),
-                listItemsCountry.map((item) => parseInt(item.value)),
-                parseInt(item.date)
-              );
+              item.value = linearRegression(years, values, parseInt(item.date));
+            } else if (tecnicaDeterminada === "REGRESION EXPONENCIAL") {
+              if (new Set(values).size < 2) {
+                throw new Error(
+                  "Se necesitan al menos 2 valores diferentes en x."
+                );
+              }
+
+              const { a, b } = exponentialRegression(years, values);
+              const x = parseInt(item.date);
+
+              const valuePredicted = a * Math.exp(b * x);
+              console.log({
+                a,
+                b,
+                x,
+                expBX: Math.exp(b * x),
+                valuePredicted,
+              });
+
+              console.log({ valuePredicted });
+
+              item.value = parseFloat(valuePredicted.toFixed(3));
+            } else if (tecnicaDeterminada === "CURVAS SP") {
+              const spline = d3.interpolateBasis(values);
+
+              const minYear = years.at(0) as number;
+              const maxYear = years.at(-1) as number;
+
+              const normalizedYearPredict =
+                (dateItem - minYear) / (maxYear - minYear);
+
+              if (normalizedYearPredict < 0 || normalizedYearPredict > 1) {
+                throw new Error(
+                  "El valor del año a predecir está fuera del rango de los datos históricos."
+                );
+              }
+
+              const predictedValue = spline(normalizedYearPredict);
+
+              console.log({
+                predictedValue,
+                minYear,
+                maxYear,
+                normalizedYearPredict,
+                dateItem,
+              });
+
+              item.value = predictedValue;
             }
 
             if (!item.value) {
               throw new Error("El valor no fue predicho correctamente");
+            }
+            if (item.value == Infinity) {
+              throw new Error("El valor tienda a infinito.");
             }
 
             const indexItemValue = objectCountriesData[countryCode].findIndex(
@@ -225,7 +303,12 @@ const usePredictions = () => {
             if (indexItemValue == -1) {
               console.log("Error al buscar indice");
             }
+
+            item.tecnicaUtilizada = tecnicaDeterminada;
+
             objectCountriesData[countryCode][indexItemValue].value = item.value;
+            objectCountriesData[countryCode][indexItemValue].tecnicaUtilizada =
+              item.tecnicaUtilizada;
           }
           // Si el valor existe, pushearlo al array final
           dataFinal.push(item);

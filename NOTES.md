@@ -275,3 +275,6 @@ posible fecha reunion 26-2
 
 [FIX] prediccion regresion lineal
 [FEATURE] determinar tecnica a utilizar
+
+# 10-2
+

@@ -92,7 +92,7 @@ const useFetch = () => {
     // );
 
     const data: IndicatorValue[] =
-    VALUES_FROM_TO_PREDICTIONS_MOCK_REG_EXP as IndicatorValue[];
+      VALUES_FROM_TO_PREDICTIONS_MOCK_REG_EXP as IndicatorValue[];
 
     // console.log({ data });
 

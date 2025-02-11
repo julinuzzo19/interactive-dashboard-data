@@ -1,3 +1,5 @@
+import { TecnicaPredictiva } from "@/hooks/predictions/predictions.interface";
+
 export type Item = { id: string; value: string };
 
 export interface Indicador {
@@ -19,6 +21,7 @@ export interface IndicatorValue {
   unit: string;
   obs_status: string;
   decimal: number;
+  tecnicaUtilizada?: TecnicaPredictiva;
 }
 
 export interface IndicatorMetadata {

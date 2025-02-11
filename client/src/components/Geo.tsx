@@ -10,11 +10,12 @@ import { formatPrecio } from "../utils/formatPrecio";
 
 const Geo = ({
   generateColorByValue,
-  dataIndicator,hasYearFunction
+  dataIndicator,
+  hasYearFunction,
 }: {
   generateColorByValue: (value: number) => string | undefined;
   dataIndicator: IndicatorValue[];
-  hasYearFunction?:boolean
+  hasYearFunction?: boolean;
 }) => {
   const [tooltipContent, setTooltipContent] = useState<
     Partial<GeoCountryColor>
@@ -34,14 +35,13 @@ const Geo = ({
         <Geographies geography="../../public/features.json">
           {({ geographies }: { geographies: GeoCountryColor[] }) => {
             return geographies.map((geo) => {
-              
               const valueCountry = dataIndicator?.find(
                 (item) => item.countryiso3code === geo.id
               );
 
               geo.value = valueCountry?.value || 0;
 
-              geo.date=valueCountry?.date
+              geo.date = valueCountry?.date;
 
               const colorCountry = generateColorByValue(geo.value);
 
@@ -72,7 +72,12 @@ const Geo = ({
             <p className="text-sm italic">
               {tooltipContent.properties?.continent}
             </p>
-            <b>{formatPrecio(tooltipContent.value)} {hasYearFunction  &&`(${tooltipContent.date})`}</b>
+            <b>
+              {formatPrecio(tooltipContent.value)}{" "}
+              {hasYearFunction &&
+                tooltipContent.date &&
+                `(${tooltipContent.date})`}
+            </b>
           </div>
         )}
       </Tooltip>
