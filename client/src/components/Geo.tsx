@@ -21,6 +21,10 @@ const Geo = ({
     Partial<GeoCountryColor>
   >({});
 
+  useEffect(() => {
+    console.log({ tooltipContent });
+  }, [tooltipContent]);
+
   const handleMouseEnter = useCallback((geo) => {
     setTooltipContent(geo);
   }, []);
@@ -78,6 +82,11 @@ const Geo = ({
                 tooltipContent.date &&
                 `(${tooltipContent.date})`}
             </b>
+            {tooltipContent?.tecnicaUtilizada && (
+              <p className="italic font-bold capitalize">
+                ({tooltipContent.tecnicaUtilizada})
+              </p>
+            )}
           </div>
         )}
       </Tooltip>
