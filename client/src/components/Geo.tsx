@@ -1,36 +1,38 @@
-import "react-tooltip/dist/react-tooltip.css";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { GeoCountryColor } from "../interfaces/Geo";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { IndicatorValue } from "../interfaces/Indicador";
 import { Tooltip } from "react-tooltip";
 import { formatPrecio } from "../utils/formatPrecio";
+import { AppContext } from "@/store/Context";
+import TooltipCountry from "./TooltipCountry";
 
 // import { MemoizedGeographies } from "./Geo2";
 
 const Geo = ({
   generateColorByValue,
   dataIndicator,
-  hasYearFunction,
 }: {
   generateColorByValue: (value: number) => string | undefined;
   dataIndicator: IndicatorValue[];
-  hasYearFunction?: boolean;
 }) => {
-  const [tooltipContent, setTooltipContent] = useState<
-    Partial<GeoCountryColor>
-  >({});
+  const { dispatch } = useContext(AppContext);
 
-  useEffect(() => {
-    console.log({ tooltipContent });
-  }, [tooltipContent]);
-
+  console.log("render")
   const handleMouseEnter = useCallback((geo) => {
-    setTooltipContent(geo);
+    // setTooltipContent(geo);
+    dispatch({
+      type: "setTooltipData",
+      payload: geo,
+    });
   }, []);
 
   const handleMouseLeave = useCallback(() => {
-    setTooltipContent({});
+    // setTooltipContent({});
+    dispatch({
+      type: "setTooltipData",
+      payload: {},
+    });
   }, []);
 
   return (
@@ -42,6 +44,8 @@ const Geo = ({
               const valueCountry = dataIndicator?.find(
                 (item) => item.countryiso3code === geo.id
               );
+
+              // console.log({ geo });
 
               geo.value = valueCountry?.value || 0;
 
@@ -69,27 +73,7 @@ const Geo = ({
           }}
         </Geographies>
       </ComposableMap>
-      <Tooltip id="my-tooltip" className="text-center" float={true}>
-        {tooltipContent?.id && (
-          <div>
-            <h3>{tooltipContent.properties?.name}</h3>
-            <p className="text-sm italic">
-              {tooltipContent.properties?.continent}
-            </p>
-            <b>
-              {formatPrecio(tooltipContent.value)}{" "}
-              {hasYearFunction &&
-                tooltipContent.date &&
-                `(${tooltipContent.date})`}
-            </b>
-            {tooltipContent?.tecnicaUtilizada && (
-              <p className="italic font-bold capitalize">
-                ({tooltipContent.tecnicaUtilizada})
-              </p>
-            )}
-          </div>
-        )}
-      </Tooltip>
+      <TooltipCountry />
     </>
   );
 };
