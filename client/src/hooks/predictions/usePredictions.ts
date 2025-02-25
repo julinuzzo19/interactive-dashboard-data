@@ -210,7 +210,7 @@ const usePredictions = () => {
       }
     });
 
-    console.log({ objectCountriesData });
+    // console.log({ objectCountriesData });
 
     // Buscar valores nulos para analizar tecnica de prediccion a utilizar con los valores del pais en el rango de años
     Object.entries(objectCountriesData).forEach(

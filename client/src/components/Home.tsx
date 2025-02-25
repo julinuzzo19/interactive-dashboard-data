@@ -49,10 +49,10 @@ const Home = () => {
       value: string;
     }>
   >({
-    label: "",
-    value: "",
-    // label: "Población, hombres  (SP.POP.TOTL.MA.IN)",
-    // value: "SP.POP.TOTL.MA.IN",
+    // label: "",
+    // value: "",
+    label: "Población, hombres  (SP.POP.TOTL.MA.IN)",
+    value: "SP.POP.TOTL.MA.IN",
   });
   const [minValueIndicator, setMinValueIndicator] = useState(0);
   const [maxValueIndicator, setMaxValueIndicator] = useState(0);

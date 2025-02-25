@@ -291,3 +291,8 @@ avances modal paises seleccionados y logica de filtrado
 add tecnica predictiva tooltip
 
 reivsar chatgpt sobre rerenderizar el compoenente geo
+
+# 25-2
+
+fix logica sin mocks
+notificacion de validaciones de falta de datos

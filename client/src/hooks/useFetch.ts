@@ -88,50 +88,66 @@ const useFetch = () => {
     const metadata = await getMetadataIndicator(indicator);
     setMetadataIndicator(metadata);
 
-    await axios
-      .get(
-        BASE_URL_WB_ES +
-          `/country/ALL/indicator/${indicator}?format=json&per_page=${10000}&date=${
-            hasExtendedYears
-              ? currentYearFrom
-              : currentYearFrom - EXTENDED_YEARS_LIMIT
-          }:${
-            hasExtendedYears
-              ? currentYearTo
-              : currentYearTo - EXTENDED_YEARS_LIMIT
-          }`
-      )
-      .then((res) => {
-        console.log({ res });
-        const data: IndicatorValue[] = (
-          res.data[1] || ([] as IndicatorValue[])
-        ).sort((a, b) => parseInt(a.date) - parseInt(b.date));
+    // MOCK
 
-        // const data: IndicatorValue[] =
-        //   VALUES_FROM_TO_PREDICTIONS_MOCK_REG_EXP as IndicatorValue[];
+    const data: IndicatorValue[] = VALUES_FROM_TO_MOCK as IndicatorValue[];
+    // VALUES_FROM_TO_PREDICTIONS_MOCK_REG_EXP as IndicatorValue[];
 
-        // console.log({ data });
+    // Procesar data para predictions
+    const dataFinal = processDataFetchPredictions({
+      data,
+      currentYearFrom,
+      currentYearTo,
+    });
 
-        // Procesar data para predictions
-        const dataFinal = processDataFetchPredictions({
-          data,
-          currentYearFrom,
-          currentYearTo,
-        });
+    console.log({ dataFinal });
 
-        console.log({ dataFinal });
+    setDataIndicator(dataFinal);
+    setDataIndicatorExtended(data);
 
-        if (dataFinal?.length === 0) {
-          throw new Error("No data found");
-        }
+    // FIN MOCK
 
-        setDataIndicator(dataFinal);
-        setDataIndicatorExtended(data);
-      })
-      .catch((err) => {
-        console.log({ err });
-        throw new Error("No data found");
-      });
+    // await axios
+    //   .get(
+    //     BASE_URL_WB_ES +
+    //       `/country/ALL/indicator/${indicator}?format=json&per_page=${10000}&date=${
+    //         hasExtendedYears
+    //           ? currentYearFrom
+    //           : currentYearFrom - EXTENDED_YEARS_LIMIT
+    //       }:${
+    //         hasExtendedYears
+    //           ? currentYearTo
+    //           : currentYearTo - EXTENDED_YEARS_LIMIT
+    //       }`
+    //   )
+    //   .then((res) => {
+    //     console.log({ res });
+    //     const data: IndicatorValue[] = (
+    //       res.data[1] || ([] as IndicatorValue[])
+    //     ).sort((a, b) => parseInt(a.date) - parseInt(b.date));
+
+    // // console.log({ data });
+
+    // // Procesar data para predictions
+    // const dataFinal = processDataFetchPredictions({
+    //   data,
+    //   currentYearFrom,
+    //   currentYearTo,
+    // });
+
+    // console.log({ dataFinal });
+
+    // if (dataFinal?.length === 0) {
+    //   throw new Error("No data found");
+    // }
+
+    // setDataIndicator(dataFinal);
+    // setDataIndicatorExtended(data);
+    //   })
+    //   .catch((err) => {
+    //     console.log({ err });
+    //     throw new Error("No data found");
+    //   });
   };
 
   const getMetadataIndicator = async (
