@@ -217,6 +217,7 @@ const usePredictions = () => {
           const dateItem = parseInt(item.date);
 
           if (!(dateItem >= currentYearFrom && dateItem <= currentYearTo)) {
+            throw new Error("Error en rangos de fechas");
             return;
           }
 

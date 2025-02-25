@@ -39,7 +39,7 @@ const Geo = ({
                 (item) => item.countryiso3code === geo.id
               );
 
-              geo.value = valueCountry?.value || 0;
+              geo.value = valueCountry?.value;
 
               geo.date = valueCountry?.date;
 

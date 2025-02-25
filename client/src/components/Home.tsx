@@ -20,6 +20,7 @@ import useFunctions, {
 } from "@/hooks/useFunctions";
 import ModalFunction from "./modals/ModalFunction";
 import usePredictions from "@/hooks/predictions/usePredictions";
+import ModalCountriesSelect from "./modals/ModalcountriesSelect";
 
 const LIMIT_COUNTRIES_GRAPH = 25;
 const LIMIT_COUNTRIES_RACE = 10;
@@ -32,6 +33,8 @@ const Home = () => {
     getYearsRangeIndicator,
     rangeYearsIndicator,
     metadataIndicator,
+    regions,
+    countries,
   } = useFetch();
   const { getValueFunction } = useFunctions();
   const [currentYearFrom, setCurrentYearFrom] = useState(
@@ -75,15 +78,16 @@ const Home = () => {
     DEFAULT_VALUE_FUNCTION
   );
   const [showModalFunction, setShowModalFunction] = useState(false);
-  const { linearRegression, determinarTecnicaPredictiva } = usePredictions();
+  const [showModalCountries, setShowModalCountries] = useState(false);
+  const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
 
-  // useEffect(() => {
-  //   console.log({ dataIndicator });
-  // }, [dataIndicator]);
+  useEffect(() => {
+    console.log({ dataIndicator });
+  }, [dataIndicator]);
 
-  // useEffect(() => {
-  //   console.log({ dataValues });
-  // }, [dataValues]);
+  useEffect(() => {
+    console.log({ dataValues });
+  }, [dataValues]);
 
   useEffect(() => {
     if (rangeYearsIndicator?.length > 0) {
@@ -97,7 +101,7 @@ const Home = () => {
     if (functionSelected) {
       handleFunctionData();
     }
-  }, [functionSelected, dataIndicator]);
+  }, [functionSelected, dataIndicator, selectedCountries]);
 
   useEffect(() => {
     // console.log({ currentYearFrom, currentYearTo, dataValues });
@@ -127,7 +131,7 @@ const Home = () => {
     } else if (selectedView === "BAR_CHART_RACE") {
       handleDataBarChartRace();
     }
-  }, [offset]);
+  }, [offset, selectedCountries]);
 
   useEffect(() => {
     if (currentIndicator?.value) {
@@ -212,8 +216,14 @@ const Home = () => {
         if (
           !colorScaleRef.current ||
           typeof colorScaleRef.current !== "function"
-        )
+        ) {
+          console.log("default color");
           return "#ccc"; // Valor por defecto
+        }
+
+        if (value == undefined || value == null) {
+          return "#ccc";
+        }
 
         const valueLog = Math.log10(value);
         const valueFinal = valueLog > 1 ? valueLog : Math.sqrt(value);
@@ -232,7 +242,14 @@ const Home = () => {
   const handleDataBarChartRace = () => {
     const dataBarChart: PropsBarChartRace = [];
 
-    dataIndicator.forEach((value) => {
+    const dataIndicatorFiltered =
+      selectedCountries?.length > 0
+        ? dataIndicator.filter((item) =>
+            selectedCountries.includes(item.countryiso3code)
+          )
+        : dataIndicator;
+
+    dataIndicatorFiltered.forEach((value) => {
       const indexListYear = dataBarChart.findIndex(
         (item) => item.year === parseInt(value.date)
       );
@@ -272,7 +289,15 @@ const Home = () => {
 
   const handleDataGraph = () => {
     console.log({ dataValues });
-    const data = dataValues
+
+    const dataValuesFiltered =
+      selectedCountries?.length > 0
+        ? dataValues.filter((item) =>
+            selectedCountries.includes(item.countryiso3code)
+          )
+        : dataValues;
+
+    const data = dataValuesFiltered
       .filter((item) => {
         return (
           (listCountries.find((elem) => elem.id === item.countryiso3code)
@@ -317,7 +342,14 @@ const Home = () => {
   const handleFunctionData = () => {
     let objectValuesCountries: { [key in string]: IndicatorValue[] } = {};
 
-    dataIndicator.forEach((indicatorValue) => {
+    const dataIndicatorFiltered =
+      selectedCountries?.length > 0
+        ? dataIndicator.filter((item) =>
+            selectedCountries.includes(item.countryiso3code)
+          )
+        : dataIndicator;
+
+    dataIndicatorFiltered.forEach((indicatorValue) => {
       if (!objectValuesCountries[indicatorValue.countryiso3code]) {
         objectValuesCountries[indicatorValue.countryiso3code] = [
           indicatorValue,
@@ -336,6 +368,7 @@ const Home = () => {
 
       let valueFinal;
       let yearFinal;
+
       if (functionSelected?.value) {
         const valueFunction = getValueFunction({
           func: functionSelected.value,
@@ -358,7 +391,7 @@ const Home = () => {
   return (
     <div className="flex flex-col justify-center items-center mt-10 w-full">
       <h2>Indicadores</h2>
-
+      {/* 
       <button
         onClick={() => {
           linearRegression([2000, 2005, 2010], [70, 72, 74], 2015);
@@ -366,7 +399,7 @@ const Home = () => {
         }}
       >
         test
-      </button>
+      </button> */}
 
       <div className="w-full flex flex-col justify-center items-center mt-10 mb-10">
         <TopicSelector
@@ -488,6 +521,23 @@ const Home = () => {
         )}
       {/* FIN FUNCION */}
 
+      <div className="flex flex-row justify-end items-end w-10/12">
+        <div className="flex flex-col text-center justify-center">
+          <div className="flex flex-row gap-2 justify-center items-center">
+            <b>Paises seleccionados</b>
+            <FaInfoCircle
+              role="button"
+              onClick={() => setShowModalCountries(true)}
+            />
+          </div>
+          <div>
+            {selectedCountries?.length > 0
+              ? selectedCountries?.length
+              : "Todos"}
+          </div>
+        </div>
+      </div>
+
       <Tabs defaultValue="map" className="text-center">
         <TabsList>
           <TabsTrigger
@@ -573,6 +623,15 @@ const Home = () => {
           functionSelected={functionSelected}
         />
       )}
+
+      <ModalCountriesSelect
+        show={showModalCountries}
+        setShow={setShowModalCountries}
+        setSelectedCountries={setSelectedCountries}
+        selectedCountries={selectedCountries}
+        countries={countries}
+        regions={regions}
+      />
     </div>
   );
 };

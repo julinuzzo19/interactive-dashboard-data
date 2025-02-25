@@ -278,3 +278,13 @@ posible fecha reunion 26-2
 
 # 10-2
 
+# DONE
+
+[FEATURE] TECNICA curvas sp exponencial
+[FEATURE] TECNICA exponencial
+
+# 24-2
+
+FIX color map cuando es nulo
+
+avances modal paises seleccionados y logica de filtrado

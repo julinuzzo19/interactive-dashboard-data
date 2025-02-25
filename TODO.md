@@ -40,3 +40,13 @@
 - en caso de que "El valor del año a predecir está fuera del rango de los datos históricos." que tecnica utilizaria?
 
 # TODO 10-2
+
+- en caso de que "El valor del año a predecir está fuera del rango de los datos históricos." que tecnica utilizaria?
+
+# 24-2
+
+- TERMINAR LOGICA DE SELECCIONAR PAISES
+- Investigar si la base de datos q usa el bm, la usa oms.u otras
+- Ver ds cachear consultas para no reperielas
+- Permitir busquedaa ignoranzotildes
+

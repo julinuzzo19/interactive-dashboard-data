@@ -13,7 +13,10 @@ import VALUES_FROM_TO_PREDICTIONS_MOCK_REG_LINEAL from "../mocks/data_prediction
 import VALUES_FROM_TO_PREDICTIONS_MOCK_REG_EXP from "../mocks/data_predictions_REG_EXP.json";
 import METADATA_ES_MOCK from "../mocks/metadata_es.json";
 import METADATA_EN_MOCK from "../mocks/metadata_en.json";
+import REGIONS_MOCK from "../mocks/regions.json";
+import COUNTRIES_MOCK from "../mocks/countries.json";
 import usePredictions from "./predictions/usePredictions";
+import { ICountry, IRegion } from "@/interfaces/Countries";
 
 const BASE_URL_WB = "https://api.worldbank.org/v2";
 const BASE_URL_WB_ES = "https://api.worldbank.org/v2/es";
@@ -27,6 +30,8 @@ const useFetch = () => {
   const [dataIndicatorExtended, setDataIndicatorExtended] = useState<
     IndicatorValue[]
   >([]);
+  const [regions, setRegions] = useState<IRegion[]>([]);
+  const [countries, setCountries] = useState<ICountry[]>([]);
   const [rangeYearsIndicator, setRangeYearsIndicator] = useState<number[]>([]);
   const [metadataIndicator, setMetadataIndicator] = useState<
     Partial<IndicatorMetadata>
@@ -40,6 +45,10 @@ const useFetch = () => {
   useEffect(() => {
     getIndicadores();
   }, []);
+
+  useEffect(() => {
+    console.log({ dataIndicator });
+  }, [dataIndicator]);
 
   const getIndicadores = async () => {
     // @ts-ignore
@@ -71,12 +80,7 @@ const useFetch = () => {
   }) => {
     // console.log({ indicator, currentYearFrom, currentYearTo });
 
-    // MOCK
-    // setDataIndicator(VALUES_FROM_TO_MOCK?.filter((item) => item.value));
-    // // setDataIndicator(VALUES_MOCK?.filter((item) => item.value));
-    // const metadata = await getMetadataIndicator(indicator);
-    // setMetadataIndicator(metadata);
-    // FIN MOCK
+    getRegionsCountriesAPI();
 
     // await axios
     //   .get(
@@ -94,11 +98,11 @@ const useFetch = () => {
     const data: IndicatorValue[] =
       VALUES_FROM_TO_PREDICTIONS_MOCK_REG_EXP as IndicatorValue[];
 
-    // console.log({ data });
+    console.log({ data });
 
     // Procesar data para predictions
     const dataFinal = processDataFetchPredictions({
-      data: VALUES_FROM_TO_PREDICTIONS_MOCK_REG_EXP as any,
+      data,
       currentYearFrom,
       currentYearTo,
     });
@@ -111,6 +115,10 @@ const useFetch = () => {
     // .catch((err) => {
     //   console.log({ err });
     // });
+
+    // GET METADATA
+    // const metadata = await getMetadataIndicator(indicator);
+    // setMetadataIndicator(metadata);
   };
 
   const getMetadataIndicator = async (
@@ -181,6 +189,32 @@ const useFetch = () => {
     setRangeYearsIndicator(dataYears.sort((a, b) => b - a));
   };
 
+  const getRegionsCountriesAPI = async () => {
+    // MOCK
+    setRegions(REGIONS_MOCK);
+    setCountries(COUNTRIES_MOCK);
+    // FIN MOCK
+
+    // const regionsResult = await axios.get(
+    //   `${BASE_URL_WB_ES}/regions?format=json&per_page=100`
+    // );
+
+    // const countriesResult = await axios.get(
+    //   `${BASE_URL_WB_ES}/country?format=json&per_page=100`
+    // );
+
+    // let countriesList: ICountry[] = countriesResult?.data?.[1];
+    // let regionsList: IRegion[] = regionsResult?.data?.[1];
+    // console.log({ regionsList, countriesList });
+
+    // if (regionsList) {
+    //   setRegions(regionsList);
+    // }
+    // if (countriesList) {
+    //   setCountries(countriesList);
+    // }
+  };
+
   return {
     indicators,
     getDataIndicator,
@@ -188,6 +222,8 @@ const useFetch = () => {
     getYearsRangeIndicator,
     rangeYearsIndicator,
     metadataIndicator,
+    countries,
+    regions,
   };
 };
 
