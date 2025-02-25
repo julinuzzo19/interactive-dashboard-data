@@ -50,3 +50,6 @@
 - Ver ds cachear consultas para no reperielas
 - Permitir busquedaa ignoranzotildes
 
+# 25-2
+
+AL HACER LA PRIMERA BUSQUEDA, COLORES EN BORDO

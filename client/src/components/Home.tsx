@@ -21,9 +21,11 @@ import useFunctions, {
 import ModalFunction from "./modals/ModalFunction";
 import { AppContext } from "@/store/Context";
 import ModalCountriesSelect from "./modals/ModalCountriesSelect";
+import { errNotif, sucNotif } from "./ui/Notifications";
 
 const LIMIT_COUNTRIES_GRAPH = 25;
 const LIMIT_COUNTRIES_RACE = 10;
+const DEFAULT_MAP_COLOR = "#ccc";
 
 const Home = () => {
   const { dispatch } = useContext(AppContext);
@@ -36,22 +38,21 @@ const Home = () => {
     metadataIndicator,
     regions,
     countries,
+    getRegionsCountriesAPI,
   } = useFetch();
   const { getValueFunction } = useFunctions();
-  const [currentYearFrom, setCurrentYearFrom] = useState(
-    new Date().getFullYear()
-  );
-  const [currentYearTo, setCurrentYearTo] = useState(new Date().getFullYear());
+  const [currentYearFrom, setCurrentYearFrom] = useState(0);
+  const [currentYearTo, setCurrentYearTo] = useState(0);
   const [currentIndicator, setCurrentIndicator] = useState<
     SingleValue<{
       label: string;
       value: string;
     }>
   >({
-    // label: "",
-    // value: "",
-    label: "Población, hombres  (SP.POP.TOTL.MA.IN)",
-    value: "SP.POP.TOTL.MA.IN",
+    label: "",
+    value: "",
+    // label: "Población, hombres  (SP.POP.TOTL.MA.IN)",
+    // value: "SP.POP.TOTL.MA.IN",
   });
   const [minValueIndicator, setMinValueIndicator] = useState(0);
   const [maxValueIndicator, setMaxValueIndicator] = useState(0);
@@ -83,6 +84,9 @@ const Home = () => {
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
 
   useEffect(() => {
+    console.log({ rangeYearsIndicator });
+  }, [rangeYearsIndicator]);
+  useEffect(() => {
     console.log({ dataIndicator });
   }, [dataIndicator]);
 
@@ -90,10 +94,15 @@ const Home = () => {
     console.log({ dataValues });
   }, [dataValues]);
 
+  // Carga inicial
+  useEffect(() => {
+    getRegionsCountriesAPI();
+  }, []);
+
   useEffect(() => {
     if (rangeYearsIndicator?.length > 0) {
-      setCurrentYearFrom(rangeYearsIndicator[0] || new Date().getFullYear());
-      setCurrentYearTo(rangeYearsIndicator[0] || new Date().getFullYear());
+      setCurrentYearFrom(rangeYearsIndicator[0]);
+      setCurrentYearTo(rangeYearsIndicator[0]);
     }
   }, [rangeYearsIndicator]);
 
@@ -197,11 +206,7 @@ const Home = () => {
   useEffect(() => {
     // console.log({ currentIndicator });
     if (currentIndicator?.value && currentYearFrom && currentYearTo) {
-      getDataIndicator({
-        indicator: currentIndicator.value,
-        currentYearFrom,
-        currentYearTo,
-      });
+      getDataIndicadorAPI();
     }
   }, [currentIndicator?.value, currentYearTo, currentYearFrom]);
 
@@ -218,6 +223,20 @@ const Home = () => {
     }
   }, [dataValues]);
 
+  const getDataIndicadorAPI = async () => {
+    try {
+      await getDataIndicator({
+        indicator: currentIndicator?.value as string,
+        currentYearFrom,
+        currentYearTo,
+      });
+    } catch (error) {
+      console.log({ error });
+      errNotif("No hay datos para el indicador seleccionado");
+      console.log("No hay datos para el indicador seleccionado");
+    }
+  };
+
   const generateColorByValue = useCallback(
     (value: number) => {
       try {
@@ -225,12 +244,13 @@ const Home = () => {
           !colorScaleRef.current ||
           typeof colorScaleRef.current !== "function"
         ) {
-          console.log("default color");
-          return "#ccc"; // Valor por defecto
+          // console.log("default color");
+          return DEFAULT_MAP_COLOR; // Valor por defecto
         }
 
         if (value == undefined || value == null) {
-          return "#ccc";
+          // console.log("default color");
+          return DEFAULT_MAP_COLOR;
         }
 
         const valueLog = Math.log10(value);
@@ -238,10 +258,11 @@ const Home = () => {
 
         const colorCountry = colorScaleRef.current(valueFinal).hex();
 
+        // console.log({ colorCountry, valueFinal, valueLog, value });
+
         return colorCountry;
       } catch (error) {
-        // console.log({ error });
-        console.log("err");
+        console.log({ errorgenerateColorByValue: error });
       }
     },
     [colorScaleRef]
@@ -450,44 +471,46 @@ const Home = () => {
       )}
 
       {/* FECHAS */}
-      <div className="flex flex-row justify-end items-end w-10/12 mb-5">
-        <div className="flex flex-col text-center justify-center">
-          <b>Intervalo de tiempo</b>
+      {currentIndicator?.value && (
+        <div className="flex flex-row justify-end items-end w-10/12 mb-5">
+          <div className="flex flex-col text-center justify-center">
+            <b>Intervalo de tiempo</b>
 
-          <div>
-            <span>Desde</span>
-            <select
-              className="text-center"
-              value={currentYearFrom}
-              onChange={(e) => setCurrentYearFrom(parseInt(e.target.value))}
-            >
-              {rangeYearsIndicator.map((year) => {
-                return (
-                  <option value={year} key={year}>
-                    {year}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          <div>
-            <span>Hasta</span>
-            <select
-              className="text-center"
-              value={currentYearTo}
-              onChange={(e) => setCurrentYearTo(parseInt(e.target.value))}
-            >
-              {rangeYearsIndicator.map((year) => {
-                return (
-                  <option value={year} key={year}>
-                    {year}
-                  </option>
-                );
-              })}
-            </select>
+            <div>
+              <span>Desde</span>
+              <select
+                className="text-center"
+                value={currentYearFrom}
+                onChange={(e) => setCurrentYearFrom(parseInt(e.target.value))}
+              >
+                {rangeYearsIndicator.map((year) => {
+                  return (
+                    <option value={year} key={year}>
+                      {year}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+            <div>
+              <span>Hasta</span>
+              <select
+                className="text-center"
+                value={currentYearTo}
+                onChange={(e) => setCurrentYearTo(parseInt(e.target.value))}
+              >
+                {rangeYearsIndicator.map((year) => {
+                  return (
+                    <option value={year} key={year}>
+                      {year}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
           </div>
         </div>
-      </div>
+      )}
       {/* FIN FECHAS */}
 
       {/* FUNCION */}

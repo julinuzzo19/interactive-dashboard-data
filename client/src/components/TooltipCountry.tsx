@@ -6,13 +6,12 @@ import "react-tooltip/dist/react-tooltip.css";
 
 const TooltipCountry = () => {
   const {
-    dispatch,
     state: { tooltipData, hasYearFunction },
   } = useContext(AppContext);
 
-  useEffect(() => {
-    console.log({ tooltipData, hasYearFunction });
-  }, [tooltipData, hasYearFunction]);
+  // useEffect(() => {
+  //   console.log({ tooltipData, hasYearFunction });
+  // }, [tooltipData, hasYearFunction]);
 
   return (
     <Tooltip id="my-tooltip" className="text-center" float={true}>

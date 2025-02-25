@@ -210,6 +210,8 @@ const usePredictions = () => {
       }
     });
 
+    console.log({ objectCountriesData });
+
     // Buscar valores nulos para analizar tecnica de prediccion a utilizar con los valores del pais en el rango de años
     Object.entries(objectCountriesData).forEach(
       ([countryCode, valuesCountry]) => {
@@ -217,7 +219,6 @@ const usePredictions = () => {
           const dateItem = parseInt(item.date);
 
           if (!(dateItem >= currentYearFrom && dateItem <= currentYearTo)) {
-            throw new Error("Error en rangos de fechas");
             return;
           }
 
@@ -242,9 +243,11 @@ const usePredictions = () => {
               item.value = linearRegression(years, values, parseInt(item.date));
             } else if (tecnicaDeterminada === "REGRESION EXPONENCIAL") {
               if (new Set(values).size < 2) {
-                throw new Error(
-                  "Se necesitan al menos 2 valores diferentes en x."
-                );
+                // throw new Error(
+                //   "Se necesitan al menos 2 valores diferentes en x."
+                // );
+                console.log("Se necesitan al menos 2 valores diferentes en x.");
+                return;
               }
 
               const { a, b } = exponentialRegression(years, values);
@@ -272,9 +275,13 @@ const usePredictions = () => {
                 (dateItem - minYear) / (maxYear - minYear);
 
               if (normalizedYearPredict < 0 || normalizedYearPredict > 1) {
-                throw new Error(
+                // throw new Error(
+                //   "El valor del año a predecir está fuera del rango de los datos históricos."
+                // );
+                console.log(
                   "El valor del año a predecir está fuera del rango de los datos históricos."
                 );
+                return;
               }
 
               const predictedValue = spline(normalizedYearPredict);
@@ -291,10 +298,14 @@ const usePredictions = () => {
             }
 
             if (!item.value) {
-              throw new Error("El valor no fue predicho correctamente");
+              // throw new Error("El valor no fue predicho correctamente");
+              console.log("El valor no fue predicho correctamente");
+              return;
             }
             if (item.value == Infinity) {
-              throw new Error("El valor tienda a infinito.");
+              // throw new Error("El valor tiende a infinito.");
+              console.log("El valor tiende a infinito.");
+              return;
             }
 
             const indexItemValue = objectCountriesData[countryCode].findIndex(

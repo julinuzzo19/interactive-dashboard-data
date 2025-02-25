@@ -1,9 +1,8 @@
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { GeoCountryColor } from "../interfaces/Geo";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import { IndicatorValue } from "../interfaces/Indicador";
-import { Tooltip } from "react-tooltip";
-import { formatPrecio } from "../utils/formatPrecio";
+
 import { AppContext } from "@/store/Context";
 import TooltipCountry from "./TooltipCountry";
 
@@ -18,9 +17,7 @@ const Geo = ({
 }) => {
   const { dispatch } = useContext(AppContext);
 
-  console.log("render")
   const handleMouseEnter = useCallback((geo) => {
-    // setTooltipContent(geo);
     dispatch({
       type: "setTooltipData",
       payload: geo,
@@ -28,7 +25,6 @@ const Geo = ({
   }, []);
 
   const handleMouseLeave = useCallback(() => {
-    // setTooltipContent({});
     dispatch({
       type: "setTooltipData",
       payload: {},
@@ -45,9 +41,7 @@ const Geo = ({
                 (item) => item.countryiso3code === geo.id
               );
 
-              // console.log({ geo });
-
-              geo.value = valueCountry?.value || 0;
+              geo.value = valueCountry?.value;
 
               geo.date = valueCountry?.date;
 
@@ -57,12 +51,10 @@ const Geo = ({
                 <Geography
                   key={geo.id}
                   geography={geo}
-                  // fill={"grey"}
                   fill={colorCountry}
                   style={{
                     default: { outline: "none" },
                     hover: { fill: "grey", outline: "none" },
-                    // pressed: { fill: "#E42", outline: "none" },
                   }}
                   data-tooltip-id={"my-tooltip"}
                   onMouseEnter={() => handleMouseEnter(geo)}

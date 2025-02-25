@@ -23,6 +23,7 @@ const BASE_URL_WB_ES = "https://api.worldbank.org/v2/es";
 const CODE_TOPIC_HEALTH = 8;
 const LIMIT_INDICATORS = 5;
 const EXTENDED_YEARS_LIMIT = 10;
+const LIMIT_ENTENDED_YEARS = 10;
 
 const useFetch = () => {
   const [indicators, setIndicators] = useState<Indicador[]>([]);
@@ -78,47 +79,59 @@ const useFetch = () => {
     currentYearFrom: number;
     currentYearTo: number;
   }) => {
-    // console.log({ indicator, currentYearFrom, currentYearTo });
+    console.log({ indicator, currentYearFrom, currentYearTo });
 
-    getRegionsCountriesAPI();
-
-    // await axios
-    //   .get(
-    //     BASE_URL_WB_ES +
-    //       `/country/ALL/indicator/${indicator}?format=json&per_page=${1000}&date=${
-    //         currentYearFrom - EXTENDED_YEARS_LIMIT
-    //       }:${currentYearTo + EXTENDED_YEARS_LIMIT}`
-    //   )
-    //   .then((res) => {
-    // console.log({ res });
-    // const data: IndicatorValue[] = (res.data[1] as IndicatorValue[]).sort(
-    //   (a, b) => parseInt(a.date) - parseInt(b.date)
-    // );
-
-    const data: IndicatorValue[] =
-      VALUES_FROM_TO_PREDICTIONS_MOCK_REG_EXP as IndicatorValue[];
-
-    console.log({ data });
-
-    // Procesar data para predictions
-    const dataFinal = processDataFetchPredictions({
-      data,
-      currentYearFrom,
-      currentYearTo,
-    });
-
-    console.log({ dataFinal });
-
-    setDataIndicator(dataFinal);
-    setDataIndicatorExtended(data);
-    // })
-    // .catch((err) => {
-    //   console.log({ err });
-    // });
+    const hasExtendedYears =
+      currentYearTo - currentYearFrom > LIMIT_ENTENDED_YEARS ? false : true;
 
     // GET METADATA
-    // const metadata = await getMetadataIndicator(indicator);
-    // setMetadataIndicator(metadata);
+    const metadata = await getMetadataIndicator(indicator);
+    setMetadataIndicator(metadata);
+
+    await axios
+      .get(
+        BASE_URL_WB_ES +
+          `/country/ALL/indicator/${indicator}?format=json&per_page=${10000}&date=${
+            hasExtendedYears
+              ? currentYearFrom
+              : currentYearFrom - EXTENDED_YEARS_LIMIT
+          }:${
+            hasExtendedYears
+              ? currentYearTo
+              : currentYearTo - EXTENDED_YEARS_LIMIT
+          }`
+      )
+      .then((res) => {
+        console.log({ res });
+        const data: IndicatorValue[] = (
+          res.data[1] || ([] as IndicatorValue[])
+        ).sort((a, b) => parseInt(a.date) - parseInt(b.date));
+
+        // const data: IndicatorValue[] =
+        //   VALUES_FROM_TO_PREDICTIONS_MOCK_REG_EXP as IndicatorValue[];
+
+        // console.log({ data });
+
+        // Procesar data para predictions
+        const dataFinal = processDataFetchPredictions({
+          data,
+          currentYearFrom,
+          currentYearTo,
+        });
+
+        console.log({ dataFinal });
+
+        if (dataFinal?.length === 0) {
+          throw new Error("No data found");
+        }
+
+        setDataIndicator(dataFinal);
+        setDataIndicatorExtended(data);
+      })
+      .catch((err) => {
+        console.log({ err });
+        throw new Error("No data found");
+      });
   };
 
   const getMetadataIndicator = async (
@@ -190,7 +203,7 @@ const useFetch = () => {
   };
 
   const getRegionsCountriesAPI = async () => {
-    // MOCK
+    // MOCKs
     setRegions(REGIONS_MOCK);
     setCountries(COUNTRIES_MOCK);
     // FIN MOCK
@@ -224,6 +237,7 @@ const useFetch = () => {
     metadataIndicator,
     countries,
     regions,
+    getRegionsCountriesAPI,
   };
 };
 
