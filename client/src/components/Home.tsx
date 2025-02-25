@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import useFetch from "../hooks/useFetch";
 import "../App.css";
 import Select, { SingleValue } from "react-select";
@@ -21,11 +21,13 @@ import useFunctions, {
 import ModalFunction from "./modals/ModalFunction";
 import usePredictions from "@/hooks/predictions/usePredictions";
 import ModalCountriesSelect from "./modals/ModalcountriesSelect";
+import { AppContext } from "@/store/Context";
 
 const LIMIT_COUNTRIES_GRAPH = 25;
 const LIMIT_COUNTRIES_RACE = 10;
 
 const Home = () => {
+  const { dispatch } = useContext(AppContext);
   const {
     indicators,
     getDataIndicator,
@@ -100,6 +102,13 @@ const Home = () => {
     // console.log({ functionSelected, dataIndicator });
     if (functionSelected) {
       handleFunctionData();
+
+      dispatch({
+        type: "setHasYearFunction",
+        payload: ["MAX", "MIN", "RECIENTE", "ANTIGUO"].includes(
+          functionSelected.value
+        ),
+      });
     }
   }, [functionSelected, dataIndicator, selectedCountries]);
 
@@ -569,9 +578,6 @@ const Home = () => {
         <Geo
           dataIndicator={dataValues}
           generateColorByValue={generateColorByValue}
-          hasYearFunction={["MAX", "MIN", "RECIENTE", "ANTIGUO"].includes(
-            functionSelected.value
-          )}
         />
       )}
       {selectedView === "GRAPH1" && (

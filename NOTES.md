@@ -276,7 +276,7 @@ posible fecha reunion 26-2
 [FIX] prediccion regresion lineal
 [FEATURE] determinar tecnica a utilizar
 
-# 10-2
+# 12-2
 
 # DONE
 
@@ -288,3 +288,6 @@ posible fecha reunion 26-2
 FIX color map cuando es nulo
 
 avances modal paises seleccionados y logica de filtrado
+add tecnica predictiva tooltip
+
+reivsar chatgpt sobre rerenderizar el compoenente geo

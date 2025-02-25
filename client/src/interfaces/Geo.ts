@@ -6,6 +6,7 @@ export interface GeoCountry {
 }
 export interface GeoCountryColor extends GeoCountry {
   value: number;
+  tecnicaUtilizada?: string;
 }
 
 export interface Properties {
