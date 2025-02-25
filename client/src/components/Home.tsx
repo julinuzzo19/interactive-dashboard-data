@@ -19,9 +19,8 @@ import useFunctions, {
   FunctionValue,
 } from "@/hooks/useFunctions";
 import ModalFunction from "./modals/ModalFunction";
-import usePredictions from "@/hooks/predictions/usePredictions";
-import ModalCountriesSelect from "./modals/ModalcountriesSelect";
 import { AppContext } from "@/store/Context";
+import ModalCountriesSelect from "./modals/ModalCountriesSelect";
 
 const LIMIT_COUNTRIES_GRAPH = 25;
 const LIMIT_COUNTRIES_RACE = 10;
