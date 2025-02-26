@@ -1,12 +1,3 @@
-# TODO
-
-- Logica de cuando usar prediccion
-- logica de completar valor de indicador teniendo en cuenta años anteriores y proximos
-- informar sobre disponibilidad de datos y solucion utilizada en caso de no existir
-- SUITUACIONES DE CUANDO UN VALOR NOE XISTE, IONTERMEDIO O FINAL O INICIAL
-- informar cuando un valor, esta hecho por prediccion y de q tipo es
-- Logica de notificaciones en validaciones de predicciones
-
 # INFORME
 
 - revisar trabajo preliminar, adapratlo a lo actual
@@ -20,7 +11,6 @@
 - progresion lineal, curvas sp, exponenciales, modelos predictivos
 - usar primero progresioon lineal o ampliarlo
 - libreria escala d evalores ver calculos, domiunio como se calculan los colores, para explicar en el informe, si teinee sentido usar log10 y cuadrado
-
 - Teoria sobre correlacion de pearson y uso de regresion lineal, con un modulo de 0.7
 
 # Predicciones: Situaciones posibles
@@ -39,13 +29,9 @@
 
 - en caso de que "El valor del año a predecir está fuera del rango de los datos históricos." que tecnica utilizaria?
 
-# TODO 10-2
+# TODO
 
+- SUITUACIONES DE CUANDO UN VALOR NOE XISTE, IONTERMEDIO O FINAL O INICIAL
 - en caso de que "El valor del año a predecir está fuera del rango de los datos históricos." que tecnica utilizaria?
-
-# 24-2
-
-- TERMINAR LOGICA DE SELECCIONAR PAISES
 - Investigar si la base de datos q usa el bm, la usa oms.u otras
 - Ver de cachear consultas para no reperielas
-- Permitir busquedaa ignorando tildes

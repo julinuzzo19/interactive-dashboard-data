@@ -282,6 +282,7 @@ posible fecha reunion 26-2
 
 [FEATURE] TECNICA curvas sp exponencial
 [FEATURE] TECNICA exponencial
+informar cuando un valor, esta hecho por prediccion y de q tipo es
 
 # 24-2
 
@@ -299,6 +300,7 @@ notificacion de validaciones de falta de datos
 
 # 26-2
 
-FIX colorscale first render map
-Logica filtro por paises seleccionados
-fix graph1 ver mas cuando hay solo paises seleccionados y fix height
+- FIX colorscale first render map
+- Logica filtro por paises seleccionados
+- fix graph1 ver mas cuando hay solo paises seleccionados y fix height
+- Permitir busquedaa ignorando tildes
