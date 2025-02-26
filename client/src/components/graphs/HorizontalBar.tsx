@@ -34,7 +34,7 @@ const HorizontalBar = ({ data, width = 1000, height = 1000 }) => {
 
     const chart = svg
       .attr("width", width)
-      .attr("height", chartHeight)
+      .attr("height", chartHeight + 15)
       .append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`);
 

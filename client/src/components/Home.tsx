@@ -21,7 +21,7 @@ import useFunctions, {
 import ModalFunction from "./modals/ModalFunction";
 import { AppContext } from "@/store/Context";
 import ModalCountriesSelect from "./modals/ModalCountriesSelect";
-import { errNotif, sucNotif } from "./ui/Notifications";
+import { errNotif } from "./ui/Notifications";
 
 const LIMIT_COUNTRIES_GRAPH = 25;
 const LIMIT_COUNTRIES_RACE = 10;
@@ -83,9 +83,13 @@ const Home = () => {
   const [showModalCountries, setShowModalCountries] = useState(false);
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
 
+  // useEffect(() => {
+  //   console.log({ rangeYearsIndicator });
+  // }, [rangeYearsIndicator]);
+
   useEffect(() => {
-    console.log({ rangeYearsIndicator });
-  }, [rangeYearsIndicator]);
+    console.log({ dataGraph1 });
+  }, [dataGraph1]);
   useEffect(() => {
     console.log({ dataIndicator });
   }, [dataIndicator]);
@@ -93,6 +97,10 @@ const Home = () => {
   useEffect(() => {
     console.log({ dataValues });
   }, [dataValues]);
+
+  useEffect(() => {
+    console.log({ selectedCountries });
+  }, [selectedCountries]);
 
   // Carga inicial
   useEffect(() => {
@@ -122,7 +130,11 @@ const Home = () => {
 
   useEffect(() => {
     // console.log({ currentYearFrom, currentYearTo, dataValues });
-    if (currentYearTo !== currentYearFrom && !functionSelected?.value) {
+    if (
+      currentYearTo !== currentYearFrom &&
+      !functionSelected?.value &&
+      selectedView !== "BAR_CHART_RACE"
+    ) {
       setShowModalFunction(true);
     }
   }, [currentYearFrom, currentYearTo]);
@@ -148,7 +160,7 @@ const Home = () => {
     } else if (selectedView === "BAR_CHART_RACE") {
       handleDataBarChartRace();
     }
-  }, [offset, selectedCountries]);
+  }, [offset, selectedCountries, dataValues, dataIndicator]);
 
   useEffect(() => {
     if (currentIndicator?.value) {
@@ -311,6 +323,7 @@ const Home = () => {
           )
         : dataValues;
 
+    console.log({ dataValuesFiltered });
     const data = dataValuesFiltered
       .filter((item) => {
         return (
@@ -591,7 +604,8 @@ const Home = () => {
         <>
           <HorizontalBar data={dataGraph1} />
 
-          {dataValues.length <= dataIndicator.length ? (
+          {dataValues.length <= dataIndicator.length &&
+          selectedCountries?.length === 0 ? (
             <button
               onClick={() => {
                 setSeeMore(true);

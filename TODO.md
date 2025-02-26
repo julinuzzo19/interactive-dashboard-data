@@ -47,9 +47,5 @@
 
 - TERMINAR LOGICA DE SELECCIONAR PAISES
 - Investigar si la base de datos q usa el bm, la usa oms.u otras
-- Ver ds cachear consultas para no reperielas
-- Permitir busquedaa ignoranzotildes
-
-# 25-2
-
-AL HACER LA PRIMERA BUSQUEDA, COLORES EN BORDO
+- Ver de cachear consultas para no reperielas
+- Permitir busquedaa ignorando tildes

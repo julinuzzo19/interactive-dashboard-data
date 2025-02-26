@@ -296,3 +296,9 @@ reivsar chatgpt sobre rerenderizar el compoenente geo
 
 fix logica sin mocks
 notificacion de validaciones de falta de datos
+
+# 26-2
+
+FIX colorscale first render map
+Logica filtro por paises seleccionados
+fix graph1 ver mas cuando hay solo paises seleccionados y fix height
