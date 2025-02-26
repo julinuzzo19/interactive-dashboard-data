@@ -183,26 +183,6 @@ const Home = () => {
     }
   }, [dataIndicator]);
 
-  // useEffect(() => {
-  //   console.log({ dataBarChartRace });
-  // }, [dataBarChartRace]);
-
-  useEffect(() => {
-    if (minValueIndicator !== undefined && maxValueIndicator !== undefined) {
-      colorScaleRef.current = chroma
-        .scale(chroma.brewer.OrRd)
-        .domain([
-          minValueIndicator > 1
-            ? Math.log10(minValueIndicator)
-            : Math.sqrt(minValueIndicator),
-          maxValueIndicator > 1
-            ? Math.log10(maxValueIndicator)
-            : Math.sqrt(maxValueIndicator),
-        ])
-        .mode("lch");
-    }
-  }, [minValueIndicator, maxValueIndicator]);
-
   useEffect(() => {
     // console.log({ currentIndicator });
     if (currentIndicator?.value && currentYearFrom && currentYearTo) {
@@ -241,31 +221,36 @@ const Home = () => {
     (value: number) => {
       try {
         if (
-          !colorScaleRef.current ||
-          typeof colorScaleRef.current !== "function"
+          value == undefined ||
+          value == null ||
+          (minValueIndicator == undefined && maxValueIndicator == undefined)
         ) {
-          // console.log("default color");
-          return DEFAULT_MAP_COLOR; // Valor por defecto
-        }
-
-        if (value == undefined || value == null) {
-          // console.log("default color");
           return DEFAULT_MAP_COLOR;
         }
+
+        colorScaleRef.current = chroma
+          .scale(chroma.brewer.OrRd)
+          .domain([
+            minValueIndicator > 1
+              ? Math.log10(minValueIndicator)
+              : Math.sqrt(minValueIndicator),
+            maxValueIndicator > 1
+              ? Math.log10(maxValueIndicator)
+              : Math.sqrt(maxValueIndicator),
+          ])
+          .mode("lch");
 
         const valueLog = Math.log10(value);
         const valueFinal = valueLog > 1 ? valueLog : Math.sqrt(value);
 
         const colorCountry = colorScaleRef.current(valueFinal).hex();
 
-        // console.log({ colorCountry, valueFinal, valueLog, value });
-
         return colorCountry;
       } catch (error) {
         console.log({ errorgenerateColorByValue: error });
       }
     },
-    [colorScaleRef]
+    [colorScaleRef, minValueIndicator, maxValueIndicator]
   );
 
   const handleDataBarChartRace = () => {
