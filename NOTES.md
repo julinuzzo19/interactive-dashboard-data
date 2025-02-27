@@ -304,3 +304,54 @@ notificacion de validaciones de falta de datos
 - Logica filtro por paises seleccionados
 - fix graph1 ver mas cuando hay solo paises seleccionados y fix height
 - Permitir busquedaa ignorando tildes
+
+<!-- # Fuente de base de datos WDI -->
+
+- Los datos provienen de una gran variedad de fuentes, internas, externas y son compartidas con otros organismos
+
+## Fuentes internas
+
+- Datos recopilados de proyectos propios, encuestas
+
+## Fuentes externas
+
+- ONU
+- Gobiernos de paises
+- Bancos de desarrollo regionales
+- Instituciones de investigacion
+<!--  -->
+
+<!-- Dominio colores mapa -->
+
+- Utilizados para normalizar la escala del dominio de colores y comprimir los colores para que la escala sea mas facil de observar
+- Sin estas transformaciones, los valores extremadamente grandes podrían dominar la escala de colores, haciendo que los valores más pequeños parezcan todos iguales.
+
+# Uso de logaritmo para valores mayores a 1
+
+- Usado para indicadores que pueden variar en magnitudes en distintos paises
+- Valores menores a 1, dan negativo y el dominio de colores espera valores positivos
+
+- [1, 10, 100, 1000] se transforman en [0, 1, 2, 3]
+
+# Uso de sqrt para valores menores a 1
+
+- Normalizacion menos agresiva para valores que no varian tanto en ordenes de magnitud
+-
+- [1, 10, 100, 1000] se transforman en [1, 3.16, 10, 31.62]
+
+# Hecho desde ultima reunion
+
+- Determinacion de tecnicas de prediccion a utilizar
+- Implementacion tecnica Regresion lineal, regresion exponencial y curvas SP
+- Investigacion fuente de datos de BM
+- Para prediccion de valores, obtengo de la API valores de indicador seleccionado, 10 años antes y despues de las fechas seleccionadas para permitir una predicción más consistente
+
+# Preguntas
+
+- Si tengo solo 2 valores y el dato de uno, deberia buscar datos de otros valores en la API? actualmente trae resultados de 10 años antes y despues a la fehca seleccionada para los calculos predictivos
+- Una vez predicho un valor de indicador de un año en un pais, si necesito predecir otro valor de indicador de otro año del mismo pais, deberia utilizar el dato de la prediccion anterior para la nueva?
+- Donde investigar en que limites se deberia elegir una tecnica u otra o es prueba y error? (coeficiente pearson, promedio de crecimiento )
+
+- al usar regresion exponencial, si el crecimiento es muy alto me da infinito, en ese caso utilizaria curvas sp?
+
+- en caso de que "El valor del año a predecir está fuera del rango de los datos históricos." que tecnica utilizaria?

@@ -229,31 +229,57 @@ const Home = () => {
     }
   };
 
+  const normalizeLineal = (val, min, max) => (val - min) / (max - min);
+
   const generateColorByValue = useCallback(
     (value: number) => {
       try {
         if (
           value == undefined ||
           value == null ||
-          (minValueIndicator == undefined && maxValueIndicator == undefined)
+          (minValueIndicator == undefined && maxValueIndicator == undefined) ||
+          minValueIndicator === maxValueIndicator
         ) {
           return DEFAULT_MAP_COLOR;
         }
 
-        colorScaleRef.current = chroma
-          .scale(chroma.brewer.OrRd)
-          .domain([
-            minValueIndicator > 1
-              ? Math.log10(minValueIndicator)
-              : Math.sqrt(minValueIndicator),
-            maxValueIndicator > 1
-              ? Math.log10(maxValueIndicator)
-              : Math.sqrt(maxValueIndicator),
-          ])
-          .mode("lch");
+        if (!colorScaleRef.current) {
+          colorScaleRef.current = chroma
+            .scale(chroma.brewer.OrRd)
+            .domain([
+              minValueIndicator > 1
+                ? Math.log10(minValueIndicator)
+                : Math.sqrt(minValueIndicator),
+              maxValueIndicator > 1
+                ? Math.log10(maxValueIndicator)
+                : Math.sqrt(maxValueIndicator),
+            ])
+            .mode("lch");
+        }
 
-        const valueLog = Math.log10(value);
-        const valueFinal = valueLog > 1 ? valueLog : Math.sqrt(value);
+        const valueFinal = value > 1 ? Math.log10(value) : Math.sqrt(value);
+
+        const minValueFinal =
+          minValueIndicator > 1
+            ? Math.log10(minValueIndicator)
+            : Math.sqrt(minValueIndicator);
+        const maxValueFinal =
+          maxValueIndicator > 1
+            ? Math.log10(maxValueIndicator)
+            : Math.sqrt(maxValueIndicator);
+
+        // const normalizedValue =
+        //   (value - minValueFinal) / (maxValueFinal - minValueFinal);
+
+        // console.log({
+        //   value,
+        //   valueFinal,
+        //   minValueIndicator,
+        //   maxValueIndicator,
+        //   minValueFinal,
+        //   maxValueFinal,
+        //   // normalizedValue,
+        // });
 
         const colorCountry = colorScaleRef.current(valueFinal).hex();
 

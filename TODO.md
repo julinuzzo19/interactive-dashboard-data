@@ -33,5 +33,11 @@
 
 - SUITUACIONES DE CUANDO UN VALOR NOE XISTE, IONTERMEDIO O FINAL O INICIAL
 - en caso de que "El valor del año a predecir está fuera del rango de los datos históricos." que tecnica utilizaria?
-- Investigar si la base de datos q usa el bm, la usa oms.u otras
 - Ver de cachear consultas para no reperielas
+
+- deberia Comprobar si los valores varian en ordenes de magnitud para determinar estrategia?
+- probar solo valor normalizado para valores negativos
+  ver si es necesario normalizar los valore smin y max antes de pasarlo a dominio d echroma js
+
+- Paises faltantes en mapa: antigua y barbuda, islas feroe
+- Selector de paises faltantes

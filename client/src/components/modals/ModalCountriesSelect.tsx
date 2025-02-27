@@ -69,21 +69,12 @@ const ModalCountriesSelect = ({
                         ...prevState,
                         ...newCountries,
                       ]);
-
-                      //   setCurrentCountries((prevState) => {
-                      //     console.log({ prevState, countriesRegion });
-                      //     countriesRegion.forEach((country) => {
-                      //       if (!prevState.includes(country.id)) {
-                      //         prevState.push(country.id);
-                      //       }
-                      //     });
-                      //     return prevState;
-                      //   });
                     }}
                   >
                     {region.name}
                   </h3>
-                  <ul>
+
+                  <ul className="overflow-y-auto h-80">
                     {countriesRegion.map((country) => {
                       return (
                         <li

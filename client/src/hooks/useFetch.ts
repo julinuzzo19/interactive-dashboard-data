@@ -225,11 +225,11 @@ const useFetch = () => {
     // FIN MOCK
 
     // const regionsResult = await axios.get(
-    //   `${BASE_URL_WB_ES}/regions?format=json&per_page=100`
+    //   `${BASE_URL_WB_ES}/regions?format=json&per_page=1000`
     // );
 
     // const countriesResult = await axios.get(
-    //   `${BASE_URL_WB_ES}/country?format=json&per_page=100`
+    //   `${BASE_URL_WB_ES}/country?format=json&per_page=1000`
     // );
 
     // let countriesList: ICountry[] = countriesResult?.data?.[1];
