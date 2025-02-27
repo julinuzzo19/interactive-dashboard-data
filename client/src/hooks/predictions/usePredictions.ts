@@ -60,8 +60,7 @@ const usePredictions = () => {
       return tecnicaDeterminada;
     } catch (error) {
       console.log({ error });
-      // throw new Error("Error al determinar tecnica predictiva");
-      return "REGRESION LINEAL";
+      throw new Error("Error al determinar tecnica predictiva");
     }
   };
 
@@ -243,9 +242,6 @@ const usePredictions = () => {
               item.value = linearRegression(years, values, parseInt(item.date));
             } else if (tecnicaDeterminada === "REGRESION EXPONENCIAL") {
               if (new Set(values).size < 2) {
-                // throw new Error(
-                //   "Se necesitan al menos 2 valores diferentes en x."
-                // );
                 console.log("Se necesitan al menos 2 valores diferentes en x.");
                 return;
               }
@@ -275,9 +271,6 @@ const usePredictions = () => {
                 (dateItem - minYear) / (maxYear - minYear);
 
               if (normalizedYearPredict < 0 || normalizedYearPredict > 1) {
-                // throw new Error(
-                //   "El valor del año a predecir está fuera del rango de los datos históricos."
-                // );
                 console.log(
                   "El valor del año a predecir está fuera del rango de los datos históricos."
                 );
@@ -298,12 +291,10 @@ const usePredictions = () => {
             }
 
             if (!item.value) {
-              // throw new Error("El valor no fue predicho correctamente");
               console.log("El valor no fue predicho correctamente");
               return;
             }
             if (item.value == Infinity) {
-              // throw new Error("El valor tiende a infinito.");
               console.log("El valor tiende a infinito.");
               return;
             }

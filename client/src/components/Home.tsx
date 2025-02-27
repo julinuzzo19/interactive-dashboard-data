@@ -259,14 +259,14 @@ const Home = () => {
 
         const valueFinal = value > 1 ? Math.log10(value) : Math.sqrt(value);
 
-        const minValueFinal =
-          minValueIndicator > 1
-            ? Math.log10(minValueIndicator)
-            : Math.sqrt(minValueIndicator);
-        const maxValueFinal =
-          maxValueIndicator > 1
-            ? Math.log10(maxValueIndicator)
-            : Math.sqrt(maxValueIndicator);
+        // const minValueFinal =
+        //   minValueIndicator > 1
+        //     ? Math.log10(minValueIndicator)
+        //     : Math.sqrt(minValueIndicator);
+        // const maxValueFinal =
+        //   maxValueIndicator > 1
+        //     ? Math.log10(maxValueIndicator)
+        //     : Math.sqrt(maxValueIndicator);
 
         // const normalizedValue =
         //   (value - minValueFinal) / (maxValueFinal - minValueFinal);

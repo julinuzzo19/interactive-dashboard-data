@@ -166,27 +166,19 @@ grafico de progreso de indicadores, ver disponibilidad de datos, si no hay demas
 - Agrupar indicadores por topicos
 - Estilizar pagina y graficos
 - Logica de agrupar o filtrar indicadores por topicos
-- Donde mostrar metadata
 - Comprobar disponibilidad y calidad de los datos (deteccion de datos anomalos) ## Integrar con resto de funcionalidades
 
 ## FUNCIONALIDADES QUE DIFERENCIEN DE DASHBOARD DE BANCO MUNDIAL
 
 - interfaz mas simple para usuario no tecnicos
 - grafico de cambios en el tiempo sobre un indicador en paises
-- OBTENER INFO DE OTRAS FUENTES PUBLICAS
 
 ##
-
-# TODO 14-1
-
-- Ocultar ver mas, al no haber mas paises
 
 # 14-1
 
 # Notas
 
-- Al faltar valor de indicador en año, completar ... funcionalidad posible
-- filtro posible de ultimo dato disponible, para poaises con pocos datos
 - fuente secundaria, ver si los datos
 
 # Prioridad:
@@ -305,53 +297,31 @@ notificacion de validaciones de falta de datos
 - fix graph1 ver mas cuando hay solo paises seleccionados y fix height
 - Permitir busquedaa ignorando tildes
 
-<!-- # Fuente de base de datos WDI -->
-
-- Los datos provienen de una gran variedad de fuentes, internas, externas y son compartidas con otros organismos
-
-## Fuentes internas
-
-- Datos recopilados de proyectos propios, encuestas
-
-## Fuentes externas
-
-- ONU
-- Gobiernos de paises
-- Bancos de desarrollo regionales
-- Instituciones de investigacion
-<!--  -->
-
-<!-- Dominio colores mapa -->
-
-- Utilizados para normalizar la escala del dominio de colores y comprimir los colores para que la escala sea mas facil de observar
-- Sin estas transformaciones, los valores extremadamente grandes podrían dominar la escala de colores, haciendo que los valores más pequeños parezcan todos iguales.
-
-# Uso de logaritmo para valores mayores a 1
-
-- Usado para indicadores que pueden variar en magnitudes en distintos paises
-- Valores menores a 1, dan negativo y el dominio de colores espera valores positivos
-
-- [1, 10, 100, 1000] se transforman en [0, 1, 2, 3]
-
-# Uso de sqrt para valores menores a 1
-
-- Normalizacion menos agresiva para valores que no varian tanto en ordenes de magnitud
--
-- [1, 10, 100, 1000] se transforman en [1, 3.16, 10, 31.62]
-
 # Hecho desde ultima reunion
 
-- Determinacion de tecnicas de prediccion a utilizar
-- Implementacion tecnica Regresion lineal, regresion exponencial y curvas SP
+- Predicciones
+  -- Determinacion de tecnicas de prediccion a utilizar
+  -- Para prediccion de valores, obtengo de la API valores de indicador seleccionado, 10 años antes y despues de las fechas seleccionadas para permitir una predicción más consistente
+  -- Implementacion tecnica Regresion lineal, regresion exponencial y curvas SP
 - Investigacion fuente de datos de BM
-- Para prediccion de valores, obtengo de la API valores de indicador seleccionado, 10 años antes y despues de las fechas seleccionadas para permitir una predicción más consistente
+- Selector de paises
+- Función de valor mas reciente y mas antiguo
+- Informar cuando un valor, esta hecho por prediccion y de q tipo es
+
 
 # Preguntas
 
-- Si tengo solo 2 valores y el dato de uno, deberia buscar datos de otros valores en la API? actualmente trae resultados de 10 años antes y despues a la fehca seleccionada para los calculos predictivos
 - Una vez predicho un valor de indicador de un año en un pais, si necesito predecir otro valor de indicador de otro año del mismo pais, deberia utilizar el dato de la prediccion anterior para la nueva?
 - Donde investigar en que limites se deberia elegir una tecnica u otra o es prueba y error? (coeficiente pearson, promedio de crecimiento )
 
 - al usar regresion exponencial, si el crecimiento es muy alto me da infinito, en ese caso utilizaria curvas sp?
 
-- en caso de que "El valor del año a predecir está fuera del rango de los datos históricos." que tecnica utilizaria?
+- en caso de que "El valor del año a predecir está fuera del rango de los datos históricos." estando en la tecnica curvas sp que tecnica utilizaria?
+
+# Consulta Predicciones: Situaciones posibles, teniendo en cuenta que ya se obtiene un rango de años mayor al seleccionado
+
+- Tener valores de 2 años y tener 1 solo año
+- Tener valores de 3 años y que falten 2
+- Tener 3 y que falte el primero o el ultimo en curvas SP
+
+-- Que hacer en estos casos?
