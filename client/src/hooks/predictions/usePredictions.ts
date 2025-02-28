@@ -318,6 +318,9 @@ const usePredictions = () => {
                   (1 - alpha) * interpolator(normalizedYearPredict) +
                   alpha * interpolator(normalizedYearPredict ^ 2);
 
+                const valorPredichoSuavizado0 =
+                  (1 - 0) * interpolator(normalizedYearPredict) +
+                  0 * interpolator(normalizedYearPredict ^ 2);
                 const valorPredichoSuavizado03 =
                   (1 - 0.3) * interpolator(normalizedYearPredict) +
                   0.3 * interpolator(normalizedYearPredict ^ 2);
@@ -339,6 +342,7 @@ const usePredictions = () => {
                   alpha,
                   predictedValue,
                   valorPredichoSuavizado,
+                  valorPredichoSuavizado0,
                   valorPredichoSuavizado03,
                   valorPredichoSuavizado05,
                   valorPredichoSuavizado1,
