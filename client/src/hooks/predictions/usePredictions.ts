@@ -1,6 +1,7 @@
 import { IndicatorValue } from "@/interfaces/Indicador";
 import { TecnicaPredictiva } from "./predictions.interface";
 import * as d3 from "d3-interpolate";
+import * as d3sp from "d3";
 
 const usePredictions = () => {
   // analizar variaciones entre rango de años para determinar tecnicas a utilizar
@@ -26,7 +27,7 @@ const usePredictions = () => {
         .map((item) => item.value);
 
       const correlacionPearson = pearsonCorrelation(years, valuesIndicator);
-      console.log({ years, valuesIndicator, correlacionPearson });
+      // console.log({ years, valuesIndicator, correlacionPearson });
 
       // Si la correlación es baja o hay muchas variaciones irregulares.
       if (Math.abs(correlacionPearson) <= 0.7) {
@@ -43,7 +44,7 @@ const usePredictions = () => {
         const promedioCrecimiento =
           diferencias.reduce((a, b) => a + b, 0) / diferencias.length;
 
-        console.log({ diferencias, promedioCrecimiento });
+        // console.log({ diferencias, promedioCrecimiento });
 
         // Si el promedio de crecimiento es hasta un 10%, usa regresión lineal
         if (promedioCrecimiento <= 1.1) {
@@ -209,11 +210,34 @@ const usePredictions = () => {
       }
     });
 
-    console.log({ objectCountriesData });
+    let objectTecnicasCount: { [key in TecnicaPredictiva]: number } = {
+      "CURVAS SP": 0,
+      "REGRESION LINEAL": 0,
+      "REGRESION EXPONENCIAL": 0,
+      "": 0,
+    };
 
-    // Buscar valores nulos para analizar tecnica de prediccion a utilizar con los valores del pais en el rango de años
+    // Determinar tecnica de prediccion por votacion
     Object.entries(objectCountriesData).forEach(
-      ([countryCode, valuesCountry]) => {
+      ([_countryCode, valuesCountry]) => {
+        const tecnicaDeterminada = determinarTecnicaPredictiva(valuesCountry);
+        objectTecnicasCount[tecnicaDeterminada]++;
+      }
+    );
+
+    const tecnicaDeterminadaGlobal = Object.entries(objectTecnicasCount).sort(
+      (a, b) => b[1] - a[1]
+    )[0][0] as TecnicaPredictiva;
+
+    console.log({
+      objectCountriesData,
+      objectTecnicasCount,
+      tecnicaDeterminadaGlobal,
+    });
+
+    // Calcular predicciones
+    Object.entries(objectCountriesData).forEach(
+      ([_countryCode, valuesCountry]) => {
         valuesCountry.forEach((item) => {
           const dateItem = parseInt(item.date);
 
@@ -222,25 +246,24 @@ const usePredictions = () => {
           }
 
           if (!item.value) {
-            const listItemsCountry = objectCountriesData[countryCode].filter(
+            const listItemsCountry = valuesCountry.filter(
               (item) => item.value && item.date
             );
-
-            // Accedo desde el objeto objectCountriesData para obtener los valores actualizados
-            const tecnicaDeterminada =
-              determinarTecnicaPredictiva(listItemsCountry);
-
-            console.log({ tecnicaDeterminada });
 
             const years = listItemsCountry.map((item) => parseInt(item.date));
             const values = listItemsCountry.map((item) => parseInt(item.value));
 
             console.log({ years, values });
 
+            if (values.length < 2) {
+              console.log("No se puede predecir valor sin datos históricos");
+              return;
+            }
+
             // Al determinar que funcion utilizar
-            if (tecnicaDeterminada === "REGRESION LINEAL") {
+            if (tecnicaDeterminadaGlobal === "REGRESION LINEAL") {
               item.value = linearRegression(years, values, parseInt(item.date));
-            } else if (tecnicaDeterminada === "REGRESION EXPONENCIAL") {
+            } else if (tecnicaDeterminadaGlobal === "REGRESION EXPONENCIAL") {
               if (new Set(values).size < 2) {
                 console.log("Se necesitan al menos 2 valores diferentes en x.");
                 return;
@@ -258,11 +281,9 @@ const usePredictions = () => {
                 valuePredicted,
               });
 
-              console.log({ valuePredicted });
-
               item.value = parseFloat(valuePredicted.toFixed(3));
-            } else if (tecnicaDeterminada === "CURVAS SP") {
-              const spline = d3.interpolateBasis(values);
+            } else if (tecnicaDeterminadaGlobal === "CURVAS SP") {
+              const interpolator = d3.interpolateBasis(values);
 
               const minYear = years.at(0) as number;
               const maxYear = years.at(-1) as number;
@@ -270,24 +291,61 @@ const usePredictions = () => {
               const normalizedYearPredict =
                 (dateItem - minYear) / (maxYear - minYear);
 
+              // Si el valor esta por fuera del intervalo de los datos históricos, utiliza regresión lineal por ser menos arriesgado
               if (normalizedYearPredict < 0 || normalizedYearPredict > 1) {
                 console.log(
-                  "El valor del año a predecir está fuera del rango de los datos históricos."
+                  "El valor del año a predecir está fuera del rango de los datos históricos. Se utiliza Regresion lineal"
                 );
-                return;
+                item.value = linearRegression(
+                  years,
+                  values,
+                  parseInt(item.date)
+                );
+
+                item.tecnicaUtilizada = "REGRESION LINEAL";
+              } else {
+                const predictedValue = interpolator(normalizedYearPredict);
+
+                item.value = predictedValue;
+                item.tecnicaUtilizada = tecnicaDeterminadaGlobal;
+
+                console.log({ years, values });
+                const correlacionPearson = pearsonCorrelation(years, values);
+                // Depende de la correlación, se determina la suavidad de la curva
+                const alpha = calcularSuavidadCurvasSP(correlacionPearson);
+
+                const valorPredichoSuavizado =
+                  (1 - alpha) * interpolator(normalizedYearPredict) +
+                  alpha * interpolator(normalizedYearPredict ^ 2);
+
+                const valorPredichoSuavizado03 =
+                  (1 - 0.3) * interpolator(normalizedYearPredict) +
+                  0.3 * interpolator(normalizedYearPredict ^ 2);
+
+                const valorPredichoSuavizado05 =
+                  (1 - 0.5) * interpolator(normalizedYearPredict) +
+                  0.5 * interpolator(normalizedYearPredict ^ 2);
+
+                const valorPredichoSuavizado1 =
+                  (1 - 1) * interpolator(normalizedYearPredict) +
+                  1 * interpolator(normalizedYearPredict ^ 2);
+
+                console.log({
+                  minYear,
+                  maxYear,
+                  normalizedYearPredict,
+                  dateItem,
+                  correlacionPearson,
+                  alpha,
+                  predictedValue,
+                  valorPredichoSuavizado,
+                  valorPredichoSuavizado03,
+                  valorPredichoSuavizado05,
+                  valorPredichoSuavizado1,
+                });
+
+                item.value = valorPredichoSuavizado;
               }
-
-              const predictedValue = spline(normalizedYearPredict);
-
-              console.log({
-                predictedValue,
-                minYear,
-                maxYear,
-                normalizedYearPredict,
-                dateItem,
-              });
-
-              item.value = predictedValue;
             }
 
             if (!item.value) {
@@ -298,22 +356,9 @@ const usePredictions = () => {
               console.log("El valor tiende a infinito.");
               return;
             }
-
-            const indexItemValue = objectCountriesData[countryCode].findIndex(
-              (item) => parseInt(item.date) === dateItem
-            );
-
-            if (indexItemValue == -1) {
-              console.log("Error al buscar indice");
-            }
-
-            item.tecnicaUtilizada = tecnicaDeterminada;
-
-            objectCountriesData[countryCode][indexItemValue].value = item.value;
-            objectCountriesData[countryCode][indexItemValue].tecnicaUtilizada =
-              item.tecnicaUtilizada;
           }
-          // Si el valor existe, pushearlo al array final
+
+          // Si el valor existe o fue predicho correctamente, pushearlo al array final
           dataFinal.push(item);
         });
       }
@@ -321,6 +366,13 @@ const usePredictions = () => {
 
     return dataFinal;
   };
+
+  function calcularSuavidadCurvasSP(correlacion) {
+    if (correlacion <= 0.7) return 1.0; // Muy flexible (Irregular)
+    if (correlacion > 0.7 && correlacion <= 0.9) return 0.5; // Natural
+    // Correlacion > 0.9
+    return 0.3; // Rígido (Crecimiento estable)
+  }
 
   return {
     determinarTecnicaPredictiva,

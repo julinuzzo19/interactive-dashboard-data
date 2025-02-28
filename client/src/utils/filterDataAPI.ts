@@ -5,7 +5,7 @@ import { IRegion } from "@/interfaces/Countries";
 export const filterDataApi = (data: IndicatorValue[], regions: IRegion[]) => {
   return data.filter(
     (item) =>
-      !regions.some((elem) => elem.name == item.country.value) &&
+      !regions.some((elem) => elem.name == item.country?.value) &&
       (!item?.country?.id.startsWith("X") ||
         (item?.country?.id.startsWith("X") &&
           ["XK"].includes(item.country.id))) &&

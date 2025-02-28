@@ -308,31 +308,27 @@ notificacion de validaciones de falta de datos
 - Función de valor mas reciente y mas antiguo
 - Informar cuando un valor, esta hecho por prediccion y de q tipo es
 
-# Preguntas
+# Predicciones: Situaciones posibles a revisar
 
-- Una vez predicho un valor de indicador de un año en un pais, si necesito predecir otro valor de indicador de otro año del mismo pais, deberia utilizar el dato de la prediccion anterior para la nueva? NO USAR
-- Donde investigar en que limites se deberia elegir una tecnica u otra o es prueba y error? (coeficiente pearson, promedio de crecimiento )
-
-- al usar regresion exponencial, si el crecimiento es muy alto me da infinito, en ese caso utilizaria curvas sp?
-
-- en caso de que "El valor del año a predecir está fuera del rango de los datos históricos." estando en la tecnica curvas sp que tecnica utilizaria?, LINEAL
-
-# Consulta Predicciones: Situaciones posibles, teniendo en cuenta que ya se obtiene un rango de años mayor al seleccionado
-
-- Tener valores de 2 años y tener 1 solo año
-- Tener valores de 3 años y que falten 2
-- Tener 3 y que falte el primero o el ultimo en curvas SP
-
--- Que hacer en estos casos?
-
+- Al tener un rango de solo 2 años y tenes 1 solo año DONE
+- Tener 3 y que falte el primero o el ultimo en curvas SP DONE
 
 <!-- REUNION -->
+
 REUINION EN 2 SEMANAS APROX
 TIEMPO MAXIMO DE RETOQUES PRACTICVOS 2 MESES
-TERMINAR LOGICA HABLADA
 ESTILIZAR LA PAGINA
+
 <!--  -->
 
-
 # 28-2
-fix filtro de regiones con datos de indicador
+
+[FIX] filtro de regiones con datos de indicador
+[FIX] determinacion tecnica predictiva por votacion
+[FIX] no usar los valores predichos para predecir nuevos
+[FEATURE] en caso de que "El valor del año a predecir está fuera del rango de los datos históricos." estando en la tecnica curvas sp utlizar LINEAL
+[FEATURE] suavizado a curvas sp dependiendo correlacion de pearson
+
+# Preguntas
+
+- Donde investigar en que limites se deberia elegir una tecnica u otra o es prueba y error? (coeficiente pearson, promedio de crecimiento )

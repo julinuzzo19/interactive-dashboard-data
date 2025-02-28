@@ -11,6 +11,7 @@ import VALUES_FROM_TO_MOCK from "../mocks/values_from_to.json";
 import VALUES_FROM_TO_PREDICTIONS_MOCK from "../mocks/data_predictions.json";
 import VALUES_FROM_TO_PREDICTIONS_MOCK_REG_LINEAL from "../mocks/data_predictions_REG_LINEAL.json";
 import VALUES_FROM_TO_PREDICTIONS_MOCK_REG_EXP from "../mocks/data_predictions_REG_EXP.json";
+import VALUES_FROM_TO_PREDICTIONS_MOCK_SP from "../mocks/data_predictions_SP.json";
 import METADATA_ES_MOCK from "../mocks/metadata_es.json";
 import METADATA_EN_MOCK from "../mocks/metadata_en.json";
 import REGIONS_MOCK from "../mocks/regions.json";
@@ -93,11 +94,9 @@ const useFetch = () => {
     // MOCK
 
     let data: IndicatorValue[] = filterDataApi(
-      VALUES_FROM_TO_MOCK as IndicatorValue[],
+      VALUES_FROM_TO_PREDICTIONS_MOCK_SP as IndicatorValue[],
       regions
     );
-    console.log({ data2: data });
-
     // Procesar data para predictions
     const dataFinal = processDataFetchPredictions({
       data,

@@ -87,10 +87,6 @@ const Home = () => {
     console.log({ dataValues });
   }, [dataValues]);
 
-  useEffect(() => {
-    console.log({ selectedCountries });
-  }, [selectedCountries]);
-
   // Carga inicial
   useEffect(() => {
     getRegionsCountriesAPI();

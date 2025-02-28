@@ -1,0 +1,47 @@
+[
+    {
+        "countryiso3code": "ARG",
+        "date": "2014",
+        "value": 100,
+        "country": {
+            "id": "ARG",
+            "value": "Argentina"
+        }
+    },
+    {
+        "countryiso3code": "ARG",
+        "date": "2015",
+        "value": 600,
+        "country": {
+            "id": "ARG",
+            "value": "Argentina"
+        }
+    },
+    {
+        "countryiso3code": "ARG",
+        "date": "2016",
+        "value": 23000,
+        "country": {
+            "id": "ARG",
+            "value": "Argentina"
+        }
+    },
+    {
+        "countryiso3code": "ARG",
+        "date": "2017",
+        "value": "",
+        "country": {
+            "id": "ARG",
+            "value": "Argentina"
+        }
+    },
+    {
+        "countryiso3code": "ARG",
+        "date": "2018",
+        "value": 35000,
+        "country": {
+            "id": "ARG",
+            "value": "Argentina"
+        }
+    }
+]
