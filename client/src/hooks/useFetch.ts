@@ -17,6 +17,8 @@ import REGIONS_MOCK from "../mocks/regions.json";
 import COUNTRIES_MOCK from "../mocks/countries.json";
 import usePredictions from "./predictions/usePredictions";
 import { ICountry, IRegion } from "@/interfaces/Countries";
+import { hasDigits } from "@/utils/hasDigits";
+import { filterDataApi } from "@/utils/filterDataAPI";
 
 const BASE_URL_WB = "https://api.worldbank.org/v2";
 const BASE_URL_WB_ES = "https://api.worldbank.org/v2/es";
@@ -79,7 +81,7 @@ const useFetch = () => {
     currentYearFrom: number;
     currentYearTo: number;
   }) => {
-    console.log({ indicator, currentYearFrom, currentYearTo });
+    // console.log({ indicator, currentYearFrom, currentYearTo });
 
     const hasExtendedYears =
       currentYearTo - currentYearFrom > LIMIT_ENTENDED_YEARS ? false : true;
@@ -90,8 +92,11 @@ const useFetch = () => {
 
     // MOCK
 
-    const data: IndicatorValue[] = VALUES_FROM_TO_MOCK as IndicatorValue[];
-    // VALUES_FROM_TO_PREDICTIONS_MOCK_REG_EXP as IndicatorValue[];
+    let data: IndicatorValue[] = filterDataApi(
+      VALUES_FROM_TO_MOCK as IndicatorValue[],
+      regions
+    );
+    console.log({ data2: data });
 
     // Procesar data para predictions
     const dataFinal = processDataFetchPredictions({
@@ -122,27 +127,27 @@ const useFetch = () => {
     //   )
     //   .then((res) => {
     //     console.log({ res });
-    //     const data: IndicatorValue[] = (
-    //       res.data[1] || ([] as IndicatorValue[])
+    //     let data: IndicatorValue[] = filterDataApi(
+    //       res.data[1] || ([] as IndicatorValue[]),regions
     //     ).sort((a, b) => parseInt(a.date) - parseInt(b.date));
 
-    // // console.log({ data });
+    //     console.log({ data });
 
-    // // Procesar data para predictions
-    // const dataFinal = processDataFetchPredictions({
-    //   data,
-    //   currentYearFrom,
-    //   currentYearTo,
-    // });
+    //     // Procesar data para predictions
+    //     const dataFinal = processDataFetchPredictions({
+    //       data,
+    //       currentYearFrom,
+    //       currentYearTo,
+    //     });
 
-    // console.log({ dataFinal });
+    //     console.log({ dataFinal });
 
-    // if (dataFinal?.length === 0) {
-    //   throw new Error("No data found");
-    // }
+    //     if (dataFinal?.length === 0) {
+    //       throw new Error("No data found");
+    //     }
 
-    // setDataIndicator(dataFinal);
-    // setDataIndicatorExtended(data);
+    //     setDataIndicator(dataFinal);
+    //     setDataIndicatorExtended(data);
     //   })
     //   .catch((err) => {
     //     console.log({ err });

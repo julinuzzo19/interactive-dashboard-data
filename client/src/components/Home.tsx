@@ -83,17 +83,6 @@ const Home = () => {
   const [showModalCountries, setShowModalCountries] = useState(false);
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
 
-  // useEffect(() => {
-  //   console.log({ rangeYearsIndicator });
-  // }, [rangeYearsIndicator]);
-
-  useEffect(() => {
-    console.log({ dataGraph1 });
-  }, [dataGraph1]);
-  useEffect(() => {
-    console.log({ dataIndicator });
-  }, [dataIndicator]);
-
   useEffect(() => {
     console.log({ dataValues });
   }, [dataValues]);
@@ -349,32 +338,62 @@ const Home = () => {
           )
         : dataValues;
 
-    console.log({ dataValuesFiltered });
+    // console.log({
+    //   dataValues,
+    //   dataValuesFiltered,
+    //   selectedCountries,
+    //   listCountries,
+    //   offset,
+    // });
     const data = dataValuesFiltered
-      .filter((item) => {
-        return (
-          (listCountries.find((elem) => elem.id === item.countryiso3code)
-            ?.name ||
-            listCountries.find((elem) => elem.id === item.country.id)?.name) &&
-          item.value > 0
-        );
-      })
-      .map((item) => {
-        const name =
-          listCountries.find((elem) => elem.id === item.countryiso3code)
-            ?.name ||
-          listCountries.find((elem) => elem.id === item.country.id)?.name ||
-          "";
+      // .filter((item) => {
+      //   const isFiltered =
+      //     (listCountries.find((elem) => elem.id === item.countryiso3code)
+      //       ?.name ||
+      //       listCountries.find((elem) => elem.id === item.country.id)?.name) &&
+      //     item.value > 0;
 
-        const value = item.value || 0;
+      //   if (!isFiltered) {
+      //     console.log({ isFiltered, item });
+      //   }
+
+      //   return isFiltered;
+      // })
+      .map((item) => {
+        const countryFound = countries
+          // .filter((elem) => elem.region.value !== "Agregados")
+          .find((elem) => elem.iso2Code == item.country.id);
+        // listCountries.find((elem) => elem.id === item.countryiso3code)
+        //   ?.name ||
+        // listCountries.find((elem) => elem.id === item.country.id)?.name ||
+        // "";
+
+        if (!countryFound?.name) {
+          return;
+        }
+
+        console.log({
+          name: countryFound.name,
+          item,
+          iso3: item.countryiso3code,
+          idCountry: item.country.id,
+          dataValuesFiltered,
+          countryFound,
+        });
+
+        const value = item?.value || 0;
+
+        console.log({ country: countryFound.name, value });
 
         return {
-          country: name,
+          country: countryFound.name,
           value,
         };
       })
-      .sort((a, b) => b.value - a.value)
+      .sort((a, b) => b?.value - a?.value)
       ?.slice(0, offset + LIMIT_COUNTRIES_GRAPH);
+
+    console.log({ data });
 
     setDataGraph1(data);
   };
@@ -631,7 +650,8 @@ const Home = () => {
           <HorizontalBar data={dataGraph1} />
 
           {dataValues.length <= dataIndicator.length &&
-          selectedCountries?.length === 0 ? (
+          (selectedCountries.length === 0 ||
+            selectedCountries?.length > LIMIT_COUNTRIES_GRAPH) ? (
             <button
               onClick={() => {
                 setSeeMore(true);
