@@ -28,6 +28,7 @@
 - Paises faltantes en mapa: antigua y barbuda, islas feroe
 - [FEATURE] ultimo dato disponible, debe ser dato no predicho
 - VER MAS EN GRAPH1 y bar chart race (al agregar mas paises se comprimen visualmente en vez de estirarse)
+- Bar chart race, al tener un solo pais el label no esta alineado a la barra
 
 <!--  -->
 
@@ -37,6 +38,3 @@
   ver de castear a flotante los numeros para inifinito en reg exp
 
 <!--  -->
-
-
-

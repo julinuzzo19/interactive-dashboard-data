@@ -20,8 +20,8 @@ const BarChartRace = ({
   const svgRef = useRef(null);
 
   useEffect(() => {
-    console.log({ offset });
-  }, [offset]);
+    console.log({ data });
+  }, [data]);
   useEffect(() => {
     const svg = d3.select(svgRef.current);
     const width = 1000;

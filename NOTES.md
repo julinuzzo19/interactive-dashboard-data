@@ -335,6 +335,8 @@ ESTILIZAR LA PAGINA
 
 explicar logica de suavizado (grados de libertad, flexibilidad) de curvas sp en tecnicas predictivas
 
-
 # 5-3
+
 [FIX] tecnica predictiva en tooltip mapa
+[FIX] tooltip tecnica predictiva graph1
+[FIX] ver mas bar chart race

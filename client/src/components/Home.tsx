@@ -89,6 +89,9 @@ const Home = () => {
   useEffect(() => {
     console.log({ dataValues });
   }, [dataValues]);
+  useEffect(() => {
+    console.log({ dataBarChartRace });
+  }, [dataBarChartRace]);
 
   // Carga inicial
   useEffect(() => {
@@ -653,7 +656,7 @@ const Home = () => {
       {selectedView === "BAR_CHART_RACE" && (
         <>
           <BarChartRace data={dataBarChartRace} offset={offset} />
-          {dataValues.length <= dataIndicator.length ? (
+          {dataBarChartRace[0]?.values.length > LIMIT_COUNTRIES_RACE ? (
             <button
               onClick={() => {
                 setSeeMore(true);
