@@ -68,6 +68,7 @@ const useFunctions = () => {
           ...indicatorValues[0],
           value: maxValue,
           date: resultValue?.date as string,
+          tecnicaUtilizada: resultValue?.tecnicaUtilizada,
         };
       } else if (func === "MIN") {
         const minValue = Math.min(
@@ -81,6 +82,7 @@ const useFunctions = () => {
           ...indicatorValues[0],
           value: minValue,
           date: resultValue?.date as string,
+          tecnicaUtilizada: resultValue?.tecnicaUtilizada,
         };
       } else if (func === "AVERAGE") {
         let total = 0;
@@ -109,6 +111,7 @@ const useFunctions = () => {
 
         dataFinal = {
           ...indicatorValues[0],
+          tecnicaUtilizada: undefined,
           value: tasaCambioResult,
         };
       } else if (func === "RECIENTE") {
@@ -120,6 +123,7 @@ const useFunctions = () => {
           ...indicatorValues[0],
           value: valueReciente.value,
           date: valueReciente.date,
+          tecnicaUtilizada: valueReciente?.tecnicaUtilizada,
         };
       } else if (func === "ANTIGUO") {
         const valueAntiguo = indicatorValues.sort(
@@ -130,6 +134,7 @@ const useFunctions = () => {
           ...indicatorValues[0],
           value: valueAntiguo.value,
           date: valueAntiguo.date,
+          tecnicaUtilizada: valueAntiguo?.tecnicaUtilizada,
         };
       } else {
         throw new Error("La función a utilizar no existe");

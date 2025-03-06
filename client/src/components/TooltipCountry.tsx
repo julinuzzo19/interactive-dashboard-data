@@ -9,9 +9,9 @@ const TooltipCountry = () => {
     state: { tooltipData, hasYearFunction },
   } = useContext(AppContext);
 
-  // useEffect(() => {
-  //   console.log({ tooltipData, hasYearFunction });
-  // }, [tooltipData, hasYearFunction]);
+  useEffect(() => {
+    console.log({ tooltipData });
+  }, [tooltipData]);
 
   return (
     <Tooltip id="my-tooltip" className="text-center" float={true}>
@@ -24,8 +24,8 @@ const TooltipCountry = () => {
             {hasYearFunction && tooltipData.date && `(${tooltipData.date})`}
           </b>
           {tooltipData?.tecnicaUtilizada && (
-            <p className="italic font-bold capitalize">
-              ({tooltipData.tecnicaUtilizada})
+            <p className="italic capitalize">
+              (predicción: {tooltipData.tecnicaUtilizada})
             </p>
           )}
         </div>

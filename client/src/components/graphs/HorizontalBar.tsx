@@ -21,6 +21,7 @@ const HorizontalBar = ({ data, width = 1000, height = 1000 }) => {
 
     svg.attr("width", width).attr("height", chartHeight);
 
+    console.log({data})
     const x = d3
       .scaleLinear()
       .domain([0, d3.max(data, (d) => d.value)])

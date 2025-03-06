@@ -10,10 +10,10 @@ import TooltipCountry from "./TooltipCountry";
 
 const Geo = ({
   generateColorByValue,
-  dataIndicator,
+  data,
 }: {
   generateColorByValue: (value: number) => string | undefined;
-  dataIndicator: IndicatorValue[];
+  data: IndicatorValue[];
 }) => {
   const { dispatch } = useContext(AppContext);
 
@@ -37,13 +37,17 @@ const Geo = ({
         <Geographies geography="../../public/features.json">
           {({ geographies }: { geographies: GeoCountryColor[] }) => {
             return geographies.map((geo) => {
-              const valueCountry = dataIndicator?.find(
+              const valueCountry = data?.find(
                 (item) => item.countryiso3code === geo.id
               );
+
+              // console.log({ data, valueCountry });
 
               geo.value = valueCountry?.value;
 
               geo.date = valueCountry?.date;
+
+              geo.tecnicaUtilizada = valueCountry?.tecnicaUtilizada || "";
 
               const colorCountry = generateColorByValue(geo.value);
 

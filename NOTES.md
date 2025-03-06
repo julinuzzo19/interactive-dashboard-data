@@ -332,3 +332,8 @@ ESTILIZAR LA PAGINA
 # Preguntas
 
 - Donde investigar en que limites se deberia elegir una tecnica u otra o es prueba y error? (coeficiente pearson, promedio de crecimiento )
+
+explicar logica de suavizado (grados de libertad, flexibilidad) de curvas sp en tecnicas predictivas
+
+
+# 5-3

@@ -15,7 +15,7 @@
 
 # Predicciones: Situaciones posibles a revisar
 
-- Al tener un rango de solo 2 años y tenes 1 solo año  DONE
+- Al tener un rango de solo 2 años y tenes 1 solo año DONE
 - Tener 3 y que falte el primero o el ultimo en curvas SP DONE
 
 # TODO
@@ -30,8 +30,6 @@
 - VER MAS EN GRAPH1 y bar chart race (al agregar mas paises se comprimen visualmente en vez de estirarse)
 
 <!--  -->
-
-CURVAS SP, parametros (grados de libertad, flexibilidad)
 
 <!-- REG EXP INFINITO -->
 

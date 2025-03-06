@@ -341,6 +341,7 @@ const Home = () => {
     //   listCountries,
     //   offset,
     // });
+    console.log({ dataValuesFiltered });
     const data = dataValuesFiltered
       // .filter((item) => {
       //   const isFiltered =
@@ -363,7 +364,7 @@ const Home = () => {
         //   ?.name ||
         // listCountries.find((elem) => elem.id === item.country.id)?.name ||
         // "";
-
+        console.log({ countryFound });
         if (!countryFound?.name) {
           return;
         }
@@ -431,14 +432,15 @@ const Home = () => {
 
     const dataFinal: IndicatorValue[] = [];
 
+    console.log({ objectValuesCountries });
     Object.values(objectValuesCountries).forEach((value) => {
-      const itemData = value[0];
+      let valueFunction;
 
       let valueFinal;
       let yearFinal;
 
       if (functionSelected?.value) {
-        const valueFunction = getValueFunction({
+        valueFunction = getValueFunction({
           func: functionSelected.value,
           indicatorValues: value,
         });
@@ -450,7 +452,7 @@ const Home = () => {
         yearFinal = value[0].date;
       }
 
-      dataFinal.push({ ...itemData, value: valueFinal, date: yearFinal });
+      dataFinal.push({ ...valueFunction, value: valueFinal, date: yearFinal });
     });
 
     setDataValues(dataFinal);
@@ -636,10 +638,7 @@ const Home = () => {
         </TabsList>
       </Tabs>
       {selectedView === "MAP" && (
-        <Geo
-          dataIndicator={dataValues}
-          generateColorByValue={generateColorByValue}
-        />
+        <Geo data={dataValues} generateColorByValue={generateColorByValue} />
       )}
       {selectedView === "GRAPH1" && (
         <>
