@@ -229,11 +229,11 @@ const usePredictions = () => {
       (a, b) => b[1] - a[1]
     )[0][0] as TecnicaPredictiva;
 
-    console.log({
-      objectCountriesData,
-      objectTecnicasCount,
-      tecnicaDeterminadaGlobal,
-    });
+    // console.log({
+    //   objectCountriesData,
+    //   objectTecnicasCount,
+    //   tecnicaDeterminadaGlobal,
+    // });
 
     // Calcular predicciones
     Object.entries(objectCountriesData).forEach(
@@ -253,7 +253,7 @@ const usePredictions = () => {
             const years = listItemsCountry.map((item) => parseInt(item.date));
             const values = listItemsCountry.map((item) => parseInt(item.value));
 
-            console.log({ years, values });
+            // console.log({ years, values });
 
             if (values.length < 2) {
               console.log("No se puede predecir valor sin datos históricos");
@@ -273,13 +273,13 @@ const usePredictions = () => {
               const x = parseInt(item.date);
 
               const valuePredicted = a * Math.exp(b * x);
-              console.log({
-                a,
-                b,
-                x,
-                expBX: Math.exp(b * x),
-                valuePredicted,
-              });
+              // console.log({
+              //   a,
+              //   b,
+              //   x,
+              //   expBX: Math.exp(b * x),
+              //   valuePredicted,
+              // });
 
               item.value = parseFloat(valuePredicted.toFixed(3));
             } else if (tecnicaDeterminadaGlobal === "CURVAS SP") {
@@ -309,7 +309,7 @@ const usePredictions = () => {
                 item.value = predictedValue;
                 item.tecnicaUtilizada = tecnicaDeterminadaGlobal;
 
-                console.log({ years, values });
+                // console.log({ years, values });
                 const correlacionPearson = pearsonCorrelation(years, values);
                 // Depende de la correlación, se determina la suavidad de la curva
                 const alpha = calcularSuavidadCurvasSP(correlacionPearson);

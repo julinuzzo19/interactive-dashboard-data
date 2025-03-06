@@ -1,11 +1,25 @@
 // @ts-nocheck
 import { useRef, useEffect } from "react";
 import * as d3 from "d3";
+import { tecnicaUtilizada } from "@/hooks/predictions/predictions.interface";
 
-const HorizontalBar = ({ data, width = 1000, height = 1000 }) => {
+const HorizontalBar = ({
+  data,
+  width = 1000,
+  height = 1000,
+}: {
+  data: {
+    country: string;
+    value: string;
+    tecnicaUtilizada?: tecnicaUtilizada;
+  }[];
+  width?: number;
+  height?: number;
+}) => {
   const svgRef = useRef();
 
   useEffect(() => {
+    console.log({ data });
     // const sortedData = data.sort((a, b) => b.value - a.value);
 
     const svg = d3.select(svgRef.current);
@@ -21,7 +35,6 @@ const HorizontalBar = ({ data, width = 1000, height = 1000 }) => {
 
     svg.attr("width", width).attr("height", chartHeight);
 
-    console.log({data})
     const x = d3
       .scaleLinear()
       .domain([0, d3.max(data, (d) => d.value)])
@@ -70,7 +83,11 @@ const HorizontalBar = ({ data, width = 1000, height = 1000 }) => {
       .on("mouseover", (event, d) => {
         tooltip
           .style("visibility", "visible")
-          .text(`${d.country}: ${d.value.toLocaleString()}`);
+          .text(
+            `${d.country}: ${d.value.toLocaleString()}${
+              d?.tecnicaUtilizada ? ` (Predicción: ${d.tecnicaUtilizada})` : ""
+            }`
+          );
       })
       .on("mousemove", (event) => {
         tooltip
@@ -92,7 +109,9 @@ const HorizontalBar = ({ data, width = 1000, height = 1000 }) => {
         tooltip
           .style("visibility", "visible")
           .text(
-            `${countryData.country}: ${countryData.value.toLocaleString()}`
+            `${d.country}: ${d.value.toLocaleString()}${
+              d?.tecnicaUtilizada ? ` (Predicción: ${d.tecnicaUtilizada})` : ""
+            }`
           );
       })
       .on("mousemove", (event) => {

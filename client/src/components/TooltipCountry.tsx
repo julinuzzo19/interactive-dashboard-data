@@ -9,10 +9,6 @@ const TooltipCountry = () => {
     state: { tooltipData, hasYearFunction },
   } = useContext(AppContext);
 
-  useEffect(() => {
-    console.log({ tooltipData });
-  }, [tooltipData]);
-
   return (
     <Tooltip id="my-tooltip" className="text-center" float={true}>
       {tooltipData?.id && (

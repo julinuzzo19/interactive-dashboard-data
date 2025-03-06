@@ -337,3 +337,4 @@ explicar logica de suavizado (grados de libertad, flexibilidad) de curvas sp en 
 
 
 # 5-3
+[FIX] tecnica predictiva en tooltip mapa

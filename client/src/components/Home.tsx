@@ -22,6 +22,7 @@ import ModalFunction from "./modals/ModalFunction";
 import { AppContext } from "@/store/Context";
 import ModalCountriesSelect from "./modals/ModalCountriesSelect";
 import { errNotif } from "./ui/Notifications";
+import { TecnicaPredictiva } from "@/hooks/predictions/predictions.interface";
 
 const LIMIT_COUNTRIES_GRAPH = 25;
 const LIMIT_COUNTRIES_RACE = 10;
@@ -74,7 +75,9 @@ const Home = () => {
   const [selectedTopic, setSelectedTopic] = useState<string>("");
   const [showModalMetadata, setShowModalMetadata] = useState(false);
   const [dataValues, setDataValues] = useState<IndicatorValue[]>([]);
-  const [dataGraph1, setDataGraph1] = useState<any[]>([]);
+  const [dataGraph1, setDataGraph1] = useState<
+    { country: string; value: string; tecnicaUtilizada?: TecnicaPredictiva }[]
+  >([]);
   // Funciones
   const [functionSelected, setFunctionSelected] = useState<FunctionValue>(
     DEFAULT_VALUE_FUNCTION
@@ -341,7 +344,7 @@ const Home = () => {
     //   listCountries,
     //   offset,
     // });
-    console.log({ dataValuesFiltered });
+    console.log({ dataValuesFiltered, countries });
     const data = dataValuesFiltered
       // .filter((item) => {
       //   const isFiltered =
@@ -356,41 +359,29 @@ const Home = () => {
 
       //   return isFiltered;
       // })
+      .filter(
+        (item) => countries.find((elem) => elem.id == item.country.id)?.name
+      )
       .map((item) => {
         const countryFound = countries
           // .filter((elem) => elem.region.value !== "Agregados")
-          .find((elem) => elem.iso2Code == item.country.id);
+          .find((elem) => elem.id == item.country.id);
         // listCountries.find((elem) => elem.id === item.countryiso3code)
         //   ?.name ||
         // listCountries.find((elem) => elem.id === item.country.id)?.name ||
         // "";
-        console.log({ countryFound });
-        if (!countryFound?.name) {
-          return;
-        }
-
-        console.log({
-          name: countryFound.name,
-          item,
-          iso3: item.countryiso3code,
-          idCountry: item.country.id,
-          dataValuesFiltered,
-          countryFound,
-        });
+        console.log({ countryFound, item });
 
         const value = item?.value || 0;
 
-        console.log({ country: countryFound.name, value });
-
         return {
-          country: countryFound.name,
+          country: countryFound?.name as string,
           value,
+          tecnicaUtilizada: item?.tecnicaUtilizada,
         };
       })
       .sort((a, b) => b?.value - a?.value)
       ?.slice(0, offset + LIMIT_COUNTRIES_GRAPH);
-
-    console.log({ data });
 
     setDataGraph1(data);
   };
