@@ -86,12 +86,9 @@ const Home = () => {
   const [showModalCountries, setShowModalCountries] = useState(false);
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
 
-  useEffect(() => {
-    console.log({ dataValues });
-  }, [dataValues]);
-  useEffect(() => {
-    console.log({ dataBarChartRace });
-  }, [dataBarChartRace]);
+  // useEffect(() => {
+  //   console.log({ dataValues });
+  // }, [dataValues]);
 
   // Carga inicial
   useEffect(() => {
@@ -101,6 +98,7 @@ const Home = () => {
   useEffect(() => {
     if (rangeYearsIndicator?.length > 0) {
       setCurrentYearFrom(rangeYearsIndicator[0]);
+      // setCurrentYearFrom(2014);
       setCurrentYearTo(rangeYearsIndicator[0]);
     }
   }, [rangeYearsIndicator]);
@@ -426,7 +424,7 @@ const Home = () => {
 
     const dataFinal: IndicatorValue[] = [];
 
-    console.log({ objectValuesCountries });
+    // console.log({ objectValuesCountries });
     Object.values(objectValuesCountries).forEach((value) => {
       let valueFunction;
 

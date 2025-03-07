@@ -37,4 +37,6 @@
 - al usar regresion exponencial, si el crecimiento es muy alto me da infinito, en ese caso utilizaria curvas sp?
   ver de castear a flotante los numeros para inifinito en reg exp
 
+--- buscar liomite de promedio crecimiento para usar reg exp
+
 <!--  -->

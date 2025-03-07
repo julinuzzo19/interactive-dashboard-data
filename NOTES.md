@@ -340,3 +340,6 @@ explicar logica de suavizado (grados de libertad, flexibilidad) de curvas sp en 
 [FIX] tecnica predictiva en tooltip mapa
 [FIX] tooltip tecnica predictiva graph1
 [FIX] ver mas bar chart race
+
+# 6-3
+[REWORK] reg exponencial con valores normalizados

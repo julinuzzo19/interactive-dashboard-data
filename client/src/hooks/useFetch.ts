@@ -50,9 +50,9 @@ const useFetch = () => {
     getIndicadores();
   }, []);
 
-  useEffect(() => {
-    console.log({ dataIndicator });
-  }, [dataIndicator]);
+  // useEffect(() => {
+  //   console.log({ dataIndicator });
+  // }, [dataIndicator]);
 
   const getIndicadores = async () => {
     // @ts-ignore
@@ -93,10 +93,12 @@ const useFetch = () => {
 
     // MOCK
 
-    let data: IndicatorValue[] = filterDataApi(
-      VALUES_FROM_TO_PREDICTIONS_MOCK_SP as IndicatorValue[],
+    const data: IndicatorValue[] = filterDataApi(
+      VALUES_FROM_TO_PREDICTIONS_MOCK_REG_EXP as any[],
       regions
     );
+
+    console.log({ data });
     // Procesar data para predictions
     const dataFinal = processDataFetchPredictions({
       data,

@@ -1,27 +1,67 @@
 [
     {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "AR",
+            "value": "Argentina"
+        },
         "countryiso3code": "ARG",
         "date": "2014",
         "value": 100
     },
     {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "AR",
+            "value": "Argentina"
+        },
         "countryiso3code": "ARG",
         "date": "2015",
         "value": 120
     },
     {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "AR",
+            "value": "Argentina"
+        },
         "countryiso3code": "ARG",
         "date": "2016",
-        "value": 1000
+        "value": 300
     },
     {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "AR",
+            "value": "Argentina"
+        },
         "countryiso3code": "ARG",
         "date": "2017",
         "value": ""
     },
     {
+        "indicator": {
+            "id": "SP.POP.TOTL.MA.IN",
+            "value": "Población, hombres"
+        },
+        "country": {
+            "id": "AR",
+            "value": "Argentina"
+        },
         "countryiso3code": "ARG",
         "date": "2018",
-        "value": 300
+        "value": 500
     }
 ]

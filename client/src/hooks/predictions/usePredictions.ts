@@ -1,7 +1,6 @@
 import { IndicatorValue } from "@/interfaces/Indicador";
 import { TecnicaPredictiva } from "./predictions.interface";
 import * as d3 from "d3-interpolate";
-import * as d3sp from "d3";
 
 const usePredictions = () => {
   // analizar variaciones entre rango de años para determinar tecnicas a utilizar
@@ -44,7 +43,7 @@ const usePredictions = () => {
         const promedioCrecimiento =
           diferencias.reduce((a, b) => a + b, 0) / diferencias.length;
 
-        // console.log({ diferencias, promedioCrecimiento });
+        console.log({ promedioCrecimiento });
 
         // Si el promedio de crecimiento es hasta un 10%, usa regresión lineal
         if (promedioCrecimiento <= 1.1) {
@@ -210,6 +209,7 @@ const usePredictions = () => {
       }
     });
 
+    console.log({ objectCountriesData });
     let objectTecnicasCount: { [key in TecnicaPredictiva]: number } = {
       "CURVAS SP": 0,
       "REGRESION LINEAL": 0,
@@ -253,7 +253,7 @@ const usePredictions = () => {
             const years = listItemsCountry.map((item) => parseInt(item.date));
             const values = listItemsCountry.map((item) => parseInt(item.value));
 
-            // console.log({ years, values });
+            console.log({ years, values });
 
             if (values.length < 2) {
               console.log("No se puede predecir valor sin datos históricos");
@@ -269,17 +269,67 @@ const usePredictions = () => {
                 return;
               }
 
-              const { a, b } = exponentialRegression(years, values);
-              const x = parseInt(item.date);
+              // Anterior version que daba infinito en valore smuy altos
+              // const { a, b } = exponentialRegression(years, values);
+              // const x = parseInt(item.date);
+              // const valuePredicted = a * Math.exp(b * x);
 
-              const valuePredicted = a * Math.exp(b * x);
               // console.log({
-              //   a,
-              //   b,
-              //   x,
+              // a, b, x
               //   expBX: Math.exp(b * x),
               //   valuePredicted,
+              //   valueFinal: parseFloat(valuePredicted.toFixed(3)),
               // });
+
+              /*  Normalizacion de x (year)   */
+
+              // Calcular la media
+              const mediaYear =
+                years.reduce((sum, year) => sum + year, 0) / years.length;
+
+              //  Calculo la desviación estándar
+
+              // Diferencia de cuadrados
+              const squaredDifferences = years.map((year) =>
+                Math.pow(year - mediaYear, 2)
+              );
+              // Varianza
+              const variance =
+                squaredDifferences.reduce((sum, value) => sum + value, 0) /
+                years.length;
+
+              // Desviación estandar
+              const stdX = Math.sqrt(variance);
+
+              const normalizedYears = years.map(
+                (year) => (year - mediaYear) / stdX
+              );
+
+              // Paso 2: Linealización de la ecuación exponencial, aplicando logaritmo
+              const logValues = values.map((value) => Math.log(value));
+
+              // Paso 3: Regresión lineal sobre ln(y) y x normalizado
+              const n = years.length;
+              const sumX = normalizedYears.reduce((sum, x) => sum + x, 0);
+              const sumY = logValues.reduce((sum, y) => sum + y, 0);
+              const sumXY = normalizedYears.reduce(
+                (sum, x, i) => sum + x * logValues[i],
+                0
+              );
+              const sumX2 = normalizedYears.reduce((sum, x) => sum + x * x, 0);
+
+              // Calcular b y ln(a)
+              const b = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+              const lnA = (sumY - b * sumX) / n;
+              const a = Math.exp(lnA);
+
+              // Predecir el valor para el año
+              const yearToPredict = dateItem;
+              const xNormalized = (yearToPredict - mediaYear) / stdX;
+              const valuePredicted = a * Math.exp(b * xNormalized);
+
+              console.log({ a, lnA, b, xNormalized, valuePredicted });
+              // }
 
               item.value = parseFloat(valuePredicted.toFixed(3));
             } else if (tecnicaDeterminadaGlobal === "CURVAS SP") {

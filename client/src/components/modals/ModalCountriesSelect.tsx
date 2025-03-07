@@ -19,13 +19,13 @@ const ModalCountriesSelect = ({
 }) => {
   const [currentCountries, setCurrentCountries] = useState<string[]>([]);
 
-  useEffect(() => {
-    console.log({ regions, countries });
-  }, [regions, countries]);
+  // useEffect(() => {
+  //   console.log({ regions, countries });
+  // }, [regions, countries]);
 
-  useEffect(() => {
-    console.log({ currentCountries });
-  }, [currentCountries]);
+  // useEffect(() => {
+  //   console.log({ currentCountries });
+  // }, [currentCountries]);
 
   const handleConfirmCountries = () => {
     setSelectedCountries(currentCountries);
