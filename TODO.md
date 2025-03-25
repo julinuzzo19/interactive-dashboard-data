@@ -29,14 +29,33 @@
 - [FEATURE] ultimo dato disponible, debe ser dato no predicho
 - VER MAS EN GRAPH1 y bar chart race (al agregar mas paises se comprimen visualmente en vez de estirarse)
 - Bar chart race, al tener un solo pais el label no esta alineado a la barra
-
 <!--  -->
 
-<!-- REG EXP INFINITO -->
+<!-- Temas conceptuales faltantes -->
 
-- al usar regresion exponencial, si el crecimiento es muy alto me da infinito, en ese caso utilizaria curvas sp?
-  ver de castear a flotante los numeros para inifinito en reg exp
+USER MSE y ver valores d eindicaodres reales para cada prediccion
 
---- buscar liomite de promedio crecimiento para usar reg exp
+Camas hospitalarias (por cada 1.000 personas) (SH.MED.BEDS.ZS)
 
-<!--  -->
+promedio crecimiento Infinity a veces porque? puede ser por noi haber datos?
+
+<!-- Promedio crecimiento paises de ejemplo a tester:  -->
+
+Zambia - 2000 : 1.25
+Zambia - 2001 : 1.5
+Zambia - 2002 : 1.375
+
+"Islas Vírgenes (EE.UU.)" 2013 1.33
+2012
+2007
+2005
+
+Nauru 2002 1.20
+
+# (SH.MED.BEDS.ZS)
+
+regresion por partesm logaritmica
+
+# 25-3
+
+implementar tecnica logistica ver chatgpt conversacion

@@ -1,17 +1,16 @@
 import { IndicatorValue } from "@/interfaces/Indicador";
 import { TecnicaPredictiva } from "./predictions.interface";
-import * as d3 from "d3-interpolate";
 
 const usePredictions = () => {
   // analizar variaciones entre rango de años para determinar tecnicas a utilizar
 
   const determinarTecnicaPredictiva = (
     values: IndicatorValue[]
-  ): TecnicaPredictiva => {
+  ): TecnicaPredictiva | "" => {
     try {
       validateHandlePrediction(values);
 
-      let tecnicaDeterminada: TecnicaPredictiva;
+      let tecnicaDeterminada: TecnicaPredictiva = "";
 
       // Formatear los datos
       const valuesSorted = values.sort(
@@ -28,9 +27,12 @@ const usePredictions = () => {
       const correlacionPearson = pearsonCorrelation(years, valuesIndicator);
       // console.log({ years, valuesIndicator, correlacionPearson });
 
+      if (valuesIndicator.length <= 2) {
+        // Sisolo hay 2 valores o menos, no participa en votacion
+      }
       // Si la correlación es baja o hay muchas variaciones irregulares.
-      if (Math.abs(correlacionPearson) <= 0.7) {
-        tecnicaDeterminada = "CURVAS SP";
+      else if (Math.abs(correlacionPearson) <= 0.7) {
+        tecnicaDeterminada = "REGRESION LOGISTICA";
       } else {
         // determinar si usar regresion exponencial
 
@@ -43,17 +45,21 @@ const usePredictions = () => {
         const promedioCrecimiento =
           diferencias.reduce((a, b) => a + b, 0) / diferencias.length;
 
-        console.log({ promedioCrecimiento });
+        // console.log({ promedioCrecimiento, correlacionPearson });
 
         // Si el promedio de crecimiento es hasta un 10%, usa regresión lineal
         if (promedioCrecimiento <= 1.1) {
           tecnicaDeterminada = "REGRESION LINEAL";
         }
         // Si el promedio de crecimiento es mayor, usa regresion exponencial
-        else if (promedioCrecimiento <= 1.3) {
+        else if (valuesIndicator.length < 5 && promedioCrecimiento <= 1.3) {
+          // evita predicciones demasiado extremas cuando hay pocos datos.
+          tecnicaDeterminada = "REGRESION LOGISTICA";
+        } else if (promedioCrecimiento <= 1.3 && valuesIndicator.length >= 5) {
           tecnicaDeterminada = "REGRESION EXPONENCIAL";
-        } else {
-          tecnicaDeterminada = "CURVAS SP";
+        } else if (promedioCrecimiento > 1.3) {
+          // para comportamientos mezclados de crecimiento y decrecimiento o variaciones de la tasa de crecimiento
+          tecnicaDeterminada = "REGRESION LOGISTICA";
         }
       }
 
@@ -82,38 +88,80 @@ const usePredictions = () => {
       .filter((item) => item?.value)
       .map((item) => item.value);
 
+    // console.log({ years, values:  valuesIndicator });
+
     if (years.length < 2) {
-      throw new Error(
+      // throw new Error(
+      console.log(
         "Para predecir valor es necesario contar con al menos 2 valores de año"
       );
+      // );
     } else if (valuesIndicator.length < 1) {
-      throw new Error(
+      // throw new Error(
+      console.log(
         "Para predecir valor es necesario contar con al menos 2 valores de indicador"
       );
+      // );
     }
   };
 
   // Función para calcular la regresión exponencial
-  function exponentialRegression(x, y) {
+  function exponentialRegression(
+    years: number[],
+    values: number[],
+    year: number
+  ) {
     // X: años de los datos
     // Y: valores de los datos ordenados con el año en X
     // PredictYear: Año a predecir valor
+    /*  Normalizacion de x (year)   */
 
-    // Transformamos y en escala logarítmica: ln(y)
-    let lnY = y.map((value) => Math.log(value));
+    // Calcular la media
+    const mediaYear = years.reduce((sum, year) => sum + year, 0) / years.length;
 
-    // Cálculo de regresión lineal sobre x y ln(y)
-    let n = x.length;
-    let sumX = x.reduce((a, b) => a + b, 0);
-    let sumLnY = lnY.reduce((a, b) => a + b, 0);
-    let sumXlnY = x.map((xi, i) => xi * lnY[i]).reduce((a, b) => a + b, 0);
-    let sumX2 = x.map((xi) => xi * xi).reduce((a, b) => a + b, 0);
+    //  Calculo la desviación estándar
 
-    // Cálculo de coeficientes b y a
-    let b = (n * sumXlnY - sumX * sumLnY) / (n * sumX2 - sumX ** 2);
-    let a = Math.exp((sumLnY - b * sumX) / n);
+    // Diferencia de cuadrados
+    const squaredDifferences = years.map((year) =>
+      Math.pow(year - mediaYear, 2)
+    );
+    // Varianza
+    const variance =
+      squaredDifferences.reduce((sum, value) => sum + value, 0) / years.length;
 
-    return { a, b };
+    // Desviación estandar
+    const stdX = Math.sqrt(variance);
+
+    const normalizedYears = years.map((year) => (year - mediaYear) / stdX);
+
+    // Paso 2: Linealización de la ecuación exponencial, aplicando logaritmo
+    const logValues = values.map((value) => Math.log(value));
+
+    // Paso 3: Regresión lineal sobre ln(y) y x normalizado
+    const n = years.length;
+    const sumX = normalizedYears.reduce((sum, x) => sum + x, 0);
+    const sumY = logValues.reduce((sum, y) => sum + y, 0);
+    const sumXY = normalizedYears.reduce(
+      (sum, x, i) => sum + x * logValues[i],
+      0
+    );
+    const sumX2 = normalizedYears.reduce((sum, x) => sum + x * x, 0);
+
+    // Calcular b y ln(a)
+    const b = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+    const lnA = (sumY - b * sumX) / n;
+    const a = Math.exp(lnA);
+
+    // Predecir el valor para el año
+    const yearToPredict = year;
+    const xNormalized = (yearToPredict - mediaYear) / stdX;
+    const valuePredicted = a * Math.exp(b * xNormalized);
+
+    // console.log({ a, lnA, b, xNormalized, valuePredicted });
+    // }
+
+    const valueFinal = parseFloat(valuePredicted.toFixed(3));
+    return valueFinal;
   }
   function linearRegression(x, y, predictYear) {
     // X: años de los datos
@@ -193,6 +241,8 @@ const usePredictions = () => {
   }) => {
     const dataFinal: IndicatorValue[] = [];
 
+    console.log({ currentYearFrom, currentYearTo });
+
     const dataSorted = data.sort((a, b) => parseInt(a.date) - parseInt(b.date));
 
     // Agrupar por paises
@@ -211,9 +261,9 @@ const usePredictions = () => {
 
     console.log({ objectCountriesData });
     let objectTecnicasCount: { [key in TecnicaPredictiva]: number } = {
-      "CURVAS SP": 0,
       "REGRESION LINEAL": 0,
       "REGRESION EXPONENCIAL": 0,
+      "REGRESION LOGISTICA": 0,
       "": 0,
     };
 
@@ -221,19 +271,25 @@ const usePredictions = () => {
     Object.entries(objectCountriesData).forEach(
       ([_countryCode, valuesCountry]) => {
         const tecnicaDeterminada = determinarTecnicaPredictiva(valuesCountry);
+
         objectTecnicasCount[tecnicaDeterminada]++;
       }
     );
 
-    const tecnicaDeterminadaGlobal = Object.entries(objectTecnicasCount).sort(
-      (a, b) => b[1] - a[1]
-    )[0][0] as TecnicaPredictiva;
+    // Si no hay tecnica predilecta, por defecto regresion lineal
+    const tecnicaDeterminadaGlobal =
+      objectTecnicasCount[0] === objectTecnicasCount[1] &&
+      objectTecnicasCount[1] === objectTecnicasCount[2]
+        ? "REGRESION LINEAL"
+        : (Object.entries(objectTecnicasCount).sort(
+            (a, b) => b[1] - a[1]
+          )[0][0] as TecnicaPredictiva) || "REGRESION LINEAL";
 
-    // console.log({
-    //   objectCountriesData,
-    //   objectTecnicasCount,
-    //   tecnicaDeterminadaGlobal,
-    // });
+    console.log({
+      objectCountriesData,
+      objectTecnicasCount,
+      tecnicaDeterminadaGlobal,
+    });
 
     // Calcular predicciones
     Object.entries(objectCountriesData).forEach(
@@ -246,6 +302,8 @@ const usePredictions = () => {
           }
 
           if (!item.value) {
+            let lineal, exponencial;
+
             const listItemsCountry = valuesCountry.filter(
               (item) => item.value && item.date
             );
@@ -253,7 +311,18 @@ const usePredictions = () => {
             const years = listItemsCountry.map((item) => parseInt(item.date));
             const values = listItemsCountry.map((item) => parseInt(item.value));
 
-            console.log({ years, values });
+            let diferencias: number[] = [];
+
+            for (let i = 1; i < values.length; i++) {
+              diferencias.push(values[i] / values[i - 1]);
+            }
+
+            const correlacionPearson = pearsonCorrelation(years, values);
+
+            const promedioCrecimiento =
+              diferencias.reduce((a, b) => a + b, 0) / diferencias.length;
+
+            // console.log({ years, values });
 
             if (values.length < 2) {
               console.log("No se puede predecir valor sin datos históricos");
@@ -261,146 +330,36 @@ const usePredictions = () => {
             }
 
             // Al determinar que funcion utilizar
-            if (tecnicaDeterminadaGlobal === "REGRESION LINEAL") {
+            if (true || tecnicaDeterminadaGlobal === "REGRESION LINEAL") {
               item.value = linearRegression(years, values, parseInt(item.date));
-            } else if (tecnicaDeterminadaGlobal === "REGRESION EXPONENCIAL") {
+
+              lineal = item.value;
+            }
+            if (true || tecnicaDeterminadaGlobal === "REGRESION EXPONENCIAL") {
               if (new Set(values).size < 2) {
                 console.log("Se necesitan al menos 2 valores diferentes en x.");
                 return;
               }
 
-              // Anterior version que daba infinito en valore smuy altos
-              // const { a, b } = exponentialRegression(years, values);
-              // const x = parseInt(item.date);
-              // const valuePredicted = a * Math.exp(b * x);
-
-              // console.log({
-              // a, b, x
-              //   expBX: Math.exp(b * x),
-              //   valuePredicted,
-              //   valueFinal: parseFloat(valuePredicted.toFixed(3)),
-              // });
-
-              /*  Normalizacion de x (year)   */
-
-              // Calcular la media
-              const mediaYear =
-                years.reduce((sum, year) => sum + year, 0) / years.length;
-
-              //  Calculo la desviación estándar
-
-              // Diferencia de cuadrados
-              const squaredDifferences = years.map((year) =>
-                Math.pow(year - mediaYear, 2)
+              const resultValue = exponentialRegression(
+                years,
+                values,
+                parseInt(item.date)
               );
-              // Varianza
-              const variance =
-                squaredDifferences.reduce((sum, value) => sum + value, 0) /
-                years.length;
-
-              // Desviación estandar
-              const stdX = Math.sqrt(variance);
-
-              const normalizedYears = years.map(
-                (year) => (year - mediaYear) / stdX
-              );
-
-              // Paso 2: Linealización de la ecuación exponencial, aplicando logaritmo
-              const logValues = values.map((value) => Math.log(value));
-
-              // Paso 3: Regresión lineal sobre ln(y) y x normalizado
-              const n = years.length;
-              const sumX = normalizedYears.reduce((sum, x) => sum + x, 0);
-              const sumY = logValues.reduce((sum, y) => sum + y, 0);
-              const sumXY = normalizedYears.reduce(
-                (sum, x, i) => sum + x * logValues[i],
-                0
-              );
-              const sumX2 = normalizedYears.reduce((sum, x) => sum + x * x, 0);
-
-              // Calcular b y ln(a)
-              const b = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
-              const lnA = (sumY - b * sumX) / n;
-              const a = Math.exp(lnA);
-
-              // Predecir el valor para el año
-              const yearToPredict = dateItem;
-              const xNormalized = (yearToPredict - mediaYear) / stdX;
-              const valuePredicted = a * Math.exp(b * xNormalized);
-
-              console.log({ a, lnA, b, xNormalized, valuePredicted });
-              // }
-
-              item.value = parseFloat(valuePredicted.toFixed(3));
-            } else if (tecnicaDeterminadaGlobal === "CURVAS SP") {
-              const interpolator = d3.interpolateBasis(values);
-
-              const minYear = years.at(0) as number;
-              const maxYear = years.at(-1) as number;
-
-              const normalizedYearPredict =
-                (dateItem - minYear) / (maxYear - minYear);
-
-              // Si el valor esta por fuera del intervalo de los datos históricos, utiliza regresión lineal por ser menos arriesgado
-              if (normalizedYearPredict < 0 || normalizedYearPredict > 1) {
-                console.log(
-                  "El valor del año a predecir está fuera del rango de los datos históricos. Se utiliza Regresion lineal"
-                );
-                item.value = linearRegression(
-                  years,
-                  values,
-                  parseInt(item.date)
-                );
-
-                item.tecnicaUtilizada = "REGRESION LINEAL";
-              } else {
-                const predictedValue = interpolator(normalizedYearPredict);
-
-                item.value = predictedValue;
-                item.tecnicaUtilizada = tecnicaDeterminadaGlobal;
-
-                // console.log({ years, values });
-                const correlacionPearson = pearsonCorrelation(years, values);
-                // Depende de la correlación, se determina la suavidad de la curva
-                const alpha = calcularSuavidadCurvasSP(correlacionPearson);
-
-                const valorPredichoSuavizado =
-                  (1 - alpha) * interpolator(normalizedYearPredict) +
-                  alpha * interpolator(normalizedYearPredict ^ 2);
-
-                const valorPredichoSuavizado0 =
-                  (1 - 0) * interpolator(normalizedYearPredict) +
-                  0 * interpolator(normalizedYearPredict ^ 2);
-                const valorPredichoSuavizado03 =
-                  (1 - 0.3) * interpolator(normalizedYearPredict) +
-                  0.3 * interpolator(normalizedYearPredict ^ 2);
-
-                const valorPredichoSuavizado05 =
-                  (1 - 0.5) * interpolator(normalizedYearPredict) +
-                  0.5 * interpolator(normalizedYearPredict ^ 2);
-
-                const valorPredichoSuavizado1 =
-                  (1 - 1) * interpolator(normalizedYearPredict) +
-                  1 * interpolator(normalizedYearPredict ^ 2);
-
-                console.log({
-                  minYear,
-                  maxYear,
-                  normalizedYearPredict,
-                  dateItem,
-                  correlacionPearson,
-                  alpha,
-                  predictedValue,
-                  valorPredichoSuavizado,
-                  valorPredichoSuavizado0,
-                  valorPredichoSuavizado03,
-                  valorPredichoSuavizado05,
-                  valorPredichoSuavizado1,
-                });
-
-                item.value = valorPredichoSuavizado;
-              }
+              exponencial = resultValue;
             }
+            if (true || tecnicaDeterminadaGlobal === "REGRESION LOGISTICA") {
+            }
+
+            console.log({
+              // @ts-ignore
+              valorReal: item.valueReal,
+              correlacionPearson,
+              promedioCrecimiento,
+              lineal,
+              exponencial,
+              item,
+            });
 
             if (!item.value) {
               console.log("El valor no fue predicho correctamente");
@@ -412,20 +371,113 @@ const usePredictions = () => {
             }
           }
 
+          // if (!item.value) {
+          //   const listItemsCountry = valuesCountry.filter(
+          //     (item) => item.value && item.date
+          //   );
+
+          //   const years = listItemsCountry.map((item) => parseInt(item.date));
+          //   const values = listItemsCountry.map((item) => parseInt(item.value));
+
+          //   console.log({ years, values });
+
+          //   if (values.length < 2) {
+          //     console.log("No se puede predecir valor sin datos históricos");
+          //     return;
+          //   }
+
+          //   // Al determinar que funcion utilizar
+          //   if (tecnicaDeterminadaGlobal === "REGRESION LINEAL") {
+          //     item.value = linearRegression(years, values, parseInt(item.date));
+          //   } else if (tecnicaDeterminadaGlobal === "REGRESION EXPONENCIAL") {
+          //     if (new Set(values).size < 2) {
+          //       console.log("Se necesitan al menos 2 valores diferentes en x.");
+          //       return;
+          //     }
+
+          //     /*  Normalizacion de x (year)   */
+
+          //     // Calcular la media
+          //     const mediaYear =
+          //       years.reduce((sum, year) => sum + year, 0) / years.length;
+
+          //     //  Calculo la desviación estándar
+
+          //     // Diferencia de cuadrados
+          //     const squaredDifferences = years.map((year) =>
+          //       Math.pow(year - mediaYear, 2)
+          //     );
+          //     // Varianza
+          //     const variance =
+          //       squaredDifferences.reduce((sum, value) => sum + value, 0) /
+          //       years.length;
+
+          //     // Desviación estandar
+          //     const stdX = Math.sqrt(variance);
+
+          //     const normalizedYears = years.map(
+          //       (year) => (year - mediaYear) / stdX
+          //     );
+
+          //     // Paso 2: Linealización de la ecuación exponencial, aplicando logaritmo
+          //     const logValues = values.map((value) => Math.log(value));
+
+          //     // Paso 3: Regresión lineal sobre ln(y) y x normalizado
+          //     const n = years.length;
+          //     const sumX = normalizedYears.reduce((sum, x) => sum + x, 0);
+          //     const sumY = logValues.reduce((sum, y) => sum + y, 0);
+          //     const sumXY = normalizedYears.reduce(
+          //       (sum, x, i) => sum + x * logValues[i],
+          //       0
+          //     );
+          //     const sumX2 = normalizedYears.reduce((sum, x) => sum + x * x, 0);
+
+          //     // Calcular b y ln(a)
+          //     const b = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+          //     const lnA = (sumY - b * sumX) / n;
+          //     const a = Math.exp(lnA);
+
+          //     // Predecir el valor para el año
+          //     const yearToPredict = dateItem;
+          //     const xNormalized = (yearToPredict - mediaYear) / stdX;
+          //     const valuePredicted = a * Math.exp(b * xNormalized);
+
+          //     console.log({ a, lnA, b, xNormalized, valuePredicted });
+          //     // }
+
+          //     item.value = parseFloat(valuePredicted.toFixed(3));
+          //   }
+
+          //   if (!item.value) {
+          //     console.log("El valor no fue predicho correctamente");
+          //     return;
+          //   }
+          //   if (item.value == Infinity) {
+          //     console.log("El valor tiende a infinito.");
+          //     return;
+          //   }
+          // }
+
           // Si el valor existe o fue predicho correctamente, pushearlo al array final
           dataFinal.push(item);
         });
       }
     );
 
+    console.log({ dataFinal });
+
     return dataFinal;
   };
 
-  function calcularSuavidadCurvasSP(correlacion) {
-    if (correlacion <= 0.7) return 1.0; // Muy flexible (Irregular)
-    if (correlacion > 0.7 && correlacion <= 0.9) return 0.5; // Natural
-    // Correlacion > 0.9
-    return 0.3; // Rígido (Crecimiento estable)
+  function calcularMSE(real: number[], predicho: number[]) {
+    if (real.length !== predicho.length) {
+      throw new Error("Los arrays deben tener la misma longitud");
+    }
+
+    const errores = real.map((valor, i) => (valor - predicho[i]) ** 2);
+    const mse = errores.reduce((a, b) => a + b, 0) / real.length;
+
+    return mse;
   }
 
   return {

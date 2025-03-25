@@ -342,4 +342,22 @@ explicar logica de suavizado (grados de libertad, flexibilidad) de curvas sp en 
 [FIX] ver mas bar chart race
 
 # 6-3
+
 [REWORK] reg exponencial con valores normalizados
+
+# Hecho de ultima reunion
+
+- determinacion tecnica predictiva por votacion
+- suavizado a curvas sp dependiendo correlacion de pearson
+- reg exponencial con valores normalizados,
+
+# falta
+
+pruebas para ver los limites de promedio crecimiento para saber si usar una tecnica u otra
+
+# 15-3
+
+- No participa votacion
+  -- si correlacione s baja
+  -- si hay pocos valores (2 o menos)
+  -- si la votacion queda en 0, por defecto lineal

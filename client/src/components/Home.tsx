@@ -52,8 +52,10 @@ const Home = () => {
   >({
     // label: "",
     // value: "",
-    label: "Población, hombres  (SP.POP.TOTL.MA.IN)",
-    value: "SP.POP.TOTL.MA.IN",
+    // label: "Población, hombres  (SP.POP.TOTL.MA.IN)",
+    // value: "SP.POP.TOTL.MA.IN",
+    label: "SH.MED.BEDS.ZS",
+    value: "SH.MED.BEDS.ZS",
   });
   const [minValueIndicator, setMinValueIndicator] = useState(0);
   const [maxValueIndicator, setMaxValueIndicator] = useState(0);
@@ -79,9 +81,10 @@ const Home = () => {
     { country: string; value: string; tecnicaUtilizada?: TecnicaPredictiva }[]
   >([]);
   // Funciones
-  const [functionSelected, setFunctionSelected] = useState<FunctionValue>(
-    DEFAULT_VALUE_FUNCTION
-  );
+  const [functionSelected, setFunctionSelected] = useState<FunctionValue>({
+    label: "Máximo",
+    value: "MAX",
+  });
   const [showModalFunction, setShowModalFunction] = useState(false);
   const [showModalCountries, setShowModalCountries] = useState(false);
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
@@ -97,9 +100,10 @@ const Home = () => {
 
   useEffect(() => {
     if (rangeYearsIndicator?.length > 0) {
-      setCurrentYearFrom(rangeYearsIndicator[0]);
-      // setCurrentYearFrom(2014);
-      setCurrentYearTo(rangeYearsIndicator[0]);
+      // setCurrentYearFrom(rangeYearsIndicator[0]);
+      setCurrentYearFrom(2000);
+      // setCurrentYearTo(rangeYearsIndicator[0]);
+      setCurrentYearTo(2015);
     }
   }, [rangeYearsIndicator]);
 
@@ -189,7 +193,12 @@ const Home = () => {
     if (currentIndicator?.value && currentYearFrom && currentYearTo) {
       getDataIndicadorAPI();
     }
-  }, [currentIndicator?.value, currentYearTo, currentYearFrom]);
+  }, [
+    currentIndicator?.value,
+    currentYearTo,
+    currentYearFrom,
+    selectedCountries,
+  ]);
 
   useEffect(() => {
     // console.log({ dataValues });
@@ -210,6 +219,7 @@ const Home = () => {
         indicator: currentIndicator?.value as string,
         currentYearFrom,
         currentYearTo,
+        selectedCountries: selectedCountries,
       });
     } catch (error) {
       console.log({ error });
