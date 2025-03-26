@@ -197,6 +197,54 @@ const usePredictions = () => {
     return result;
   }
 
+  function logisticRegressionPredict(
+    years: number[],
+    values: number[],
+    targetYear: number,
+    L: any = null
+  ) {
+    // Normalizar años para estabilidad numérica
+    const minYear = Math.min(...years);
+    const maxYear = Math.max(...years);
+    const normalizedYears = years.map(
+      (y) => (y - minYear) / (maxYear - minYear)
+    );
+
+    // Definir L (límite superior)
+    if (L === null) {
+      L = Math.max(...values) * 1.1; // Un 10% más que el máximo para evitar saturación
+    }
+
+    // Evitar problemas numéricos en la transformación log-odds
+    const epsilon = 1e-10;
+    const logOdds = values.map((v) => {
+      if (v >= L) v = L - epsilon; // Evitar que v sea igual o mayor que L
+      return Math.log(v / (L - v));
+    });
+
+    // Calcular coeficientes de regresión lineal sobre log-odds
+    const n = normalizedYears.length;
+    const sumX = normalizedYears.reduce((a, b) => a + b, 0);
+    const sumY = logOdds.reduce((a, b) => a + b, 0);
+    const sumXY = normalizedYears.reduce(
+      (sum, x, i) => sum + x * logOdds[i],
+      0
+    );
+    const sumX2 = normalizedYears.reduce((sum, x) => sum + x * x, 0);
+
+    const b = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+    const a = (sumY - b * sumX) / n;
+
+    // Normalizar año objetivo
+    const normalizedTargetYear = (targetYear - minYear) / (maxYear - minYear);
+    const predictedLogOdds = a + b * normalizedTargetYear;
+
+    // Convertir log-odds a valor predicho
+    const predictedValue = L / (1 + Math.exp(-predictedLogOdds));
+
+    return predictedValue;
+  }
+
   function pearsonCorrelation(x, y) {
     // X: años de los datos
     // Y: valores de los datos ordenados con el año en X
@@ -241,7 +289,7 @@ const usePredictions = () => {
   }) => {
     const dataFinal: IndicatorValue[] = [];
 
-    console.log({ currentYearFrom, currentYearTo });
+    // console.log({ currentYearFrom, currentYearTo });
 
     const dataSorted = data.sort((a, b) => parseInt(a.date) - parseInt(b.date));
 
@@ -259,7 +307,7 @@ const usePredictions = () => {
       }
     });
 
-    console.log({ objectCountriesData });
+    // console.log({ objectCountriesData });
     let objectTecnicasCount: { [key in TecnicaPredictiva]: number } = {
       "REGRESION LINEAL": 0,
       "REGRESION EXPONENCIAL": 0,
@@ -286,7 +334,7 @@ const usePredictions = () => {
           )[0][0] as TecnicaPredictiva) || "REGRESION LINEAL";
 
     console.log({
-      objectCountriesData,
+      // objectCountriesData,
       objectTecnicasCount,
       tecnicaDeterminadaGlobal,
     });
@@ -302,7 +350,7 @@ const usePredictions = () => {
           }
 
           if (!item.value) {
-            let lineal, exponencial;
+            let lineal, exponencial, logistica;
 
             const listItemsCountry = valuesCountry.filter(
               (item) => item.value && item.date
@@ -349,6 +397,13 @@ const usePredictions = () => {
               exponencial = resultValue;
             }
             if (true || tecnicaDeterminadaGlobal === "REGRESION LOGISTICA") {
+              const resultValue = logisticRegressionPredict(
+                years,
+                values,
+                parseInt(item.date)
+              );
+
+              logistica = resultValue;
             }
 
             console.log({
@@ -356,9 +411,10 @@ const usePredictions = () => {
               valorReal: item.valueReal,
               correlacionPearson,
               promedioCrecimiento,
+              item,
               lineal,
               exponencial,
-              item,
+              logistica,
             });
 
             if (!item.value) {

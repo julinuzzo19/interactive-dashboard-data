@@ -361,3 +361,8 @@ pruebas para ver los limites de promedio crecimiento para saber si usar una tecn
   -- si correlacione s baja
   -- si hay pocos valores (2 o menos)
   -- si la votacion queda en 0, por defecto lineal
+
+# 26-3
+
+- Tecnica regresion logistica
+

@@ -202,7 +202,7 @@
         },
         "countryiso3code": "ARG",
         "date": "2011",
-        "value": 17.6,
+        "value": null,
         "unit": "",
         "obs_status": "",
         "decimal": 1
@@ -314,7 +314,7 @@
         },
         "countryiso3code": "ARG",
         "date": "2004",
-        "value": 19.3,
+        "value": null,
         "unit": "",
         "obs_status": "",
         "decimal": 1
