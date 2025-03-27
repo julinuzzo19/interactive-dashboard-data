@@ -169,7 +169,7 @@ const BarChartRace = ({
     return () => clearInterval(interval); // Clean up
   }, [data]);
 
-  return <svg height={"100px"} ref={svgRef}></svg>;
+  return <svg ref={svgRef}></svg>;
 };
 
 export default BarChartRace;

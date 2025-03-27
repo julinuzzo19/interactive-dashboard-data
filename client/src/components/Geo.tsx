@@ -29,7 +29,7 @@ const Geo = ({
   }, []);
 
   return (
-    <div className="h-full w-10/12">
+    <div className="h-full w-full">
       <ComposableMap height={500} projectionConfig={{ scale: 180 }}>
         <Geographies geography="../../public/features.json">
           {({ geographies }: { geographies: GeoCountryColor[] }) => {

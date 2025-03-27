@@ -473,51 +473,11 @@ const Home = () => {
           setSelectedTopic={setSelectedTopic}
           selectedTopic={selectedTopic}
         />
-
-        {/* Selector de indicadores */}
-        <div className="flex flex-col justify-center items-center pt-4 w-full">
-          <span className="font-semibold leading-none tracking-tight mb-2">
-            Seleccione el indicador:
-          </span>
-          <Select
-            className="w-6/12"
-            options={indicators
-              .filter((item) => {
-                if (!selectedTopic) return true;
-                else {
-                  return item.topics.some((elem) => elem.id === selectedTopic);
-                }
-              })
-              .map((indicador) => ({
-                value: indicador.id,
-                label: `${indicador.name}  (${indicador.id})`,
-              }))}
-            maxMenuHeight={200}
-            placeholder="Selecciona un indicador"
-            value={currentIndicator}
-            onChange={(data) => setCurrentIndicator(data)}
-          />
-        </div>
       </div>
 
-      {currentIndicator?.value && (
-        <div className="text-center">
-          <h2 className="font-semibold leading-none tracking-tight mb-2">
-            Indicador seleccionado
-          </h2>
-          <div className="flex flex-row gap-2 justify-center items-center">
-            <h5 className="font-bold">{currentIndicator.label}</h5>
-            <FaInfoCircle
-              role="button"
-              onClick={() => setShowModalMetadata(true)}
-            />
-          </div>
-        </div>
-      )}
-
-      <div className="grid grid-cols-[15%_1fr] gap-4 w-full mt-8">
-        <div className="flex flex-col w-full bg-gray-100 border rounded-xl p-4 mt-10 text-center">
-          <span className="text-2xl font-semibold leading-none tracking-tight mb-5 text-center">
+      <div className="grid grid-cols-[15%_68%_11%] gap-4 w-full">
+        <div className="flex flex-col w-full bg-gray-100 border rounded-xl p-4 mt-5 text-center">
+          <span className="text-2xl font-semibold leading-none tracking-tight text-center">
             Filtros:
           </span>
           {/* FECHAS */}
@@ -564,24 +524,21 @@ const Home = () => {
               </div>
             </div>
           </div>
-
           {/* FIN FECHAS */}
           {/* FUNCION */}
-
           <div
             className={cn(
-              "flex flex-col text-center justify-center w-full mt-5",
-              !(
-                dataValues?.length > 0 &&
-                currentYearTo !== currentYearFrom &&
-                selectedView !== "BAR_CHART_RACE"
-              )
-                ? "invisible"
-                : ""
+              "flex flex-col text-center justify-center w-full mt-5"
             )}
           >
             <div className="flex flex-row gap-2 justify-center items-center">
-              <span className="text-lg font-bold leading-none tracking-tight m-2 text-center">
+              <span className={cn("text-lg font-bold leading-none tracking-tight m-2 text-center",
+                 !(
+                  dataValues?.length > 0 &&
+                  currentYearTo !== currentYearFrom &&
+                  selectedView !== "BAR_CHART_RACE"
+                ) && "text-gray-500"
+              )}>
                 Función a utilizar
               </span>
               <FaInfoCircle
@@ -591,6 +548,13 @@ const Home = () => {
             </div>
             <div>
               <select
+                disabled={
+                  !(
+                    dataValues?.length > 0 &&
+                    currentYearTo !== currentYearFrom &&
+                    selectedView !== "BAR_CHART_RACE"
+                  )
+                }
                 className="appearance-none w-10/12 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-center"
                 value={functionSelected.value}
                 onChange={(e) =>
@@ -611,7 +575,6 @@ const Home = () => {
               </select>
             </div>
           </div>
-
           {/* FIN FUNCION */}
           {/* Selector de paises */}
           <div className="flex flex-row justify-center items-center w-full mt-5">
@@ -636,8 +599,51 @@ const Home = () => {
         </div>
 
         <div className="w-full">
+          {/* Selector de indicadores */}
+          <div className="flex flex-col justify-center items-center w-full">
+            <span className="font-semibold leading-none tracking-tight mb-2">
+              Seleccione el indicador:
+            </span>
+            <Select
+              className="w-6/12"
+              options={indicators
+                .filter((item) => {
+                  if (!selectedTopic) return true;
+                  else {
+                    return item.topics.some(
+                      (elem) => elem.id === selectedTopic
+                    );
+                  }
+                })
+                .map((indicador) => ({
+                  value: indicador.id,
+                  label: `${indicador.name}  (${indicador.id})`,
+                }))}
+              maxMenuHeight={200}
+              placeholder="Selecciona un indicador"
+              value={currentIndicator}
+              onChange={(data) => setCurrentIndicator(data)}
+            />
+          </div>
+          {/* Fin selector */}
+
+          {currentIndicator?.value && (
+            <div className="text-center">
+              <h2 className="font-semibold leading-none tracking-tight mb-2 mt-4">
+                Indicador seleccionado
+              </h2>
+              <div className="flex flex-row gap-2 justify-center items-center">
+                <h5 className="font-bold">{currentIndicator.label}</h5>
+                <FaInfoCircle
+                  role="button"
+                  onClick={() => setShowModalMetadata(true)}
+                />
+              </div>
+            </div>
+          )}
+
           <div className="text-center">
-            <h2 className="text-xl font-semibold leading-none tracking-tight mb-5">
+            <h2 className="text-xl font-semibold leading-none tracking-tight mb-5 mt-5">
               Seleccione la vista
             </h2>
             <Tabs defaultValue="map" className="text-center">
@@ -675,7 +681,7 @@ const Home = () => {
             />
           )}
           {selectedView === "GRAPH1" && (
-            <div className="flex flex-col">
+            <div className="flex flex-col ">
               <HorizontalBar data={dataGraph1} />
 
               {dataValues.length <= dataIndicator.length &&
@@ -695,7 +701,7 @@ const Home = () => {
             </div>
           )}
           {selectedView === "BAR_CHART_RACE" && (
-            <>
+            <div className="h-full w-full flex justify-start items-start">
               <BarChartRace data={dataBarChartRace} offset={offset} />
               {dataBarChartRace[0]?.values.length > LIMIT_COUNTRIES_RACE ? (
                 <button
@@ -708,7 +714,7 @@ const Home = () => {
               ) : (
                 ""
               )}
-            </>
+            </div>
           )}
         </div>
       </div>
