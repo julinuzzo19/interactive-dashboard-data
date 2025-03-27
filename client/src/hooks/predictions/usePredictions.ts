@@ -28,14 +28,12 @@ const usePredictions = () => {
       // console.log({ years, valuesIndicator, correlacionPearson });
 
       if (valuesIndicator.length <= 2) {
-        // Sisolo hay 2 valores o menos, no participa en votacion
+        // Si solo hay 2 valores o menos, no participa en votacion
       }
       // Si la correlación es baja o hay muchas variaciones irregulares.
       else if (Math.abs(correlacionPearson) <= 0.7) {
         tecnicaDeterminada = "REGRESION LOGISTICA";
       } else {
-        // determinar si usar regresion exponencial
-
         // 2️⃣ Calcular el crecimiento relativo entre puntos consecutivos
         let diferencias: number[] = [];
         for (let i = 1; i < valuesIndicator.length; i++) {
@@ -427,93 +425,6 @@ const usePredictions = () => {
             }
           }
 
-          // if (!item.value) {
-          //   const listItemsCountry = valuesCountry.filter(
-          //     (item) => item.value && item.date
-          //   );
-
-          //   const years = listItemsCountry.map((item) => parseInt(item.date));
-          //   const values = listItemsCountry.map((item) => parseInt(item.value));
-
-          //   console.log({ years, values });
-
-          //   if (values.length < 2) {
-          //     console.log("No se puede predecir valor sin datos históricos");
-          //     return;
-          //   }
-
-          //   // Al determinar que funcion utilizar
-          //   if (tecnicaDeterminadaGlobal === "REGRESION LINEAL") {
-          //     item.value = linearRegression(years, values, parseInt(item.date));
-          //   } else if (tecnicaDeterminadaGlobal === "REGRESION EXPONENCIAL") {
-          //     if (new Set(values).size < 2) {
-          //       console.log("Se necesitan al menos 2 valores diferentes en x.");
-          //       return;
-          //     }
-
-          //     /*  Normalizacion de x (year)   */
-
-          //     // Calcular la media
-          //     const mediaYear =
-          //       years.reduce((sum, year) => sum + year, 0) / years.length;
-
-          //     //  Calculo la desviación estándar
-
-          //     // Diferencia de cuadrados
-          //     const squaredDifferences = years.map((year) =>
-          //       Math.pow(year - mediaYear, 2)
-          //     );
-          //     // Varianza
-          //     const variance =
-          //       squaredDifferences.reduce((sum, value) => sum + value, 0) /
-          //       years.length;
-
-          //     // Desviación estandar
-          //     const stdX = Math.sqrt(variance);
-
-          //     const normalizedYears = years.map(
-          //       (year) => (year - mediaYear) / stdX
-          //     );
-
-          //     // Paso 2: Linealización de la ecuación exponencial, aplicando logaritmo
-          //     const logValues = values.map((value) => Math.log(value));
-
-          //     // Paso 3: Regresión lineal sobre ln(y) y x normalizado
-          //     const n = years.length;
-          //     const sumX = normalizedYears.reduce((sum, x) => sum + x, 0);
-          //     const sumY = logValues.reduce((sum, y) => sum + y, 0);
-          //     const sumXY = normalizedYears.reduce(
-          //       (sum, x, i) => sum + x * logValues[i],
-          //       0
-          //     );
-          //     const sumX2 = normalizedYears.reduce((sum, x) => sum + x * x, 0);
-
-          //     // Calcular b y ln(a)
-          //     const b = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
-          //     const lnA = (sumY - b * sumX) / n;
-          //     const a = Math.exp(lnA);
-
-          //     // Predecir el valor para el año
-          //     const yearToPredict = dateItem;
-          //     const xNormalized = (yearToPredict - mediaYear) / stdX;
-          //     const valuePredicted = a * Math.exp(b * xNormalized);
-
-          //     console.log({ a, lnA, b, xNormalized, valuePredicted });
-          //     // }
-
-          //     item.value = parseFloat(valuePredicted.toFixed(3));
-          //   }
-
-          //   if (!item.value) {
-          //     console.log("El valor no fue predicho correctamente");
-          //     return;
-          //   }
-          //   if (item.value == Infinity) {
-          //     console.log("El valor tiende a infinito.");
-          //     return;
-          //   }
-          // }
-
           // Si el valor existe o fue predicho correctamente, pushearlo al array final
           dataFinal.push(item);
         });
@@ -524,17 +435,6 @@ const usePredictions = () => {
 
     return dataFinal;
   };
-
-  function calcularMSE(real: number[], predicho: number[]) {
-    if (real.length !== predicho.length) {
-      throw new Error("Los arrays deben tener la misma longitud");
-    }
-
-    const errores = real.map((valor, i) => (valor - predicho[i]) ** 2);
-    const mse = errores.reduce((a, b) => a + b, 0) / real.length;
-
-    return mse;
-  }
 
   return {
     determinarTecnicaPredictiva,

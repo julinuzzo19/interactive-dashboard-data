@@ -23,6 +23,7 @@ import { AppContext } from "@/store/Context";
 import ModalCountriesSelect from "./modals/ModalCountriesSelect";
 import { errNotif } from "./ui/Notifications";
 import { TecnicaPredictiva } from "@/hooks/predictions/predictions.interface";
+import { cn } from "@/lib/utils";
 
 const LIMIT_COUNTRIES_GRAPH = 25;
 const LIMIT_COUNTRIES_RACE = 10;
@@ -101,9 +102,9 @@ const Home = () => {
   useEffect(() => {
     if (rangeYearsIndicator?.length > 0) {
       // setCurrentYearFrom(rangeYearsIndicator[0]);
-      setCurrentYearFrom(2000);
+      setCurrentYearFrom(1970);
       // setCurrentYearTo(rangeYearsIndicator[0]);
-      setCurrentYearTo(2015);
+      setCurrentYearTo(2020);
     }
   }, [rangeYearsIndicator]);
 
@@ -461,48 +462,49 @@ const Home = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center mt-10 w-full">
-      <h2>Indicadores</h2>
-      {/* 
-      <button
-        onClick={() => {
-          linearRegression([2000, 2005, 2010], [70, 72, 74], 2015);
-          determinarTecnicaPredictiva([]);
-        }}
-      >
-        test
-      </button> */}
+    <div className="flex flex-col  justify-center items-center mt-10 w-full">
+      <h2 className="mb-4 text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-4xl dark:text-white">
+        Dashboard de Indicadores de salud global
+      </h2>
 
-      <div className="w-full flex flex-col justify-center items-center mt-10 mb-10">
+      <div className="w-full flex flex-col justify-center items-center mt-5 mb-5">
         <TopicSelector
           topics={allTopics}
           setSelectedTopic={setSelectedTopic}
           selectedTopic={selectedTopic}
         />
 
-        <Select
-          className="w-8/12"
-          options={indicators
-            .filter((item) => {
-              if (!selectedTopic) return true;
-              else {
-                return item.topics.some((elem) => elem.id === selectedTopic);
-              }
-            })
-            .map((indicador) => ({
-              value: indicador.id,
-              label: `${indicador.name}  (${indicador.id})`,
-            }))}
-          maxMenuHeight={200}
-          placeholder="Selecciona un indicador"
-          value={currentIndicator}
-          onChange={(data) => setCurrentIndicator(data)}
-        />
+        {/* Selector de indicadores */}
+        <div className="flex flex-col justify-center items-center pt-4 w-full">
+          <span className="font-semibold leading-none tracking-tight mb-2">
+            Seleccione el indicador:
+          </span>
+          <Select
+            className="w-6/12"
+            options={indicators
+              .filter((item) => {
+                if (!selectedTopic) return true;
+                else {
+                  return item.topics.some((elem) => elem.id === selectedTopic);
+                }
+              })
+              .map((indicador) => ({
+                value: indicador.id,
+                label: `${indicador.name}  (${indicador.id})`,
+              }))}
+            maxMenuHeight={200}
+            placeholder="Selecciona un indicador"
+            value={currentIndicator}
+            onChange={(data) => setCurrentIndicator(data)}
+          />
+        </div>
       </div>
 
       {currentIndicator?.value && (
         <div className="text-center">
-          <h2>Indicador seleccionado</h2>
+          <h2 className="font-semibold leading-none tracking-tight mb-2">
+            Indicador seleccionado
+          </h2>
           <div className="flex flex-row gap-2 justify-center items-center">
             <h5 className="font-bold">{currentIndicator.label}</h5>
             <FaInfoCircle
@@ -513,78 +515,48 @@ const Home = () => {
         </div>
       )}
 
-      {/* FECHAS */}
-      {currentIndicator?.value && (
-        <div className="flex flex-row justify-end items-end w-10/12 mb-5">
-          <div className="flex flex-col text-center justify-center">
-            <b>Intervalo de tiempo</b>
-
-            <div>
-              <span>Desde</span>
-              <select
-                className="text-center"
-                value={currentYearFrom}
-                onChange={(e) => setCurrentYearFrom(parseInt(e.target.value))}
-              >
-                {rangeYearsIndicator.map((year) => {
-                  return (
-                    <option value={year} key={year}>
-                      {year}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
-            <div>
-              <span>Hasta</span>
-              <select
-                className="text-center"
-                value={currentYearTo}
-                onChange={(e) => setCurrentYearTo(parseInt(e.target.value))}
-              >
-                {rangeYearsIndicator.map((year) => {
-                  return (
-                    <option value={year} key={year}>
-                      {year}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
-          </div>
-        </div>
-      )}
-      {/* FIN FECHAS */}
-
-      {/* FUNCION */}
-      {dataValues?.length > 0 &&
-        currentYearTo !== currentYearFrom &&
-        selectedView !== "BAR_CHART_RACE" && (
-          <div className="flex flex-row justify-end items-end w-10/12">
-            <div className="flex flex-col text-center justify-center">
-              <div className="flex flex-row gap-2 justify-center items-center">
-                <b>Función a utilizar</b>
-                <FaInfoCircle
-                  role="button"
-                  onClick={() => setShowModalFunction(true)}
-                />
+      <div className="grid grid-cols-[15%_1fr] gap-4 w-full mt-8">
+        <div className="flex flex-col w-full bg-gray-100 border rounded-xl p-4 mt-10 text-center">
+          <span className="text-2xl font-semibold leading-none tracking-tight mb-5 text-center">
+            Filtros:
+          </span>
+          {/* FECHAS */}
+          <div className="flex flex-row w-full justify-center items-center">
+            <div
+              className={`flex flex-col text-center justify-center ${
+                !currentIndicator?.value && "invisiblevisible"
+              } }`}
+            >
+              <span className="text-lg font-bold leading-none tracking-tight m-2 text-center">
+                Intervalo de tiempo
+              </span>
+              <div>
+                <span>Desde</span>
+                <select
+                  className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-center"
+                  value={currentYearFrom}
+                  onChange={(e) => setCurrentYearFrom(parseInt(e.target.value))}
+                >
+                  {rangeYearsIndicator.map((year) => {
+                    return (
+                      <option value={year} key={year}>
+                        {year}
+                      </option>
+                    );
+                  })}
+                </select>
               </div>
               <div>
+                <span>Hasta</span>
                 <select
-                  className="text-center"
-                  value={functionSelected.value}
-                  onChange={(e) =>
-                    setFunctionSelected(
-                      (FUNCTIONS_LIST.find(
-                        (item) => e.target.value === item.value
-                      ) || DEFAULT_VALUE_FUNCTION) as FunctionValue
-                    )
-                  }
+                  className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-center"
+                  value={currentYearTo}
+                  onChange={(e) => setCurrentYearTo(parseInt(e.target.value))}
                 >
-                  {FUNCTIONS_LIST.map((func) => {
+                  {rangeYearsIndicator.map((year) => {
                     return (
-                      <option value={func.value} key={func.value}>
-                        {func.label}
+                      <option value={year} key={year}>
+                        {year}
                       </option>
                     );
                   })}
@@ -592,91 +564,154 @@ const Home = () => {
               </div>
             </div>
           </div>
-        )}
-      {/* FIN FUNCION */}
 
-      <div className="flex flex-row justify-end items-end w-10/12">
-        <div className="flex flex-col text-center justify-center">
-          <div className="flex flex-row gap-2 justify-center items-center">
-            <b>Paises seleccionados</b>
-            <FaInfoCircle
-              role="button"
-              onClick={() => setShowModalCountries(true)}
+          {/* FIN FECHAS */}
+          {/* FUNCION */}
+
+          <div
+            className={cn(
+              "flex flex-col text-center justify-center w-full mt-5",
+              !(
+                dataValues?.length > 0 &&
+                currentYearTo !== currentYearFrom &&
+                selectedView !== "BAR_CHART_RACE"
+              )
+                ? "invisible"
+                : ""
+            )}
+          >
+            <div className="flex flex-row gap-2 justify-center items-center">
+              <span className="text-lg font-bold leading-none tracking-tight m-2 text-center">
+                Función a utilizar
+              </span>
+              <FaInfoCircle
+                role="button"
+                onClick={() => setShowModalFunction(true)}
+              />
+            </div>
+            <div>
+              <select
+                className="appearance-none w-10/12 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-center"
+                value={functionSelected.value}
+                onChange={(e) =>
+                  setFunctionSelected(
+                    (FUNCTIONS_LIST.find(
+                      (item) => e.target.value === item.value
+                    ) || DEFAULT_VALUE_FUNCTION) as FunctionValue
+                  )
+                }
+              >
+                {FUNCTIONS_LIST.map((func) => {
+                  return (
+                    <option value={func.value} key={func.value}>
+                      {func.label}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+          </div>
+
+          {/* FIN FUNCION */}
+          {/* Selector de paises */}
+          <div className="flex flex-row justify-center items-center w-full mt-5">
+            <div className="flex flex-col text-center justify-center">
+              <div className="flex flex-row gap-2 justify-center items-center">
+                <span className="text-lg font-bold leading-none tracking-tight m-2 text-center">
+                  Paises seleccionados
+                </span>
+                <FaInfoCircle
+                  role="button"
+                  onClick={() => setShowModalCountries(true)}
+                />
+              </div>
+              <div>
+                {selectedCountries?.length > 0
+                  ? selectedCountries?.length
+                  : "Todos"}
+              </div>
+            </div>
+          </div>
+          {/* FIN Selector de paises */}
+        </div>
+
+        <div className="w-full">
+          <div className="text-center">
+            <h2 className="text-xl font-semibold leading-none tracking-tight mb-5">
+              Seleccione la vista
+            </h2>
+            <Tabs defaultValue="map" className="text-center">
+              <TabsList>
+                <TabsTrigger
+                  className="w-64"
+                  value="map"
+                  onClick={() => setSelectedView("MAP")}
+                >
+                  Mapa
+                </TabsTrigger>
+                <TabsTrigger
+                  className="w-64"
+                  value="graph1"
+                  onClick={() => {
+                    setSelectedView("GRAPH1");
+                  }}
+                >
+                  Gráfico de barras
+                </TabsTrigger>
+                <TabsTrigger
+                  className="w-64"
+                  value="BAR_CHART_RACE"
+                  onClick={() => setSelectedView("BAR_CHART_RACE")}
+                >
+                  Gráfico de barras animado
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+          </div>
+          {selectedView === "MAP" && (
+            <Geo
+              data={dataValues}
+              generateColorByValue={generateColorByValue}
             />
-          </div>
-          <div>
-            {selectedCountries?.length > 0
-              ? selectedCountries?.length
-              : "Todos"}
-          </div>
+          )}
+          {selectedView === "GRAPH1" && (
+            <div className="flex flex-col">
+              <HorizontalBar data={dataGraph1} />
+
+              {dataValues.length <= dataIndicator.length &&
+              (selectedCountries.length === 0 ||
+                selectedCountries?.length > LIMIT_COUNTRIES_GRAPH) ? (
+                <button
+                  className="text-center"
+                  onClick={() => {
+                    setSeeMore(true);
+                  }}
+                >
+                  Mostrar más paises
+                </button>
+              ) : (
+                ""
+              )}
+            </div>
+          )}
+          {selectedView === "BAR_CHART_RACE" && (
+            <>
+              <BarChartRace data={dataBarChartRace} offset={offset} />
+              {dataBarChartRace[0]?.values.length > LIMIT_COUNTRIES_RACE ? (
+                <button
+                  onClick={() => {
+                    setSeeMore(true);
+                  }}
+                >
+                  Mostrar más paises
+                </button>
+              ) : (
+                ""
+              )}
+            </>
+          )}
         </div>
       </div>
-
-      <Tabs defaultValue="map" className="text-center">
-        <TabsList>
-          <TabsTrigger
-            className="w-64"
-            value="map"
-            onClick={() => setSelectedView("MAP")}
-          >
-            Mapa
-          </TabsTrigger>
-          <TabsTrigger
-            className="w-64"
-            value="graph1"
-            onClick={() => {
-              setSelectedView("GRAPH1");
-            }}
-          >
-            Gráfico de barras
-          </TabsTrigger>
-          <TabsTrigger
-            className="w-64"
-            value="BAR_CHART_RACE"
-            onClick={() => setSelectedView("BAR_CHART_RACE")}
-          >
-            Gráfico de barras animado
-          </TabsTrigger>
-        </TabsList>
-      </Tabs>
-      {selectedView === "MAP" && (
-        <Geo data={dataValues} generateColorByValue={generateColorByValue} />
-      )}
-      {selectedView === "GRAPH1" && (
-        <>
-          <HorizontalBar data={dataGraph1} />
-
-          {dataValues.length <= dataIndicator.length &&
-          (selectedCountries.length === 0 ||
-            selectedCountries?.length > LIMIT_COUNTRIES_GRAPH) ? (
-            <button
-              onClick={() => {
-                setSeeMore(true);
-              }}
-            >
-              Mostrar más paises
-            </button>
-          ) : (
-            ""
-          )}
-        </>
-      )}
-      {selectedView === "BAR_CHART_RACE" && (
-        <>
-          <BarChartRace data={dataBarChartRace} offset={offset} />
-          {dataBarChartRace[0]?.values.length > LIMIT_COUNTRIES_RACE ? (
-            <button
-              onClick={() => {
-                setSeeMore(true);
-              }}
-            >
-              Mostrar más paises
-            </button>
-          ) : (
-            ""
-          )}
-        </>
-      )}
 
       {showModalMetadata && (
         <ModalMetadata

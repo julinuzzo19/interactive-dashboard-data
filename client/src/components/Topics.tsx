@@ -72,11 +72,11 @@ export function TopicSelector({
   };
 
   return (
-    <div className="relative">
+    <div className="relative bg-gray-100 border rounded-xl w-10/12">
       <div
         ref={scrollContainerRef}
         className={cn(
-          "w-full overflow-x-auto cursor-grab select-none",
+          "w-full overflow-x-auto cursor-grab select-none text-center pt-2",
           isDragging && "cursor-grabbing",
           "scrollbar-hide"
         )}
@@ -86,7 +86,8 @@ export function TopicSelector({
         onMouseLeave={handleMouseUp}
         onScroll={handleScroll}
       >
-        <div className="flex gap-2 py-4 min-w-max px-4">
+        <span className="font-bold">Filtrar indicadores por tópicos</span>
+        <div className="flex gap-2 py-4 min-w-max px-4 items-center">
           {topics.map((topic) => (
             <button
               key={topic.id}

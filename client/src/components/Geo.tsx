@@ -1,12 +1,9 @@
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { GeoCountryColor } from "../interfaces/Geo";
-import { useCallback, useContext, useEffect } from "react";
+import { useCallback, useContext } from "react";
 import { IndicatorValue } from "../interfaces/Indicador";
-
 import { AppContext } from "@/store/Context";
 import TooltipCountry from "./TooltipCountry";
-
-// import { MemoizedGeographies } from "./Geo2";
 
 const Geo = ({
   generateColorByValue,
@@ -32,8 +29,8 @@ const Geo = ({
   }, []);
 
   return (
-    <>
-      <ComposableMap>
+    <div className="h-full w-10/12">
+      <ComposableMap height={500} projectionConfig={{ scale: 180 }}>
         <Geographies geography="../../public/features.json">
           {({ geographies }: { geographies: GeoCountryColor[] }) => {
             return geographies.map((geo) => {
@@ -63,6 +60,8 @@ const Geo = ({
                   data-tooltip-id={"my-tooltip"}
                   onMouseEnter={() => handleMouseEnter(geo)}
                   onMouseLeave={handleMouseLeave}
+                  stroke="grey"
+                  strokeWidth={0.3}
                 />
               );
             });
@@ -70,7 +69,7 @@ const Geo = ({
         </Geographies>
       </ComposableMap>
       <TooltipCountry />
-    </>
+    </div>
   );
 };
 

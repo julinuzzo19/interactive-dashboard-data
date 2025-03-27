@@ -63,3 +63,5 @@ implementar tecnica logistica ver chatgpt conversacion
 es necesario limite para la regresion? en caso de si buscar tecnicas de calculo
 
 probar predicciones y ver teoria de logistica
+
+estilizar pagina
