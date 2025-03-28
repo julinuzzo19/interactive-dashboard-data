@@ -79,7 +79,12 @@ const Home = () => {
   const [showModalMetadata, setShowModalMetadata] = useState(false);
   const [dataValues, setDataValues] = useState<IndicatorValue[]>([]);
   const [dataGraph1, setDataGraph1] = useState<
-    { country: string; value: string; tecnicaUtilizada?: TecnicaPredictiva }[]
+    {
+      country: string;
+      value: string;
+      tecnicaUtilizada?: TecnicaPredictiva;
+      year: string;
+    }[]
   >([]);
   // Funciones
   const [functionSelected, setFunctionSelected] = useState<FunctionValue>({
@@ -96,6 +101,10 @@ const Home = () => {
   // useEffect(() => {
   //   console.log({ dataValues, dataGraph1, dataIndicator });
   // }, [dataValues, dataGraph1, dataIndicator]);
+
+  useEffect(() => {
+    console.log({ dataGraph1 });
+  }, [dataGraph1]);
 
   // Carga inicial
   useEffect(() => {
@@ -350,28 +359,8 @@ const Home = () => {
           )
         : dataValues;
 
-    // console.log({
-    //   dataValues,
-    //   dataValuesFiltered,
-    //   selectedCountries,
-    //   listCountries,
-    //   offset,
-    // });
     console.log({ dataValuesFiltered, countries });
     const data = dataValuesFiltered
-      // .filter((item) => {
-      //   const isFiltered =
-      //     (listCountries.find((elem) => elem.id === item.countryiso3code)
-      //       ?.name ||
-      //       listCountries.find((elem) => elem.id === item.country.id)?.name) &&
-      //     item.value > 0;
-
-      //   if (!isFiltered) {
-      //     console.log({ isFiltered, item });
-      //   }
-
-      //   return isFiltered;
-      // })
       .filter(
         (item) =>
           countries.find((elem) => elem.id == item.countryiso3code)?.name
@@ -381,18 +370,13 @@ const Home = () => {
           // .filter((elem) => elem.region.value !== "Agregados")
           .find((elem) => elem.id == item.countryiso3code);
 
-        // listCountries.find((elem) => elem.id === item.countryiso3code)
-        //   ?.name ||
-        // listCountries.find((elem) => elem.id === item.country.id)?.name ||
-        // "";
-        // console.log({ countryFound, item });
-
         const value = item?.value || 0;
 
         return {
           country: countryFound?.name as string,
           value,
           tecnicaUtilizada: item?.tecnicaUtilizada,
+          year: item.date,
         };
       })
       .sort((a, b) => b?.value - a?.value)

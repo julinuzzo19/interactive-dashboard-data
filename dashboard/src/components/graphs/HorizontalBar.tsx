@@ -12,6 +12,7 @@ const HorizontalBar = ({
     country: string;
     value: string;
     tecnicaUtilizada?: tecnicaUtilizada;
+    year: string;
   }[];
   width?: number;
   height?: number;
@@ -19,8 +20,6 @@ const HorizontalBar = ({
   const svgRef = useRef();
 
   useEffect(() => {
-    console.log({ data });
-
     const svg = d3.select(svgRef.current);
     svg.selectAll("*").remove(); // Limpiar contenido previo
 
@@ -28,8 +27,6 @@ const HorizontalBar = ({
     const dynamicHeight = data.length * 35 + margin.top + margin.bottom; // Aumentamos el factor a 50 para más espacio
     const chartWidth = width - margin.left - margin.right;
     const chartHeight = dynamicHeight - margin.top - margin.bottom;
-
-    console.log({ dynamicHeight });
 
     svg.attr("width", width).attr("height", dynamicHeight);
 
@@ -76,7 +73,9 @@ const HorizontalBar = ({
         tooltip
           .style("visibility", "visible")
           .text(
-            `${d.country}: ${parseFloat(d.value).toLocaleString()}${
+            `${d.country}: ${parseFloat(d.value).toLocaleString()} (${
+              d.year
+            }) ${
               d?.tecnicaUtilizada ? ` (Predicción: ${d.tecnicaUtilizada})` : ""
             }`
           );
