@@ -104,10 +104,10 @@ const Home = () => {
 
   useEffect(() => {
     if (rangeYearsIndicator?.length > 0) {
-      setCurrentYearFrom(rangeYearsIndicator[0]);
-      // setCurrentYearFrom(1970);
-      setCurrentYearTo(rangeYearsIndicator[0]);
-      // setCurrentYearTo(2020);
+      // setCurrentYearFrom(rangeYearsIndicator[0]);
+      setCurrentYearFrom(2015);
+      // setCurrentYearTo(rangeYearsIndicator[0]);
+      setCurrentYearTo(2022);
     }
   }, [rangeYearsIndicator]);
 
@@ -686,7 +686,7 @@ const Home = () => {
               generateColorByValue={generateColorByValue}
             />
           )}
-          {selectedView === "GRAPH1" && (
+          {selectedView === "GRAPH1" && dataGraph1?.length > 0 && (
             <div className="flex flex-col ">
               <HorizontalBar data={dataGraph1} />
 
@@ -706,22 +706,23 @@ const Home = () => {
               )}
             </div>
           )}
-          {selectedView === "BAR_CHART_RACE" && (
-            <div className="h-full w-full flex flex-col text-center justify-start items-center">
-              <BarChartRace data={dataBarChartRace} offset={offset} />
-              {dataBarChartRace[0]?.values.length > LIMIT_COUNTRIES_RACE ? (
-                <button
-                  onClick={() => {
-                    setSeeMore(true);
-                  }}
-                >
-                  Mostrar más paises
-                </button>
-              ) : (
-                ""
-              )}
-            </div>
-          )}
+          {selectedView === "BAR_CHART_RACE" &&
+            dataBarChartRace?.length > 0 && (
+              <div className="h-full w-full flex flex-col text-center justify-start items-center">
+                <BarChartRace data={dataBarChartRace} offset={offset} />
+                {dataBarChartRace[0]?.values.length > LIMIT_COUNTRIES_RACE ? (
+                  <button
+                    onClick={() => {
+                      setSeeMore(true);
+                    }}
+                  >
+                    Mostrar más paises
+                  </button>
+                ) : (
+                  ""
+                )}
+              </div>
+            )}
         </div>
       </div>
 
@@ -754,39 +755,3 @@ const Home = () => {
 };
 
 export default Home;
-
-// BAR CHART RACE TEST DATA
-// [
-//             {
-//               year: 1960,
-//               values: [
-//                 { name: "Argentina", value: 22229411765 },
-//                 { name: "Brasil", value: 151812883235 },
-//                 { name: "México", value: 13926941176 },
-//               ],
-//             },
-//             {
-//               year: 1970,
-//               values: [
-//                 { name: "Brasil", value: 200000000000 },
-//                 { name: "Argentina", value: 25000000000 },
-//                 { name: "México", value: 18000000000 },
-//               ],
-//             },
-//             {
-//               year: 1971,
-//               values: [
-//                 { name: "Brasil", value: 300000000000 },
-//                 { name: "Argentina", value: 35000000000 },
-//                 { name: "México", value: 28000000000 },
-//               ],
-//             },
-//             {
-//               year: 1972,
-//               values: [
-//                 { name: "Brasil", value: 400000000000 },
-//                 { name: "Argentina", value: 55000000000 },
-//                 { name: "México", value: 68000000000 },
-//               ],
-//             },
-//           ]

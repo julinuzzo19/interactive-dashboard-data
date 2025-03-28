@@ -17,12 +17,19 @@ const BarChartRace = ({
   offset: number;
 }) => {
   const svgRef = useRef(null);
+  const yearIndexRef = useRef(0); // Persistent year index
 
   useEffect(() => {
     const svg = d3.select(svgRef.current);
     const width = 1050;
-    const height = 500;
     const margin = { top: 50, right: 120, bottom: 20, left: 150 };
+
+    const visibleCountries = Math.min(
+      data[0]?.values.length || LIMIT_COUNTRIES_RACE,
+      LIMIT_COUNTRIES_RACE + offset
+    );
+    const barHeight = 30;
+    const height = Math.max(500, visibleCountries * barHeight * 1.5);
 
     svg.attr("width", width).attr("height", height);
 
@@ -30,8 +37,7 @@ const BarChartRace = ({
     const yScale = d3
       .scaleBand()
       .range([margin.top, height - margin.bottom])
-      .padding(data[0]?.values.length > 3 ? 0.5 : 0.7);
-    console.log({ bool: data[0]?.values.length > 3,data });
+      .padding(0.2);
 
     const xAxis = d3.axisTop(xScale).ticks(5).tickSize(-height);
     const yAxis = d3.axisLeft(yScale).tickSize(5).tickPadding(4);
@@ -39,6 +45,8 @@ const BarChartRace = ({
     const colorScale = d3
       .scaleOrdinal(d3.schemePaired)
       .domain(data.flatMap((d) => d.values.map((v) => v.name)));
+
+    svg.selectAll("*").remove();
 
     svg
       .append("g")
@@ -59,40 +67,28 @@ const BarChartRace = ({
       .attr("font-weight", "bold")
       .text("");
 
-    let yearIndex = 0;
-
-    const updateChart = () => {
+    const renderChart = (yearIndex: number) => {
       const yearData = data[yearIndex];
       const sortedData = yearData.values
         .sort((a, b) => b.value - a.value)
-        ?.slice(0, LIMIT_COUNTRIES_RACE + offset);
+        .slice(0, LIMIT_COUNTRIES_RACE + offset);
 
       xScale.domain([0, d3.max(sortedData, (d) => d.value)] as any);
-      yScale
-        .domain(sortedData.map((d) => d.name))
-        .rangeRound([margin.top, height - margin.bottom]);
+      yScale.domain(sortedData.map((d) => d.name));
 
       yearText.text(yearData.year);
       svg.select(".x-axis").call(xAxis as any);
       svg.select(".y-axis").call(yAxis as any);
 
       const bars = svg.selectAll(".bar").data(sortedData, (d: any) => d.name);
-      const barHeight = 30;
-
-      const getYPosition = (d): any => {
-        if (sortedData.length === 1) {
-          return height / 2 - barHeight / 2;
-        }
-        return yScale(d.name);
-      };
 
       bars
         .enter()
         .append("rect")
         .attr("class", "bar")
         .attr("x", xScale(0))
-        .attr("y", getYPosition)
-        .attr("height", barHeight)
+        .attr("y", (d) => yScale(d.name) as number)
+        .attr("height", yScale.bandwidth())
         .attr("fill", (d) => colorScale(d.name))
         .attr("width", 0)
         .transition()
@@ -102,7 +98,8 @@ const BarChartRace = ({
       bars
         .transition()
         .duration(800)
-        .attr("y", getYPosition)
+        .attr("y", (d) => yScale(d.name) as number)
+        .attr("height", yScale.bandwidth())
         .attr("width", (d) => xScale(d.value) - xScale(0));
 
       bars.exit().transition().duration(500).attr("width", 0).remove();
@@ -111,41 +108,46 @@ const BarChartRace = ({
         .selectAll(".label")
         .data(sortedData, (d: any) => d.name);
 
-      const getLabelYPosition = (d) => {
-        if (sortedData.length === 1) {
-          return height / 2 + barHeight / 4;
-        }
-        return (yScale(d.name) as any) + barHeight / 2 + 5;
-      };
-
-      // label al final de la barra
       labels
         .enter()
         .append("text")
         .attr("class", "label")
         .attr("x", (d) => xScale(d.value) + 5)
-        .attr("y", getLabelYPosition)
+        .attr(
+          "y",
+          (d) => (yScale(d.name) as number) + yScale.bandwidth() / 2 + 5
+        )
         .attr("fill", "black")
         .attr("font-size", "12px")
         .text((d) => `${d.name} ${formatPrecio(d.value)}`);
 
-      //
       labels
         .transition()
         .duration(800)
         .attr("x", (d) => xScale(d.value) + 5)
-        .attr("y", getLabelYPosition)
+        .attr(
+          "y",
+          (d) => (yScale(d.name) as number) + yScale.bandwidth() / 2 + 5
+        )
         .text((d) => `${d.name} ${formatPrecio(d.value)}`);
 
       labels.exit().remove();
-
-      yearIndex = (yearIndex + 1) % data.length;
     };
 
-    const interval = setInterval(updateChart, 2000);
+    const updateChartWithAnimation = () => {
+      renderChart(yearIndexRef.current);
+      yearIndexRef.current = (yearIndexRef.current + 1) % data.length;
+    };
+
+    // Reset year to 0 whenever offset changes
+    yearIndexRef.current = 0;
+    renderChart(yearIndexRef.current);
+
+    // Animation interval
+    const interval = setInterval(updateChartWithAnimation, 2000);
 
     return () => clearInterval(interval);
-  }, [data]);
+  }, [data, offset]);
 
   return <svg ref={svgRef}></svg>;
 };

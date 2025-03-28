@@ -68,5 +68,4 @@ probar predicciones y ver teoria de logistica
 
 # 27-3
 
-arreglar barchart race al haber muchos paises se superponen, height dinamico dependiendo cantidad paiseS?
 

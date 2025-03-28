@@ -375,3 +375,5 @@ FIX al cambiar select countries traia data de api de nuevo innecesariamente
 FIX barcharT al haber pocos paises, no hay separacion entre barras
 
 estilizado pagina
+
+arreglar barchart race al haber muchos paises se superponen, height dinamico dependiendo cantidad paiseS?
