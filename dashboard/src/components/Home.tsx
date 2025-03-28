@@ -88,11 +88,14 @@ const Home = () => {
   });
   const [showModalFunction, setShowModalFunction] = useState(false);
   const [showModalCountries, setShowModalCountries] = useState(false);
-  const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
+  const [selectedCountries, setSelectedCountries] = useState<string[]>([
+    "ARG",
+    "BRA",
+  ]);
 
   // useEffect(() => {
-  //   console.log({ dataValues });
-  // }, [dataValues]);
+  //   console.log({ dataValues, dataGraph1, dataIndicator });
+  // }, [dataValues, dataGraph1, dataIndicator]);
 
   // Carga inicial
   useEffect(() => {
@@ -101,10 +104,10 @@ const Home = () => {
 
   useEffect(() => {
     if (rangeYearsIndicator?.length > 0) {
-      // setCurrentYearFrom(rangeYearsIndicator[0]);
-      setCurrentYearFrom(1970);
-      // setCurrentYearTo(rangeYearsIndicator[0]);
-      setCurrentYearTo(2020);
+      setCurrentYearFrom(rangeYearsIndicator[0]);
+      // setCurrentYearFrom(1970);
+      setCurrentYearTo(rangeYearsIndicator[0]);
+      // setCurrentYearTo(2020);
     }
   }, [rangeYearsIndicator]);
 
@@ -198,7 +201,7 @@ const Home = () => {
     currentIndicator?.value,
     currentYearTo,
     currentYearFrom,
-    selectedCountries,
+    // selectedCountries,
   ]);
 
   useEffect(() => {
@@ -225,11 +228,9 @@ const Home = () => {
     } catch (error) {
       console.log({ error });
       errNotif("No hay datos para el indicador seleccionado");
-      console.log("No hay datos para el indicador seleccionado");
+      // console.log("No hay datos para el indicador seleccionado");
     }
   };
-
-  const normalizeLineal = (val, min, max) => (val - min) / (max - min);
 
   const generateColorByValue = useCallback(
     (value: number) => {
@@ -372,17 +373,19 @@ const Home = () => {
       //   return isFiltered;
       // })
       .filter(
-        (item) => countries.find((elem) => elem.id == item.country.id)?.name
+        (item) =>
+          countries.find((elem) => elem.id == item.countryiso3code)?.name
       )
       .map((item) => {
         const countryFound = countries
           // .filter((elem) => elem.region.value !== "Agregados")
-          .find((elem) => elem.id == item.country.id);
+          .find((elem) => elem.id == item.countryiso3code);
+
         // listCountries.find((elem) => elem.id === item.countryiso3code)
         //   ?.name ||
         // listCountries.find((elem) => elem.id === item.country.id)?.name ||
         // "";
-        console.log({ countryFound, item });
+        // console.log({ countryFound, item });
 
         const value = item?.value || 0;
 
@@ -532,13 +535,16 @@ const Home = () => {
             )}
           >
             <div className="flex flex-row gap-2 justify-center items-center">
-              <span className={cn("text-lg font-bold leading-none tracking-tight m-2 text-center",
-                 !(
-                  dataValues?.length > 0 &&
-                  currentYearTo !== currentYearFrom &&
-                  selectedView !== "BAR_CHART_RACE"
-                ) && "text-gray-500"
-              )}>
+              <span
+                className={cn(
+                  "text-lg font-bold leading-none tracking-tight m-2 text-center",
+                  !(
+                    dataValues?.length > 0 &&
+                    currentYearTo !== currentYearFrom &&
+                    selectedView !== "BAR_CHART_RACE"
+                  ) && "text-gray-500"
+                )}
+              >
                 Función a utilizar
               </span>
               <FaInfoCircle
@@ -701,7 +707,7 @@ const Home = () => {
             </div>
           )}
           {selectedView === "BAR_CHART_RACE" && (
-            <div className="h-full w-full flex justify-start items-start">
+            <div className="h-full w-full flex flex-col text-center justify-start items-center">
               <BarChartRace data={dataBarChartRace} offset={offset} />
               {dataBarChartRace[0]?.values.length > LIMIT_COUNTRIES_RACE ? (
                 <button

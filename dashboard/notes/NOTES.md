@@ -366,3 +366,12 @@ pruebas para ver los limites de promedio crecimiento para saber si usar una tecn
 
 - Tecnica regresion logistica
 
+# 27-3
+
+FIX bar chart race lineas con label country
+
+FIX al cambiar select countries traia data de api de nuevo innecesariamente
+
+FIX barcharT al haber pocos paises, no hay separacion entre barras
+
+estilizado pagina

@@ -20,35 +20,31 @@ const HorizontalBar = ({
 
   useEffect(() => {
     console.log({ data });
-    // const sortedData = data.sort((a, b) => b.value - a.value);
 
     const svg = d3.select(svgRef.current);
     svg.selectAll("*").remove(); // Limpiar contenido previo
 
-    const margin = { top: 20, right: 30, bottom: 40, left: 150 };
-    // const chartWidth = width - margin.left - margin.right;
-    // const chartHeight = height - margin.top - margin.bottom;
-
-    const dynamicHeight = data.length * 30 + margin.top + margin.bottom;
+    const margin = { top: 20, right: 30, bottom: 20, left: 150 };
+    const dynamicHeight = data.length * 35 + margin.top + margin.bottom; // Aumentamos el factor a 50 para más espacio
     const chartWidth = width - margin.left - margin.right;
     const chartHeight = dynamicHeight - margin.top - margin.bottom;
 
-    svg.attr("width", width).attr("height", chartHeight);
+    console.log({ dynamicHeight });
+
+    svg.attr("width", width).attr("height", dynamicHeight);
 
     const x = d3
       .scaleLinear()
-      .domain([0, d3.max(data, (d) => d.value)])
+      .domain([0, d3.max(data, (d) => parseFloat(d.value))]) // Asegurarse de que value sea numérico
       .range([0, chartWidth]);
 
     const y = d3
       .scaleBand()
       .domain(data.map((d) => d.country))
-      .range([0, chartHeight + 10])
-      .padding(1.5);
+      .range([0, chartHeight])
+      .padding(0.2); // Ajustar el padding para un gap razonable
 
     const chart = svg
-      .attr("width", width)
-      .attr("height", chartHeight + 15)
       .append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`);
 
@@ -65,26 +61,22 @@ const HorizontalBar = ({
       .style("visibility", "hidden")
       .style("font-size", "14px");
 
-    const heightBar = 25;
-
     chart
       .selectAll(".bar")
       .data(data)
       .enter()
       .append("rect")
       .attr("class", "bar")
-      // .attr("y", (d) => y(d.country))
-      .attr("y", (d) => y(d.country) + (y.bandwidth() - heightBar) / 2)
+      .attr("y", (d) => y(d.country)) // Usar directamente la posición de y
       .attr("x", 0)
-      .attr("width", (d) => x(d.value))
-      // .attr("height", y.bandwidth())
-      .attr("height", heightBar)
+      .attr("width", (d) => x(parseFloat(d.value))) // Asegurarse de que value sea numérico
+      .attr("height", y.bandwidth()) // Usar bandwidth para el alto
       .attr("fill", "steelblue")
       .on("mouseover", (event, d) => {
         tooltip
           .style("visibility", "visible")
           .text(
-            `${d.country}: ${d.value.toLocaleString()}${
+            `${d.country}: ${parseFloat(d.value).toLocaleString()}${
               d?.tecnicaUtilizada ? ` (Predicción: ${d.tecnicaUtilizada})` : ""
             }`
           );
@@ -109,8 +101,12 @@ const HorizontalBar = ({
         tooltip
           .style("visibility", "visible")
           .text(
-            `${d.country}: ${d.value.toLocaleString()}${
-              d?.tecnicaUtilizada ? ` (Predicción: ${d.tecnicaUtilizada})` : ""
+            `${countryData.country}: ${parseFloat(
+              countryData.value
+            ).toLocaleString()}${
+              countryData?.tecnicaUtilizada
+                ? ` (Predicción: ${countryData.tecnicaUtilizada})`
+                : ""
             }`
           );
       })
@@ -127,7 +123,11 @@ const HorizontalBar = ({
       .append("g")
       .attr("transform", `translate(0,${chartHeight})`)
       .call(d3.axisBottom(x)); // Valores de población en el eje X
-  }, [data]);
+
+    return () => {
+      tooltip.remove(); // Limpiar el tooltip al desmontar
+    };
+  }, [data, width]);
 
   return <svg ref={svgRef}></svg>;
 };

@@ -316,6 +316,9 @@ const usePredictions = () => {
     // Determinar tecnica de prediccion por votacion
     Object.entries(objectCountriesData).forEach(
       ([_countryCode, valuesCountry]) => {
+        if (valuesCountry?.length <= 1) {
+          return;
+        }
         const tecnicaDeterminada = determinarTecnicaPredictiva(valuesCountry);
 
         objectTecnicasCount[tecnicaDeterminada]++;
@@ -331,11 +334,11 @@ const usePredictions = () => {
             (a, b) => b[1] - a[1]
           )[0][0] as TecnicaPredictiva) || "REGRESION LINEAL";
 
-    console.log({
-      // objectCountriesData,
-      objectTecnicasCount,
-      tecnicaDeterminadaGlobal,
-    });
+    // console.log({
+    //   // objectCountriesData,
+    //   objectTecnicasCount,
+    //   tecnicaDeterminadaGlobal,
+    // });
 
     // Calcular predicciones
     Object.entries(objectCountriesData).forEach(
