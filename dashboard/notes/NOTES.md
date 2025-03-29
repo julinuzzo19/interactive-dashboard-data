@@ -379,3 +379,5 @@ estilizado pagina
 arreglar barchart race al haber muchos paises se superponen, height dinamico dependiendo cantidad paiseS?
 
 added year to tooltip horizontal bar
+
+[FEATURE] funciones no utilizan datos predichos

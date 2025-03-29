@@ -56,30 +56,38 @@ const useFunctions = () => {
 
       // console.log({ indicatorValues });
 
+      const indicatorValuesNoPredichos = indicatorValues.filter(
+        (item) => !item?.tecnicaUtilizada
+      );
+
       if (func === "MAX") {
         const maxValue = Math.max(
-          ...indicatorValues.map((valueCountry) => valueCountry.value)
+          ...indicatorValuesNoPredichos.map(
+            (valueCountry) => valueCountry.value
+          )
         );
-        const resultValue = indicatorValues.find(
+        const resultValue = indicatorValuesNoPredichos.find(
           (item) => item.value === maxValue
         );
 
         dataFinal = {
-          ...indicatorValues[0],
+          ...indicatorValuesNoPredichos[0],
           value: maxValue,
           date: resultValue?.date as string,
           tecnicaUtilizada: resultValue?.tecnicaUtilizada,
         };
       } else if (func === "MIN") {
         const minValue = Math.min(
-          ...indicatorValues.map((valueCountry) => valueCountry.value)
+          ...indicatorValuesNoPredichos.map(
+            (valueCountry) => valueCountry.value
+          )
         );
-        const resultValue = indicatorValues.find(
+        const resultValue = indicatorValuesNoPredichos.find(
           (item) => item.value === minValue
         );
 
         dataFinal = {
-          ...indicatorValues[0],
+          ...indicatorValuesNoPredichos[0],
           value: minValue,
           date: resultValue?.date as string,
           tecnicaUtilizada: resultValue?.tecnicaUtilizada,
@@ -88,17 +96,17 @@ const useFunctions = () => {
         let total = 0;
         let count = 0;
 
-        indicatorValues.forEach((valueCountry) => {
+        indicatorValuesNoPredichos.forEach((valueCountry) => {
           total += valueCountry.value;
           count++;
         });
 
         dataFinal = {
-          ...indicatorValues[0],
+          ...indicatorValuesNoPredichos[0],
           value: total / count,
         };
       } else if (func === "TASA_CAMBIO") {
-        const valuesSortLastYear = indicatorValues.sort(
+        const valuesSortLastYear = indicatorValuesNoPredichos.sort(
           (a, b) => parseInt(b.date) - parseInt(a.date)
         );
 
@@ -110,28 +118,28 @@ const useFunctions = () => {
         );
 
         dataFinal = {
-          ...indicatorValues[0],
+          ...indicatorValuesNoPredichos[0],
           tecnicaUtilizada: undefined,
           value: tasaCambioResult,
         };
       } else if (func === "RECIENTE") {
-        const valueReciente = indicatorValues.sort(
+        const valueReciente = indicatorValuesNoPredichos.sort(
           (a, b) => parseInt(b.date) - parseInt(a.date)
         )[0];
 
         dataFinal = {
-          ...indicatorValues[0],
+          ...indicatorValuesNoPredichos[0],
           value: valueReciente.value,
           date: valueReciente.date,
           tecnicaUtilizada: valueReciente?.tecnicaUtilizada,
         };
       } else if (func === "ANTIGUO") {
-        const valueAntiguo = indicatorValues.sort(
+        const valueAntiguo = indicatorValuesNoPredichos.sort(
           (a, b) => parseInt(a.date) - parseInt(b.date)
         )[0];
 
         dataFinal = {
-          ...indicatorValues[0],
+          ...indicatorValuesNoPredichos[0],
           value: valueAntiguo.value,
           date: valueAntiguo.date,
           tecnicaUtilizada: valueAntiguo?.tecnicaUtilizada,
