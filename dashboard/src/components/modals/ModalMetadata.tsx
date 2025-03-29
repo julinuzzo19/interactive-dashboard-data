@@ -14,7 +14,7 @@ const ModalMetadata = ({
   return (
     <Modal isOpen={show} onClose={() => setShow(false)}>
       <div>
-        <h2 className="text-xl text-center font-semibold mb-4">
+        <h2 className="text-xl text-center font-bold mb-2 p-0">
           Metadata del indicador
         </h2>
 
@@ -43,13 +43,13 @@ const ModalMetadata = ({
           </span>
         </div>
 
-        <div className="text-end">
-          <button
-            onClick={() => setShow(false)}
-            className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
-          >
-            Cerrar
-          </button>
+        <div className="text-end ">
+        <button
+          onClick={() => setShow(false)}
+          className="px-4 py-2 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600 mr-auto"
+        >
+          Cerrar
+        </button>
         </div>
       </div>
     </Modal>

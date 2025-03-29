@@ -14,7 +14,7 @@ const Modal = ({ isOpen, onClose, children, width = "60vw" }) => {
     >
       <div
         style={{ width }}
-        className={`bg-white rounded-lg shadow-lg p-6 relative`}
+        className={`bg-white rounded-lg shadow-lg pt-5 p-4 relative`}
       >
         {/* Botón de cierre */}
         <button
