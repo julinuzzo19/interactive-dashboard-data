@@ -60,7 +60,8 @@ const useFetch = () => {
           setIndicators(data.filter((item) => item.name));
         })
         .catch((err) => {
-          console.log({ err });
+          // console.log({ err });
+          console.log("Error al obtener todos los indicadores de salud");
         });
     }
   };
@@ -120,7 +121,7 @@ const useFetch = () => {
             : currentYearTo + EXTENDED_YEARS_LIMIT
         }&source=2`;
 
-      console.log({ URL });
+      // console.log({ URL });
 
       await axios
         .get(URL)
