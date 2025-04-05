@@ -51,12 +51,12 @@ const Home = () => {
       value: string;
     }>
   >({
-    // label: "",
-    // value: "",
+    label: "",
+    value: "",
     // label: "Población, hombres  (SP.POP.TOTL.MA.IN)",
     // value: "SP.POP.TOTL.MA.IN",
-    label: "SH.MED.BEDS.ZS",
-    value: "SH.MED.BEDS.ZS",
+    // label: "SH.MED.BEDS.ZS",
+    // value: "SH.MED.BEDS.ZS",
   });
   const [minValueIndicator, setMinValueIndicator] = useState(0);
   const [maxValueIndicator, setMaxValueIndicator] = useState(0);
@@ -94,8 +94,8 @@ const Home = () => {
   const [showModalFunction, setShowModalFunction] = useState(false);
   const [showModalCountries, setShowModalCountries] = useState(false);
   const [selectedCountries, setSelectedCountries] = useState<string[]>([
-    "ARG",
-    "BRA",
+    // "ARG",
+    // "BRA",
   ]);
 
   // useEffect(() => {
@@ -103,8 +103,8 @@ const Home = () => {
   // }, [dataValues, dataGraph1, dataIndicator]);
 
   useEffect(() => {
-    console.log({ dataGraph1 });
-  }, [dataGraph1]);
+    console.log({ indicators });
+  }, [indicators]);
 
   // Carga inicial
   useEffect(() => {
@@ -113,10 +113,10 @@ const Home = () => {
 
   useEffect(() => {
     if (rangeYearsIndicator?.length > 0) {
-      // setCurrentYearFrom(rangeYearsIndicator[0]);
-      setCurrentYearFrom(2015);
-      // setCurrentYearTo(rangeYearsIndicator[0]);
-      setCurrentYearTo(2022);
+      setCurrentYearFrom(rangeYearsIndicator[0]);
+      // setCurrentYearFrom(2015);
+      setCurrentYearTo(rangeYearsIndicator[0]);
+      // setCurrentYearTo(2022);
     }
   }, [rangeYearsIndicator]);
 
@@ -206,15 +206,9 @@ const Home = () => {
     if (currentIndicator?.value && currentYearFrom && currentYearTo) {
       getDataIndicadorAPI();
     }
-  }, [
-    currentIndicator?.value,
-    currentYearTo,
-    currentYearFrom,
-    // selectedCountries,
-  ]);
+  }, [currentIndicator?.value, currentYearTo, currentYearFrom]);
 
   useEffect(() => {
-    // console.log({ dataValues });
     if (dataValues?.length > 0) {
       const minValue = Math.min(...dataValues.map((item) => item.value));
       const maxValue = Math.max(...dataValues.map((item) => item.value));
@@ -268,18 +262,6 @@ const Home = () => {
         }
 
         const valueFinal = value > 1 ? Math.log10(value) : Math.sqrt(value);
-
-        // const minValueFinal =
-        //   minValueIndicator > 1
-        //     ? Math.log10(minValueIndicator)
-        //     : Math.sqrt(minValueIndicator);
-        // const maxValueFinal =
-        //   maxValueIndicator > 1
-        //     ? Math.log10(maxValueIndicator)
-        //     : Math.sqrt(maxValueIndicator);
-
-        // const normalizedValue =
-        //   (value - minValueFinal) / (maxValueFinal - minValueFinal);
 
         // console.log({
         //   value,
