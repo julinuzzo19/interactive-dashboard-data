@@ -1,5 +1,5 @@
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
-import useFetch from "../hooks/useFetch";
+import useFetch, { USE_MOCK } from "../hooks/useFetch";
 import "../App.css";
 import Select, { SingleValue } from "react-select";
 import "react-tooltip/dist/react-tooltip.css";
@@ -51,12 +51,12 @@ const Home = () => {
       value: string;
     }>
   >({
-    label: "",
-    value: "",
-    // label: "Población, hombres  (SP.POP.TOTL.MA.IN)",
-    // value: "SP.POP.TOTL.MA.IN",
-    // label: "SH.MED.BEDS.ZS",
-    // value: "SH.MED.BEDS.ZS",
+    ...(USE_MOCK
+      ? {
+          label: "Población, hombres  (SP.POP.TOTL.MA.IN)",
+          value: "SP.POP.TOTL.MA.IN",
+        }
+      : { label: "Buscar...", value: "" }),
   });
   const [minValueIndicator, setMinValueIndicator] = useState(0);
   const [maxValueIndicator, setMaxValueIndicator] = useState(0);
@@ -93,18 +93,13 @@ const Home = () => {
   });
   const [showModalFunction, setShowModalFunction] = useState(false);
   const [showModalCountries, setShowModalCountries] = useState(false);
-  const [selectedCountries, setSelectedCountries] = useState<string[]>([
-    // "ARG",
-    // "BRA",
-  ]);
+  const [selectedCountries, setSelectedCountries] = useState<string[]>(
+    USE_MOCK ? ["ARG", "BRA"] : []
+  );
 
   // useEffect(() => {
   //   console.log({ dataValues, dataGraph1, dataIndicator });
   // }, [dataValues, dataGraph1, dataIndicator]);
-
-  useEffect(() => {
-    console.log({ indicators });
-  }, [indicators]);
 
   // Carga inicial
   useEffect(() => {
@@ -113,15 +108,17 @@ const Home = () => {
 
   useEffect(() => {
     if (rangeYearsIndicator?.length > 0) {
-      setCurrentYearFrom(rangeYearsIndicator[0]);
-      // setCurrentYearFrom(2015);
-      setCurrentYearTo(rangeYearsIndicator[0]);
-      // setCurrentYearTo(2022);
+      if (USE_MOCK) {
+        setCurrentYearFrom(2020);
+        setCurrentYearTo(2022);
+      } else {
+        setCurrentYearFrom(rangeYearsIndicator[0]);
+        setCurrentYearTo(rangeYearsIndicator[0]);
+      }
     }
   }, [rangeYearsIndicator]);
 
   useEffect(() => {
-    // console.log({ functionSelected, dataIndicator });
     if (functionSelected) {
       handleFunctionData();
 
@@ -135,7 +132,6 @@ const Home = () => {
   }, [functionSelected, dataIndicator, selectedCountries]);
 
   useEffect(() => {
-    // console.log({ currentYearFrom, currentYearTo, dataValues });
     if (
       currentYearTo !== currentYearFrom &&
       !functionSelected?.value &&
@@ -202,7 +198,6 @@ const Home = () => {
   }, [dataIndicator]);
 
   useEffect(() => {
-    // console.log({ currentIndicator });
     if (currentIndicator?.value && currentYearFrom && currentYearTo) {
       getDataIndicadorAPI();
     }
@@ -263,16 +258,6 @@ const Home = () => {
 
         const valueFinal = value > 1 ? Math.log10(value) : Math.sqrt(value);
 
-        // console.log({
-        //   value,
-        //   valueFinal,
-        //   minValueIndicator,
-        //   maxValueIndicator,
-        //   minValueFinal,
-        //   maxValueFinal,
-        //   // normalizedValue,
-        // });
-
         const colorCountry = colorScaleRef.current(valueFinal).hex();
 
         return colorCountry;
@@ -326,14 +311,10 @@ const Home = () => {
       }
     });
 
-    console.log({ dataBarChart });
-
     setDataBarChartRace(dataBarChart.sort((a, b) => a.year - b.year));
   };
 
   const handleDataGraph = () => {
-    console.log({ dataValues });
-
     const dataValuesFiltered =
       selectedCountries?.length > 0
         ? dataValues.filter((item) =>
@@ -404,7 +385,6 @@ const Home = () => {
 
     const dataFinal: IndicatorValue[] = [];
 
-    // console.log({ objectValuesCountries });
     Object.values(objectValuesCountries).forEach((value) => {
       let valueFunction;
 
@@ -593,6 +573,7 @@ const Home = () => {
                 }))}
               maxMenuHeight={200}
               placeholder="Selecciona un indicador"
+
               value={currentIndicator}
               onChange={(data) => setCurrentIndicator(data)}
             />
@@ -712,7 +693,6 @@ const Home = () => {
         show={showModalCountries}
         setShow={setShowModalCountries}
         setSelectedCountries={setSelectedCountries}
-        selectedCountries={selectedCountries}
         countries={countries}
         regions={regions}
       />

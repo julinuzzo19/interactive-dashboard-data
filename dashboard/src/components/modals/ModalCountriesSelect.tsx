@@ -1,18 +1,16 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import Modal from "../Modal";
 import { ICountry, IRegion } from "@/interfaces/Countries";
 
 const ModalCountriesSelect = ({
   show,
   setShow,
-  selectedCountries,
   setSelectedCountries,
   regions,
   countries,
 }: {
   show: boolean;
   setShow: Dispatch<SetStateAction<boolean>>;
-  selectedCountries: string[];
   setSelectedCountries: Dispatch<SetStateAction<string[]>>;
   regions: IRegion[];
   countries: ICountry[];
