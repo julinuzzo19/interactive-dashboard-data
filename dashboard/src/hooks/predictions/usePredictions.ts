@@ -287,7 +287,7 @@ const usePredictions = () => {
   }) => {
     const dataFinal: IndicatorValue[] = [];
 
-    // console.log({ currentYearFrom, currentYearTo });
+    console.log({ currentYearFrom, currentYearTo, data });
 
     const dataSorted = data.sort((a, b) => parseInt(a.date) - parseInt(b.date));
 
@@ -305,7 +305,7 @@ const usePredictions = () => {
       }
     });
 
-    // console.log({ objectCountriesData });
+    console.log({ objectCountriesData });
     let objectTecnicasCount: { [key in TecnicaPredictiva]: number } = {
       "REGRESION LINEAL": 0,
       "REGRESION EXPONENCIAL": 0,

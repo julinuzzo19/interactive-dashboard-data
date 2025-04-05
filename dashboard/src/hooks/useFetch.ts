@@ -104,7 +104,7 @@ const useFetch = () => {
       setDataIndicator(dataFinal);
     } else {
       const URL =
-        BASE_URL_WB_ES +
+        BASE_URL_WB +
         `/country/${
           // Limit selected countries in URL by cors politicy
           selectedCountries.length > 0 && selectedCountries.length > 200
@@ -118,9 +118,9 @@ const useFetch = () => {
           hasExtendedYears
             ? currentYearTo
             : currentYearTo + EXTENDED_YEARS_LIMIT
-        }`;
+        }&source=2`;
 
-      // console.log({ URL });
+      console.log({ URL });
 
       await axios
         .get(URL)
@@ -200,16 +200,15 @@ const useFetch = () => {
     const result = await axios
       .get(
         BASE_URL_WB_ES +
-          `/country/ALL/indicator/${indicator}?format=json&per_page=4&date=1950:${
-            new Date().getUTCFullYear() - 1
-          }&page=1`
+          `/country/ALL/indicator/${indicator}?format=json&per_page=1&page=1&source=2`
       )
       .then((res) => {
         console.log({ getYearsRangeIndicatorres: res });
         return res.data;
       })
       .catch((err) => {
-        console.log({ errgetYearsRangeIndicator: err });
+        // console.log({ errgetYearsRangeIndicator: err });
+        console.log("Error al obtener ultimo año del indicador");
       });
 
     const lastPage = result[0].pages;
@@ -219,16 +218,15 @@ const useFetch = () => {
     const result2 = await axios
       .get(
         BASE_URL_WB_ES +
-          `/country/ALL/indicator/${indicator}?format=json&per_page=1&page=${lastPage}`
+          `/country/ALL/indicator/${indicator}?format=json&per_page=1&page=${lastPage}&source=2`
       )
       .then((res) => {
         return res.data;
       })
       .catch((err) => {
-        console.log({ errgetYeasRangeIndicator: err });
+        // console.log({ errgetYeasRangeIndicator: err });
+        console.log("Error al obtener primer año del indicador");
       });
-
-    console.log({ result2 });
 
     const firstYearResult = parseInt(result2[1][0].date);
 
