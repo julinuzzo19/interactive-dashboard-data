@@ -200,9 +200,12 @@ const useFetch = () => {
     const result = await axios
       .get(
         BASE_URL_WB_ES +
-          `/country/ALL/indicator/${indicator}?format=json&per_page=1`
+          `/country/ALL/indicator/${indicator}?format=json&per_page=4&date=1950:${
+            new Date().getUTCFullYear() - 1
+          }&page=1`
       )
       .then((res) => {
+        console.log({ getYearsRangeIndicatorres: res });
         return res.data;
       })
       .catch((err) => {
@@ -224,6 +227,8 @@ const useFetch = () => {
       .catch((err) => {
         console.log({ errgetYeasRangeIndicator: err });
       });
+
+    console.log({ result2 });
 
     const firstYearResult = parseInt(result2[1][0].date);
 
