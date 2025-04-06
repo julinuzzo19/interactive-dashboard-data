@@ -34,6 +34,7 @@ const Home = () => {
   const {
     indicators,
     getDataIndicator,
+    setDataIndicator,
     dataIndicator,
     getYearsRangeIndicator,
     rangeYearsIndicator,
@@ -226,6 +227,7 @@ const Home = () => {
     } catch (error) {
       console.log({ error });
       errNotif("No hay datos para el indicador seleccionado");
+      setDataIndicator([]);
       // console.log("No hay datos para el indicador seleccionado");
     }
   };
@@ -573,7 +575,6 @@ const Home = () => {
                 }))}
               maxMenuHeight={200}
               placeholder="Selecciona un indicador"
-
               value={currentIndicator}
               onChange={(data) => setCurrentIndicator(data)}
             />

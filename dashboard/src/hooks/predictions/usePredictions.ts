@@ -351,8 +351,7 @@ const usePredictions = () => {
           }
 
           if (!item.value) {
-            let lineal, exponencial, logistica;
-
+            console.log("prediccion");
             const listItemsCountry = valuesCountry.filter(
               (item) => item.value && item.date
             );
@@ -379,12 +378,9 @@ const usePredictions = () => {
             }
 
             // Al determinar que funcion utilizar
-            if (true || tecnicaDeterminadaGlobal === "REGRESION LINEAL") {
+            if (tecnicaDeterminadaGlobal === "REGRESION LINEAL") {
               item.value = linearRegression(years, values, parseInt(item.date));
-
-              lineal = item.value;
-            }
-            if (true || tecnicaDeterminadaGlobal === "REGRESION EXPONENCIAL") {
+            } else if (tecnicaDeterminadaGlobal === "REGRESION EXPONENCIAL") {
               if (new Set(values).size < 2) {
                 console.log("Se necesitan al menos 2 valores diferentes en x.");
                 return;
@@ -395,27 +391,22 @@ const usePredictions = () => {
                 values,
                 parseInt(item.date)
               );
-              exponencial = resultValue;
-            }
-            if (true || tecnicaDeterminadaGlobal === "REGRESION LOGISTICA") {
+              item.value = resultValue;
+            } else if (tecnicaDeterminadaGlobal === "REGRESION LOGISTICA") {
               const resultValue = logisticRegressionPredict(
                 years,
                 values,
                 parseInt(item.date)
               );
 
-              logistica = resultValue;
+              item.value = resultValue;
             }
 
             console.log({
-              // @ts-ignore
-              valorReal: item.valueReal,
               correlacionPearson,
               promedioCrecimiento,
               item,
-              lineal,
-              exponencial,
-              logistica,
+              value: item.value,
             });
 
             if (!item.value) {
