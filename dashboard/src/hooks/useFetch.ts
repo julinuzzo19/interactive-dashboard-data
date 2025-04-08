@@ -284,6 +284,7 @@ const useFetch = () => {
     countries,
     regions,
     getRegionsCountriesAPI,
+    setDataIndicator,
   };
 };
 
