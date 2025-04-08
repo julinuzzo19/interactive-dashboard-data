@@ -98,6 +98,14 @@ const Home = () => {
     USE_MOCK ? ["ARG", "BRA"] : []
   );
 
+  useEffect(() => {
+    console.log({ dataValues, dataBarChartRace, dataGraph1, dataIndicator });
+  }, [dataValues, dataBarChartRace, dataGraph1, dataIndicator]);
+
+  useEffect(() => {
+    console.log({ listCountries });
+  }, [listCountries]);
+
   // useEffect(() => {
   //   console.log({ dataValues, dataGraph1, dataIndicator });
   // }, [dataValues, dataGraph1, dataIndicator]);
@@ -385,6 +393,8 @@ const Home = () => {
       }
     });
 
+    console.log({ objectValuesCountries });
+
     const dataFinal: IndicatorValue[] = [];
 
     Object.values(objectValuesCountries).forEach((value) => {
@@ -393,11 +403,15 @@ const Home = () => {
       let valueFinal;
       let yearFinal;
 
+      console.log({ value, functionSelected });
+
       if (functionSelected?.value) {
         valueFunction = getValueFunction({
           func: functionSelected.value,
           indicatorValues: value,
         });
+
+        console.log({ valueFunction });
 
         valueFinal = valueFunction.value;
         yearFinal = valueFunction.date;
@@ -406,7 +420,11 @@ const Home = () => {
         yearFinal = value[0].date;
       }
 
-      dataFinal.push({ ...valueFunction, value: valueFinal, date: yearFinal });
+      const itemData = { ...valueFunction, value: valueFinal, date: yearFinal };
+
+      console.log({ itemData });
+
+      dataFinal.push(itemData);
     });
 
     setDataValues(dataFinal);
@@ -638,7 +656,7 @@ const Home = () => {
             <div className="flex flex-col ">
               <HorizontalBar data={dataGraph1} />
 
-              {dataValues.length <= dataIndicator.length &&
+              {dataGraph1.length < dataIndicator.length &&
               (selectedCountries.length === 0 ||
                 selectedCountries?.length > LIMIT_COUNTRIES_GRAPH) ? (
                 <button

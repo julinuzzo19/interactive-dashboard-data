@@ -82,8 +82,6 @@ const useFetch = () => {
     const hasExtendedYears =
       currentYearTo - currentYearFrom > LIMIT_EXTENDED_YEARS;
 
-    console.log({ hasExtendedYears, currentYearTo, currentYearFrom });
-
     // GET METADATA
     const metadata = await getMetadataIndicator(indicator);
     setMetadataIndicator(metadata);
@@ -106,11 +104,12 @@ const useFetch = () => {
 
       setDataIndicator(dataFinal);
     } else {
+      console.log({ selectedCountries });
       const URL =
         BASE_URL_WB +
         `/country/${
           // Limit selected countries in URL by cors politicy
-          selectedCountries.length > 0 && selectedCountries.length > 200
+          selectedCountries.length > 0 && selectedCountries.length < 190
             ? selectedCountries.map((item) => item).join(";")
             : "ALL"
         }/indicator/${indicator}?format=json&per_page=${10000}&date=${
@@ -128,6 +127,7 @@ const useFetch = () => {
       await axios
         .get(URL)
         .then((res) => {
+          console.log({ res });
           let data: IndicatorValue[] = filterDataApi(
             res.data[1] || ([] as IndicatorValue[]),
             regions
@@ -208,13 +208,13 @@ const useFetch = () => {
         BASE_URL_WB_ES +
           `/country/${
             // Limit selected countries in URL by cors politicy
-            selectedCountries.length > 0 && selectedCountries.length > 200
+            selectedCountries.length > 0 && selectedCountries.length < 190
               ? selectedCountries.map((item) => item).join(";")
               : "ALL"
           }/indicator/${indicator}?format=json&per_page=1&page=1&source=2`
       )
       .then((res) => {
-        console.log({ getYearsRangeIndicatorres: res });
+        // console.log({ getYearsRangeIndicatorres: res });
         return res.data;
       })
       .catch((err) => {

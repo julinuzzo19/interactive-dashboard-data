@@ -60,6 +60,18 @@ const useFunctions = () => {
         (item) => !item?.tecnicaUtilizada
       );
 
+      console.log({ indicatorValuesNoPredichos, indicatorValues });
+
+      // Validacion de datos
+      if (
+        indicatorValues.length === 1 ||
+        indicatorValuesNoPredichos.length === 0
+      ) {
+        const item = indicatorValues[0];
+        dataFinal = item;
+        return dataFinal;
+      }
+
       if (func === "MAX") {
         const maxValue = Math.max(
           ...indicatorValuesNoPredichos.map(
@@ -69,6 +81,8 @@ const useFunctions = () => {
         const resultValue = indicatorValuesNoPredichos.find(
           (item) => item.value === maxValue
         );
+
+        console.log({ maxValue, resultValue });
 
         dataFinal = {
           ...indicatorValuesNoPredichos[0],

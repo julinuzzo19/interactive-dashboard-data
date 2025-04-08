@@ -271,6 +271,9 @@ const usePredictions = () => {
       (n * sumX2 - sumX ** 2) * (n * sumY2 - sumY ** 2)
     );
 
+    // if (denominator === 0) {
+    //   return null;
+    // }
     const result = numerator / denominator;
 
     return result;
@@ -306,6 +309,7 @@ const usePredictions = () => {
     });
 
     console.log({ objectCountriesData });
+
     let objectTecnicasCount: { [key in TecnicaPredictiva]: number } = {
       "REGRESION LINEAL": 0,
       "REGRESION EXPONENCIAL": 0,
@@ -334,11 +338,10 @@ const usePredictions = () => {
             (a, b) => b[1] - a[1]
           )[0][0] as TecnicaPredictiva) || "REGRESION LINEAL";
 
-    // console.log({
-    //   // objectCountriesData,
-    //   objectTecnicasCount,
-    //   tecnicaDeterminadaGlobal,
-    // });
+    console.log({
+      objectTecnicasCount,
+      tecnicaDeterminadaGlobal,
+    });
 
     // Calcular predicciones
     Object.entries(objectCountriesData).forEach(
@@ -351,7 +354,6 @@ const usePredictions = () => {
           }
 
           if (!item.value) {
-            console.log("prediccion");
             const listItemsCountry = valuesCountry.filter(
               (item) => item.value && item.date
             );
@@ -373,13 +375,18 @@ const usePredictions = () => {
             // console.log({ years, values });
 
             if (values.length < 2) {
-              console.log("No se puede predecir valor sin datos históricos");
+              // console.log("No se puede predecir valor sin datos históricos");
               return;
             }
 
             // Al determinar que funcion utilizar
             if (tecnicaDeterminadaGlobal === "REGRESION LINEAL") {
-              item.value = linearRegression(years, values, parseInt(item.date));
+              const resultValue = linearRegression(
+                years,
+                values,
+                parseInt(item.date)
+              );
+              item.value = parseFloat(resultValue.toFixed(3));
             } else if (tecnicaDeterminadaGlobal === "REGRESION EXPONENCIAL") {
               if (new Set(values).size < 2) {
                 console.log("Se necesitan al menos 2 valores diferentes en x.");
@@ -391,7 +398,7 @@ const usePredictions = () => {
                 values,
                 parseInt(item.date)
               );
-              item.value = resultValue;
+              item.value = parseFloat(resultValue.toFixed(3));
             } else if (tecnicaDeterminadaGlobal === "REGRESION LOGISTICA") {
               const resultValue = logisticRegressionPredict(
                 years,
@@ -399,15 +406,19 @@ const usePredictions = () => {
                 parseInt(item.date)
               );
 
-              item.value = resultValue;
+              item.value = parseFloat(resultValue.toFixed(3));
             }
 
             console.log({
               correlacionPearson,
               promedioCrecimiento,
               item,
+              date: item.date,
+              countryCode: item.countryiso3code,
               value: item.value,
             });
+
+            item.tecnicaUtilizada = tecnicaDeterminadaGlobal;
 
             if (!item.value) {
               console.log("El valor no fue predicho correctamente");
