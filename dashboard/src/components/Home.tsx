@@ -166,7 +166,7 @@ const Home = () => {
 
   useEffect(() => {
     if (currentIndicator?.value) {
-      getYearsRangeIndicator(currentIndicator.value);
+      getYearsRangeIndicator(currentIndicator.value, selectedCountries);
     }
   }, [currentIndicator?.value]);
 
@@ -573,7 +573,6 @@ const Home = () => {
                 }))}
               maxMenuHeight={200}
               placeholder="Selecciona un indicador"
-
               value={currentIndicator}
               onChange={(data) => setCurrentIndicator(data)}
             />

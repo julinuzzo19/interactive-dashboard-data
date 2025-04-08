@@ -28,7 +28,7 @@ const BASE_URL_WB_ES = "https://api.worldbank.org/v2/es";
 const CODE_TOPIC_HEALTH = 8;
 const LIMIT_INDICATORS = 1000;
 const EXTENDED_YEARS_LIMIT = 10;
-const LIMIT_ENTENDED_YEARS = 10;
+const LIMIT_EXTENDED_YEARS = 10;
 
 const useFetch = () => {
   const [indicators, setIndicators] = useState<Indicador[]>([]);
@@ -80,7 +80,9 @@ const useFetch = () => {
     // console.log({ indicator, currentYearFrom, currentYearTo });
 
     const hasExtendedYears =
-      currentYearTo - currentYearFrom > LIMIT_ENTENDED_YEARS ? false : true;
+      currentYearTo - currentYearFrom > LIMIT_EXTENDED_YEARS;
+
+    console.log({ hasExtendedYears, currentYearTo, currentYearFrom });
 
     // GET METADATA
     const metadata = await getMetadataIndicator(indicator);
@@ -121,7 +123,7 @@ const useFetch = () => {
             : currentYearTo + EXTENDED_YEARS_LIMIT
         }&source=2`;
 
-      // console.log({ URL });
+      console.log({ URL });
 
       await axios
         .get(URL)
@@ -197,11 +199,19 @@ const useFetch = () => {
     };
   };
 
-  const getYearsRangeIndicator = async (indicator: string) => {
+  const getYearsRangeIndicator = async (
+    indicator: string,
+    selectedCountries: string[] = []
+  ) => {
     const result = await axios
       .get(
         BASE_URL_WB_ES +
-          `/country/ALL/indicator/${indicator}?format=json&per_page=1&page=1&source=2`
+          `/country/${
+            // Limit selected countries in URL by cors politicy
+            selectedCountries.length > 0 && selectedCountries.length > 200
+              ? selectedCountries.map((item) => item).join(";")
+              : "ALL"
+          }/indicator/${indicator}?format=json&per_page=1&page=1&source=2`
       )
       .then((res) => {
         console.log({ getYearsRangeIndicatorres: res });
@@ -209,7 +219,7 @@ const useFetch = () => {
       })
       .catch((err) => {
         // console.log({ errgetYearsRangeIndicator: err });
-        console.log("Error al obtener ultimo año del indicador");
+        console.log("Error al obtener ultimo año del indicador", err);
       });
 
     const lastPage = result[0].pages;
@@ -226,7 +236,7 @@ const useFetch = () => {
       })
       .catch((err) => {
         // console.log({ errgetYeasRangeIndicator: err });
-        console.log("Error al obtener primer año del indicador");
+        console.log("Error al obtener primer año del indicador", err);
       });
 
     const firstYearResult = parseInt(result2[1][0].date);
