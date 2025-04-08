@@ -229,7 +229,12 @@ const useFetch = () => {
     const result2 = await axios
       .get(
         BASE_URL_WB_ES +
-          `/country/ALL/indicator/${indicator}?format=json&per_page=1&page=${lastPage}&source=2`
+          `/country/${
+            // Limit selected countries in URL by cors politicy
+            selectedCountries.length > 0 && selectedCountries.length < 190
+              ? selectedCountries.map((item) => item).join(";")
+              : "ALL"
+          }/indicator/${indicator}?format=json&per_page=1&page=${lastPage}&source=2`
       )
       .then((res) => {
         return res.data;
