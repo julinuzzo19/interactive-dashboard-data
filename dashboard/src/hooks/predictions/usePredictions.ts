@@ -290,7 +290,7 @@ const usePredictions = () => {
   }) => {
     const dataFinal: IndicatorValue[] = [];
 
-    console.log({ currentYearFrom, currentYearTo, data });
+    // console.log({ currentYearFrom, currentYearTo, data });
 
     const dataSorted = data.sort((a, b) => parseInt(a.date) - parseInt(b.date));
 
@@ -435,8 +435,6 @@ const usePredictions = () => {
         });
       }
     );
-
-    console.log({ dataFinal });
 
     return dataFinal;
   };

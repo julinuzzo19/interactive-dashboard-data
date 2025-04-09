@@ -98,13 +98,9 @@ const Home = () => {
     USE_MOCK ? ["ARG", "BRA"] : []
   );
 
-  useEffect(() => {
-    console.log({ dataValues, dataBarChartRace, dataGraph1, dataIndicator });
-  }, [dataValues, dataBarChartRace, dataGraph1, dataIndicator]);
-
-  useEffect(() => {
-    console.log({ listCountries });
-  }, [listCountries]);
+  // useEffect(() => {
+  //   console.log({ dataValues, dataBarChartRace, dataGraph1, dataIndicator });
+  // }, [dataValues, dataBarChartRace, dataGraph1, dataIndicator]);
 
   // useEffect(() => {
   //   console.log({ dataValues, dataGraph1, dataIndicator });
@@ -393,8 +389,6 @@ const Home = () => {
       }
     });
 
-    console.log({ objectValuesCountries });
-
     const dataFinal: IndicatorValue[] = [];
 
     Object.values(objectValuesCountries).forEach((value) => {
@@ -403,15 +397,11 @@ const Home = () => {
       let valueFinal;
       let yearFinal;
 
-      console.log({ value, functionSelected });
-
       if (functionSelected?.value) {
         valueFunction = getValueFunction({
           func: functionSelected.value,
           indicatorValues: value,
         });
-
-        console.log({ valueFunction });
 
         valueFinal = valueFunction.value;
         yearFinal = valueFunction.date;
@@ -421,8 +411,6 @@ const Home = () => {
       }
 
       const itemData = { ...valueFunction, value: valueFinal, date: yearFinal };
-
-      console.log({ itemData });
 
       dataFinal.push(itemData);
     });
@@ -705,6 +693,13 @@ const Home = () => {
           setShow={setShowModalFunction}
           setFunctionSelected={setFunctionSelected}
           functionSelected={functionSelected}
+          disabled={
+            !(
+              dataValues?.length > 0 &&
+              currentYearTo !== currentYearFrom &&
+              selectedView !== "BAR_CHART_RACE"
+            )
+          }
         />
       )}
 

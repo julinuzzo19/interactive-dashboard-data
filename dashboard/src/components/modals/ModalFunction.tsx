@@ -13,11 +13,13 @@ const ModalFunction = ({
   setShow,
   setFunctionSelected,
   functionSelected,
+  disabled,
 }: {
   show: boolean;
   setShow: Dispatch<SetStateAction<boolean>>;
   setFunctionSelected: Dispatch<SetStateAction<FunctionValue>>;
   functionSelected: FunctionValue;
+  disabled: boolean;
 }) => {
   const [funcionShowData, setFuncionShowData] =
     useState<FunctionValue>(functionSelected);
@@ -175,10 +177,14 @@ const ModalFunction = ({
         <div className="text-end">
           <button
             onClick={() => {
-              setFunctionSelected(funcionShowData);
+              if (!disabled) {
+                setFunctionSelected(funcionShowData);
+              }
               setShow(false);
             }}
-            className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
+            className={cn(
+              "px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
+            )}
           >
             Aceptar
           </button>

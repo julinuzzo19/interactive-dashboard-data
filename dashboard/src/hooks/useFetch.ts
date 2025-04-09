@@ -104,7 +104,6 @@ const useFetch = () => {
 
       setDataIndicator(dataFinal);
     } else {
-      console.log({ selectedCountries });
       const URL =
         BASE_URL_WB +
         `/country/${
@@ -122,12 +121,12 @@ const useFetch = () => {
             : currentYearTo + EXTENDED_YEARS_LIMIT
         }&source=2`;
 
-      console.log({ URL });
+      // console.log({ URL });
 
       await axios
         .get(URL)
         .then((res) => {
-          console.log({ res });
+          // console.log({ res });
           let data: IndicatorValue[] = filterDataApi(
             res.data[1] || ([] as IndicatorValue[]),
             regions
