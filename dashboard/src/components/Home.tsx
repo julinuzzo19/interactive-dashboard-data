@@ -102,9 +102,9 @@ const Home = () => {
   //   console.log({ dataValues, dataBarChartRace, dataGraph1, dataIndicator });
   // }, [dataValues, dataBarChartRace, dataGraph1, dataIndicator]);
 
-  // useEffect(() => {
-  //   console.log({ dataValues, dataGraph1, dataIndicator });
-  // }, [dataValues, dataGraph1, dataIndicator]);
+  useEffect(() => {
+    console.log({ dataValues, dataGraph1, dataIndicator, selectedCountries });
+  }, [dataValues, dataGraph1, dataIndicator, selectedCountries]);
 
   // Carga inicial
   useEffect(() => {
@@ -174,6 +174,16 @@ const Home = () => {
       getYearsRangeIndicator(currentIndicator.value, selectedCountries);
     }
   }, [currentIndicator?.value]);
+
+  useEffect(() => {
+    if (
+      selectedCountries.some((item) =>
+        dataIndicator.some((elem) => elem.countryiso3code === item)
+      )
+    ) {
+      getDataIndicadorAPI();
+    }
+  }, [selectedCountries]);
 
   useEffect(() => {
     setListCountries(
