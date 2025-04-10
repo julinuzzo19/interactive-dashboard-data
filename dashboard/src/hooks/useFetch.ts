@@ -121,7 +121,7 @@ const useFetch = () => {
             : currentYearTo + EXTENDED_YEARS_LIMIT
         }&source=2`;
 
-      console.log({ URL });
+      // console.log({ URL });
 
       await axios
         .get(URL)

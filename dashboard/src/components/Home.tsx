@@ -24,10 +24,15 @@ import ModalCountriesSelect from "./modals/ModalCountriesSelect";
 import { errNotif } from "./ui/Notifications";
 import { TecnicaPredictiva } from "@/hooks/predictions/predictions.interface";
 import { cn } from "@/lib/utils";
+import ModalBusqueda from "./modals/ModalBusqueda";
 
 const LIMIT_COUNTRIES_GRAPH = 25;
 const LIMIT_COUNTRIES_RACE = 10;
 const DEFAULT_MAP_COLOR = "#ccc";
+const DEFAULT_FUNCTION: FunctionValue = {
+  label: "Más reciente",
+  value: "RECIENTE",
+};
 
 const Home = () => {
   const { dispatch } = useContext(AppContext);
@@ -89,22 +94,33 @@ const Home = () => {
   >([]);
   // Funciones
   const [functionSelected, setFunctionSelected] = useState<FunctionValue>({
-    label: "Máximo",
-    value: "MAX",
+    label: "",
+    value: "",
   });
   const [showModalFunction, setShowModalFunction] = useState(false);
   const [showModalCountries, setShowModalCountries] = useState(false);
   const [selectedCountries, setSelectedCountries] = useState<string[]>(
     USE_MOCK ? ["ARG", "BRA"] : []
   );
+  //
+  const [filtrosSelected, setFiltrosSelected] = useState<{
+    PAISES: boolean;
+    INDICADOR: boolean;
+    TIEMPO: boolean;
+  }>({
+    PAISES: false,
+    INDICADOR: false,
+    TIEMPO: false,
+  });
+  const [busquedaRealizada, setBusquedaRealizada] = useState<boolean>(false);
 
   // useEffect(() => {
   //   console.log({ dataValues, dataBarChartRace, dataGraph1, dataIndicator });
   // }, [dataValues, dataBarChartRace, dataGraph1, dataIndicator]);
 
-  useEffect(() => {
-    console.log({ dataValues, dataGraph1, dataIndicator, selectedCountries });
-  }, [dataValues, dataGraph1, dataIndicator, selectedCountries]);
+  // useEffect(() => {
+  //   console.log({ dataValues, dataGraph1, dataIndicator, selectedCountries });
+  // }, [dataValues, dataGraph1, dataIndicator, selectedCountries]);
 
   // Carga inicial
   useEffect(() => {
@@ -112,13 +128,45 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
+    console.log({ selectedCountries });
+    setFiltrosSelected((prevState) => ({
+      ...prevState,
+      PAISES: selectedCountries.length > 0,
+    }));
+  }, [selectedCountries]);
+
+  useEffect(() => {
+    console.log({ currentIndicator });
+    if (currentIndicator?.value) {
+      setFiltrosSelected((prevState) => ({ ...prevState, INDICADOR: true }));
+    }
+  }, [currentIndicator]);
+
+  useEffect(() => {
+    console.log({ currentIndicator });
+    if (currentIndicator?.value) {
+      setFiltrosSelected((prevState) => ({ ...prevState, INDICADOR: true }));
+    }
+  }, [currentIndicator]);
+
+  useEffect(() => {
+    console.log({ currentYearFrom, currentYearTo });
+
+    setFiltrosSelected((prevState) => ({
+      ...prevState,
+      TIEMPO: Boolean(currentYearFrom && currentYearTo),
+    }));
+  }, [currentYearFrom, currentYearTo]);
+
+  useEffect(() => {
+    console.log({ rangeYearsIndicator });
     if (rangeYearsIndicator?.length > 0) {
       if (USE_MOCK) {
         setCurrentYearFrom(2020);
         setCurrentYearTo(2022);
       } else {
-        setCurrentYearFrom(rangeYearsIndicator[0]);
-        setCurrentYearTo(rangeYearsIndicator[0]);
+        // setCurrentYearFrom(rangeYearsIndicator[0]);
+        // setCurrentYearTo(rangeYearsIndicator[0]);
       }
     }
   }, [rangeYearsIndicator]);
@@ -138,13 +186,17 @@ const Home = () => {
 
   useEffect(() => {
     if (
+      busquedaRealizada &&
+      selectedCountries.length > 0 &&
+      currentYearTo &&
+      currentYearFrom &&
       currentYearTo !== currentYearFrom &&
       !functionSelected?.value &&
       selectedView !== "BAR_CHART_RACE"
     ) {
       setShowModalFunction(true);
     }
-  }, [currentYearFrom, currentYearTo]);
+  }, [currentYearFrom, currentYearTo, selectedCountries, busquedaRealizada]);
 
   useEffect(() => {
     setOffset(0);
@@ -173,7 +225,7 @@ const Home = () => {
     if (currentIndicator?.value) {
       getYearsRangeIndicator(currentIndicator.value, selectedCountries);
     }
-  }, [currentIndicator?.value]);
+  }, [currentIndicator?.value, selectedCountries]);
 
   useEffect(() => {
     if (
@@ -213,10 +265,21 @@ const Home = () => {
   }, [dataIndicator]);
 
   useEffect(() => {
-    if (currentIndicator?.value && currentYearFrom && currentYearTo) {
+    if (
+      currentIndicator?.value &&
+      currentYearFrom &&
+      currentYearTo &&
+      busquedaRealizada
+    ) {
       getDataIndicadorAPI();
     }
   }, [currentIndicator?.value, currentYearTo, currentYearFrom]);
+
+  useEffect(() => {
+    if (busquedaRealizada) {
+      getDataIndicadorAPI();
+    }
+  }, [busquedaRealizada]);
 
   useEffect(() => {
     if (dataValues?.length > 0) {
@@ -460,10 +523,12 @@ const Home = () => {
               <div>
                 <span>Desde</span>
                 <select
+                  disabled={!Boolean(currentIndicator?.value)}
                   className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-center"
                   value={currentYearFrom}
                   onChange={(e) => setCurrentYearFrom(parseInt(e.target.value))}
                 >
+                  <option value={0}>Seleccione</option>
                   {rangeYearsIndicator.map((year) => {
                     return (
                       <option value={year} key={year}>
@@ -476,10 +541,12 @@ const Home = () => {
               <div>
                 <span>Hasta</span>
                 <select
+                  disabled={!Boolean(currentIndicator?.value)}
                   className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-center"
                   value={currentYearTo}
                   onChange={(e) => setCurrentYearTo(parseInt(e.target.value))}
                 >
+                  <option value={0}>Seleccione</option>
                   {rangeYearsIndicator.map((year) => {
                     return (
                       <option value={year} key={year}>
@@ -535,6 +602,7 @@ const Home = () => {
                   )
                 }
               >
+                <option value="">Seleccione</option>
                 {FUNCTIONS_LIST.map((func) => {
                   return (
                     <option value={func.value} key={func.value}>
@@ -551,7 +619,7 @@ const Home = () => {
             <div className="flex flex-col text-center justify-center">
               <div className="flex flex-row gap-2 justify-center items-center">
                 <span className="text-lg font-bold leading-none tracking-tight m-2 text-center">
-                  Paises seleccionados
+                  Países seleccionados
                 </span>
                 <FaInfoCircle
                   role="button"
@@ -560,8 +628,10 @@ const Home = () => {
               </div>
               <div>
                 {selectedCountries?.length > 0
-                  ? selectedCountries?.length
-                  : "Todos"}
+                  ? countries.length === selectedCountries?.length
+                    ? "TODOS"
+                    : selectedCountries.length
+                  : "-"}
               </div>
             </div>
           </div>
@@ -644,49 +714,118 @@ const Home = () => {
               </TabsList>
             </Tabs>
           </div>
-          {selectedView === "MAP" && (
-            <Geo
-              data={dataValues}
-              generateColorByValue={generateColorByValue}
-            />
-          )}
-          {selectedView === "GRAPH1" && dataGraph1?.length > 0 && (
-            <div className="flex flex-col ">
-              <HorizontalBar data={dataGraph1} />
 
-              {dataGraph1.length < dataIndicator.length &&
-              (selectedCountries.length === 0 ||
-                selectedCountries?.length > LIMIT_COUNTRIES_GRAPH) ? (
-                <button
-                  className="text-center"
-                  onClick={() => {
-                    setSeeMore(true);
-                  }}
-                >
-                  Mostrar más paises
-                </button>
-              ) : (
-                ""
-              )}
-            </div>
-          )}
-          {selectedView === "BAR_CHART_RACE" &&
-            dataBarChartRace?.length > 0 && (
-              <div className="h-full w-full flex flex-col text-center justify-start items-center">
-                <BarChartRace data={dataBarChartRace} offset={offset} />
-                {dataBarChartRace[0]?.values.length > LIMIT_COUNTRIES_RACE ? (
+          <section>
+            {busquedaRealizada ? (
+              <>
+                {selectedView === "MAP" && (
+                  <Geo
+                    data={dataValues}
+                    generateColorByValue={generateColorByValue}
+                  />
+                )}
+                {selectedView === "GRAPH1" && dataGraph1?.length > 0 && (
+                  <div className="flex flex-col ">
+                    <HorizontalBar data={dataGraph1} />
+
+                    {dataGraph1.length < dataIndicator.length &&
+                    (selectedCountries.length === 0 ||
+                      selectedCountries?.length > LIMIT_COUNTRIES_GRAPH) ? (
+                      <button
+                        className="text-center"
+                        onClick={() => {
+                          setSeeMore(true);
+                        }}
+                      >
+                        Mostrar más paises
+                      </button>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                )}
+                {selectedView === "BAR_CHART_RACE" &&
+                  dataBarChartRace?.length > 0 && (
+                    <div className="h-full w-full flex flex-col text-center justify-start items-center">
+                      <BarChartRace data={dataBarChartRace} offset={offset} />
+                      {dataBarChartRace[0]?.values.length >
+                      LIMIT_COUNTRIES_RACE ? (
+                        <button
+                          onClick={() => {
+                            setSeeMore(true);
+                          }}
+                        >
+                          Mostrar más paises
+                        </button>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                  )}
+              </>
+            ) : (
+              <div className="mt-10">
+                <h2 className="text-xl text-center font-semibold mb-4">
+                  Seleccione los filtros correspondientes para realizar la
+                  búsqueda
+                </h2>
+
+                <div className="grid grid-rows-[1fr_1fr_1fr] items-center justify-center">
+                  <article className="flex gap-2 justify-start items-center">
+                    <input
+                      type="checkbox"
+                      disabled
+                      checked={filtrosSelected.INDICADOR}
+                    />
+                    <label htmlFor="">Indicador seleccionado</label>
+                  </article>
+                  <article className="flex gap-2 justify-start items-start">
+                    <input
+                      type="checkbox"
+                      disabled
+                      checked={filtrosSelected.PAISES}
+                    />
+                    <label htmlFor="">Países seleccionados</label>
+                  </article>
+
+                  <article className="flex gap-2 justify-start items-start">
+                    <input
+                      type="checkbox"
+                      disabled
+                      checked={filtrosSelected.TIEMPO}
+                    />
+                    <label htmlFor="">Intervalo de tiempo seleccionado</label>
+                  </article>
+                </div>
+
+                <div className="text-center mt-5">
                   <button
                     onClick={() => {
-                      setSeeMore(true);
+                      if (!filtrosSelected.INDICADOR) {
+                        errNotif("Seleccione el indicador a mostrar");
+                        return;
+                      }
+                      if (!filtrosSelected.PAISES) {
+                        errNotif("Seleccione los países a mostrar");
+                        return;
+                      }
+                      if (!filtrosSelected.TIEMPO) {
+                        errNotif("Seleccione el intervalo de tiempo");
+                        return;
+                      }
+
+                      setBusquedaRealizada(true);
                     }}
+                    className={
+                      "px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
+                    }
                   >
-                    Mostrar más paises
+                    Aplicar búsqueda
                   </button>
-                ) : (
-                  ""
-                )}
+                </div>
               </div>
             )}
+          </section>
         </div>
       </div>
 
@@ -720,6 +859,13 @@ const Home = () => {
         countries={countries}
         regions={regions}
       />
+
+      {/* <ModalBusqueda
+        show={showModalBusqueda}
+        setShow={setShowModalBusqueda}
+        filtrosSelected={filtrosSelected}
+        setBusquedaRealizada={setBusquedaRealizada}
+      /> */}
     </div>
   );
 };
