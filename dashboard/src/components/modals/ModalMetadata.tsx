@@ -26,9 +26,6 @@ const ModalMetadata = ({
             <b>Nombre del indicador:</b> {metadata.name}
           </span>
           <span>
-            <b>Fuente:</b> {metadata.source?.value}
-          </span>
-          <span>
             <b>Definición del indicador:</b> {metadata.sourceNote}
           </span>
           <span>

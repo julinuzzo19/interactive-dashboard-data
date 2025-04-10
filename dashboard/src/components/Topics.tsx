@@ -72,7 +72,7 @@ export function TopicSelector({
   };
 
   return (
-    <div className="relative bg-gray-100 border rounded-xl w-10/12">
+    <div className="relative bg-gray-100 border rounded-xl">
       <div
         ref={scrollContainerRef}
         className={cn(
@@ -87,7 +87,7 @@ export function TopicSelector({
         onScroll={handleScroll}
       >
         <span className="font-bold">Filtrar indicadores por tópicos</span>
-        <div className="flex gap-2 py-4 min-w-max px-4 items-center">
+        <div className="flex gap-2 py-4 min-w-max px-4 items-center justify-center">
           {topics.map((topic) => (
             <button
               key={topic.id}
