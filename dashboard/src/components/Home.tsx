@@ -24,15 +24,10 @@ import ModalCountriesSelect from "./modals/ModalCountriesSelect";
 import { errNotif } from "./ui/Notifications";
 import { TecnicaPredictiva } from "@/hooks/predictions/predictions.interface";
 import { cn } from "@/lib/utils";
-import ModalBusqueda from "./modals/ModalBusqueda";
 
 const LIMIT_COUNTRIES_GRAPH = 25;
 const LIMIT_COUNTRIES_RACE = 10;
 const DEFAULT_MAP_COLOR = "#ccc";
-const DEFAULT_FUNCTION: FunctionValue = {
-  label: "Más reciente",
-  value: "RECIENTE",
-};
 
 const Home = () => {
   const { dispatch } = useContext(AppContext);
@@ -128,7 +123,6 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    console.log({ selectedCountries });
     setFiltrosSelected((prevState) => ({
       ...prevState,
       PAISES: selectedCountries.length > 0,
@@ -136,7 +130,6 @@ const Home = () => {
   }, [selectedCountries]);
 
   useEffect(() => {
-    console.log({ currentIndicator });
     if (currentIndicator?.value) {
       setFiltrosSelected((prevState) => ({ ...prevState, INDICADOR: true }));
     }
@@ -159,16 +152,16 @@ const Home = () => {
   }, [currentYearFrom, currentYearTo]);
 
   useEffect(() => {
-    console.log({ rangeYearsIndicator });
-    if (rangeYearsIndicator?.length > 0) {
-      if (USE_MOCK) {
+    if (USE_MOCK) {
+      if (rangeYearsIndicator?.length > 0) {
         setCurrentYearFrom(2020);
         setCurrentYearTo(2022);
-      } else {
-        // setCurrentYearFrom(rangeYearsIndicator[0]);
-        // setCurrentYearTo(rangeYearsIndicator[0]);
       }
     }
+    // else {
+    // setCurrentYearFrom(rangeYearsIndicator[0]);
+    // setCurrentYearTo(rangeYearsIndicator[0]);
+    // }
   }, [rangeYearsIndicator]);
 
   useEffect(() => {
