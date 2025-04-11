@@ -136,15 +136,13 @@ const Home = () => {
   }, [currentIndicator]);
 
   useEffect(() => {
-    console.log({ currentIndicator });
+    // console.log({ currentIndicator });
     if (currentIndicator?.value) {
       setFiltrosSelected((prevState) => ({ ...prevState, INDICADOR: true }));
     }
   }, [currentIndicator]);
 
   useEffect(() => {
-    console.log({ currentYearFrom, currentYearTo });
-
     setFiltrosSelected((prevState) => ({
       ...prevState,
       TIEMPO: Boolean(currentYearFrom && currentYearTo),
@@ -221,13 +219,15 @@ const Home = () => {
   }, [currentIndicator?.value, selectedCountries]);
 
   useEffect(() => {
+    console.log({selectedCountries,dataIndicator})
     if (
       selectedCountries.some((item) =>
-        dataIndicator.some((elem) => elem.countryiso3code === item)
+        !dataIndicator.some((elem) => elem.countryiso3code === item)
       )
     ) {
+      console.log("aca1");
       getDataIndicadorAPI();
-    }
+    } else console.log("aca2");
   }, [selectedCountries]);
 
   useEffect(() => {
@@ -315,22 +315,29 @@ const Home = () => {
         }
 
         if (!colorScaleRef.current) {
+          const domanMin =
+            minValueIndicator > 1
+              ? Math.log10(minValueIndicator)
+              : Math.sqrt(minValueIndicator);
+
+          const domainMax =
+            maxValueIndicator > 1
+              ? Math.log10(maxValueIndicator)
+              : Math.sqrt(maxValueIndicator);
+
           colorScaleRef.current = chroma
             .scale(chroma.brewer.OrRd)
-            .domain([
-              minValueIndicator > 1
-                ? Math.log10(minValueIndicator)
-                : Math.sqrt(minValueIndicator),
-              maxValueIndicator > 1
-                ? Math.log10(maxValueIndicator)
-                : Math.sqrt(maxValueIndicator),
-            ])
+            .domain([minValueIndicator, domainMax])
             .mode("lch");
+
+          console.log({ domanMin, domainMax });
         }
 
         const valueFinal = value > 1 ? Math.log10(value) : Math.sqrt(value);
 
         const colorCountry = colorScaleRef.current(valueFinal).hex();
+
+        console.log({ colorCountry, value, valueFinal });
 
         return colorCountry;
       } catch (error) {
@@ -772,7 +779,7 @@ const Home = () => {
                     />
                     <label htmlFor="">Indicador seleccionado</label>
                   </article>
-                  <article className="flex gap-2 justify-start items-start">
+                  <article className="flex gap-2 justify-start items-center">
                     <input
                       type="checkbox"
                       disabled
@@ -781,7 +788,7 @@ const Home = () => {
                     <label htmlFor="">Países seleccionados</label>
                   </article>
 
-                  <article className="flex gap-2 justify-start items-start">
+                  <article className="flex gap-2 justify-start items-center">
                     <input
                       type="checkbox"
                       disabled
