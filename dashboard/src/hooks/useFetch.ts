@@ -15,7 +15,8 @@ import DATA_MOCK from "../mocks/data.json";
 // import VALUES_FROM_TO_PREDICTIONS_MOCK from "../mocks/data_predictions.json";
 // import VALUES_FROM_TO_PREDICTIONS_MOCK_REG_LINEAL from "../mocks/data_predictions_REG_LINEAL.json";
 // import VALUES_FROM_TO_PREDICTIONS_MOCK_SP from "../mocks/data_predictions_SP.json";
-import VALUES_FROM_TO_PREDICTIONS_MOCK_REG_EXP from "../mocks/data_predictions_REG_EXP.json";
+import DATA_INDICATOR2 from "../mocks/DATA_INDICATOR2.json";
+// import VALUES_FROM_TO_PREDICTIONS_MOCK_REG_EXP from "../mocks/data_predictions_REG_EXP.json";
 import METADATA_ES_MOCK from "../mocks/metadata_es.json";
 import METADATA_EN_MOCK from "../mocks/metadata_en.json";
 import REGIONS_MOCK from "../mocks/regions.json";
@@ -77,8 +78,6 @@ const useFetch = () => {
     currentYearTo: number;
     selectedCountries?: string[];
   }) => {
-    // console.log({ indicator, currentYearFrom, currentYearTo });
-
     const hasExtendedYears =
       currentYearTo - currentYearFrom > LIMIT_EXTENDED_YEARS;
 
@@ -87,10 +86,7 @@ const useFetch = () => {
     setMetadataIndicator(metadata);
 
     if (USE_MOCK) {
-      const data: IndicatorValue[] = filterDataApi(
-        VALUES_FROM_TO_PREDICTIONS_MOCK_REG_EXP as any[],
-        regions
-      );
+      const data: IndicatorValue[] = filterDataApi(DATA_INDICATOR2 as any, regions);
 
       // console.log({ data });
       // Procesar data para predictions
@@ -100,7 +96,7 @@ const useFetch = () => {
         currentYearTo,
       });
 
-      console.log({ dataFinal });
+      // console.log({ dataFinal });
 
       setDataIndicator(dataFinal);
     } else {

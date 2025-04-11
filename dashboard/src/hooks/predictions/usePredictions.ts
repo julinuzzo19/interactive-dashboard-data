@@ -308,7 +308,7 @@ const usePredictions = () => {
       }
     });
 
-    console.log({ objectCountriesData });
+    // console.log({ objectCountriesData });
 
     let objectTecnicasCount: { [key in TecnicaPredictiva]: number } = {
       "REGRESION LINEAL": 0,
@@ -338,10 +338,10 @@ const usePredictions = () => {
             (a, b) => b[1] - a[1]
           )[0][0] as TecnicaPredictiva) || "REGRESION LINEAL";
 
-    console.log({
-      objectTecnicasCount,
-      tecnicaDeterminadaGlobal,
-    });
+    // console.log({
+    //   objectTecnicasCount,
+    //   tecnicaDeterminadaGlobal,
+    // });
 
     // Calcular predicciones
     Object.entries(objectCountriesData).forEach(
@@ -409,14 +409,14 @@ const usePredictions = () => {
               item.value = parseFloat(resultValue.toFixed(3));
             }
 
-            console.log({
-              correlacionPearson,
-              promedioCrecimiento,
-              item,
-              date: item.date,
-              countryCode: item.countryiso3code,
-              value: item.value,
-            });
+            // console.log({
+            //   correlacionPearson,
+            //   promedioCrecimiento,
+            //   item,
+            //   date: item.date,
+            //   countryCode: item.countryiso3code,
+            //   value: item.value,
+            // });
 
             item.tecnicaUtilizada = tecnicaDeterminadaGlobal;
 

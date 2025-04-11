@@ -89,13 +89,317 @@ const Home = () => {
   >([]);
   // Funciones
   const [functionSelected, setFunctionSelected] = useState<FunctionValue>({
-    label: "",
-    value: "",
+    ...(USE_MOCK
+      ? {
+          value: "MAX",
+          label: "Maximo",
+        }
+      : { label: "", value: "" }),
   });
   const [showModalFunction, setShowModalFunction] = useState(false);
   const [showModalCountries, setShowModalCountries] = useState(false);
   const [selectedCountries, setSelectedCountries] = useState<string[]>(
-    USE_MOCK ? ["ARG", "BRA"] : []
+    USE_MOCK
+      ? // ["ARG", "BRA"]
+        [
+          "ABW",
+          "AFE",
+          "AFG",
+          "AFR",
+          "AFW",
+          "AGO",
+          "ALB",
+          "AND",
+          "ARB",
+          "ARE",
+          "ARG",
+          "ARM",
+          "ASM",
+          "ATG",
+          "AUS",
+          "AUT",
+          "AZE",
+          "BDI",
+          "BEA",
+          "BEC",
+          "BEL",
+          "BEN",
+          "BFA",
+          "BGD",
+          "BGR",
+          "BHI",
+          "BHR",
+          "BHS",
+          "BIH",
+          "BLA",
+          "BLR",
+          "BLZ",
+          "BMN",
+          "BMU",
+          "BOL",
+          "BRA",
+          "BRB",
+          "BRN",
+          "BSS",
+          "BTN",
+          "BWA",
+          "CAA",
+          "CAF",
+          "CAN",
+          "CEA",
+          "CEB",
+          "CEU",
+          "CHE",
+          "CHI",
+          "CHL",
+          "CHN",
+          "CIV",
+          "CLA",
+          "CME",
+          "CMR",
+          "COD",
+          "COG",
+          "COL",
+          "COM",
+          "CPV",
+          "CRI",
+          "CSA",
+          "CSS",
+          "CUB",
+          "CUW",
+          "CYM",
+          "CYP",
+          "CZE",
+          "DEA",
+          "DEC",
+          "DEU",
+          "DJI",
+          "DLA",
+          "DMA",
+          "DMN",
+          "DNK",
+          "DNS",
+          "DOM",
+          "DSA",
+          "DSF",
+          "DSS",
+          "DZA",
+          "EAP",
+          "EAR",
+          "EAS",
+          "ECA",
+          "ECS",
+          "ECU",
+          "EGY",
+          "EMU",
+          "ERI",
+          "ESP",
+          "EST",
+          "ETH",
+          "EUU",
+          "FCS",
+          "FIN",
+          "FJI",
+          "FRA",
+          "FRO",
+          "FSM",
+          "FXS",
+          "GAB",
+          "GBR",
+          "GEO",
+          "GHA",
+          "GIB",
+          "GIN",
+          "GMB",
+          "GNB",
+          "GNQ",
+          "GRC",
+          "GRD",
+          "GRL",
+          "GTM",
+          "GUM",
+          "GUY",
+          "HIC",
+          "HKG",
+          "HND",
+          "HPC",
+          "HRV",
+          "HTI",
+          "HUN",
+          "IBB",
+          "IBD",
+          "IBT",
+          "IDA",
+          "IDB",
+          "IDN",
+          "IDX",
+          "IMN",
+          "IND",
+          "INX",
+          "IRL",
+          "IRN",
+          "IRQ",
+          "ISL",
+          "ISR",
+          "ITA",
+          "JAM",
+          "JOR",
+          "JPN",
+          "KAZ",
+          "KEN",
+          "KGZ",
+          "KHM",
+          "KIR",
+          "KNA",
+          "KOR",
+          "KWT",
+          "LAC",
+          "LAO",
+          "LBN",
+          "LBR",
+          "LBY",
+          "LCA",
+          "LCN",
+          "LDC",
+          "LIC",
+          "LIE",
+          "LKA",
+          "LMC",
+          "LMY",
+          "LSO",
+          "LTE",
+          "LTU",
+          "LUX",
+          "LVA",
+          "MAC",
+          "MAF",
+          "MAR",
+          "MCO",
+          "MDA",
+          "MDE",
+          "MDG",
+          "MDV",
+          "MEA",
+          "MEX",
+          "MHL",
+          "MIC",
+          "MKD",
+          "MLI",
+          "MLT",
+          "MMR",
+          "MNA",
+          "MNE",
+          "MNG",
+          "MNP",
+          "MOZ",
+          "MRT",
+          "MUS",
+          "MWI",
+          "MYS",
+          "NAC",
+          "NAF",
+          "NAM",
+          "NCL",
+          "NER",
+          "NGA",
+          "NIC",
+          "NLD",
+          "NOR",
+          "NPL",
+          "NRS",
+          "NRU",
+          "NXS",
+          "NZL",
+          "OED",
+          "OMN",
+          "OSS",
+          "PAK",
+          "PAN",
+          "PER",
+          "PHL",
+          "PLW",
+          "PNG",
+          "POL",
+          "PRE",
+          "PRI",
+          "PRK",
+          "PRT",
+          "PRY",
+          "PSE",
+          "PSS",
+          "PST",
+          "PYF",
+          "QAT",
+          "ROU",
+          "RRS",
+          "RUS",
+          "RWA",
+          "SAS",
+          "SAU",
+          "SDN",
+          "SEN",
+          "SGP",
+          "SLB",
+          "SLE",
+          "SLV",
+          "SMR",
+          "SOM",
+          "SRB",
+          "SSA",
+          "SSD",
+          "SSF",
+          "SST",
+          "STP",
+          "SUR",
+          "SVK",
+          "SVN",
+          "SWE",
+          "SWZ",
+          "SXM",
+          "SXZ",
+          "SYC",
+          "SYR",
+          "TCA",
+          "TCD",
+          "TEA",
+          "TEC",
+          "TGO",
+          "THA",
+          "TJK",
+          "TKM",
+          "TLA",
+          "TLS",
+          "TMN",
+          "TON",
+          "TSA",
+          "TSS",
+          "TTO",
+          "TUN",
+          "TUR",
+          "TUV",
+          "TZA",
+          "UGA",
+          "UKR",
+          "UMC",
+          "URY",
+          "USA",
+          "UZB",
+          "VCT",
+          "VEN",
+          "VGB",
+          "VIR",
+          "VNM",
+          "VUT",
+          "WLD",
+          "WSM",
+          "XKX",
+          "XZN",
+          "YEM",
+          "ZAF",
+          "ZMB",
+          "ZWE",
+        ]
+      : []
   );
   //
   const [filtrosSelected, setFiltrosSelected] = useState<{
@@ -103,11 +407,11 @@ const Home = () => {
     INDICADOR: boolean;
     TIEMPO: boolean;
   }>({
-    PAISES: false,
-    INDICADOR: false,
-    TIEMPO: false,
+    PAISES: USE_MOCK,
+    INDICADOR: USE_MOCK,
+    TIEMPO: USE_MOCK,
   });
-  const [busquedaRealizada, setBusquedaRealizada] = useState<boolean>(false);
+  const [busquedaRealizada, setBusquedaRealizada] = useState<boolean>(USE_MOCK);
 
   // useEffect(() => {
   //   console.log({ dataValues, dataBarChartRace, dataGraph1, dataIndicator });
@@ -219,15 +523,15 @@ const Home = () => {
   }, [currentIndicator?.value, selectedCountries]);
 
   useEffect(() => {
-    console.log({selectedCountries,dataIndicator})
+    // console.log({ selectedCountries, dataIndicator });
     if (
-      selectedCountries.some((item) =>
-        !dataIndicator.some((elem) => elem.countryiso3code === item)
-      )
+      selectedCountries.some(
+        (item) => !dataIndicator.some((elem) => elem.countryiso3code === item)
+      ) &&
+      busquedaRealizada
     ) {
-      console.log("aca1");
       getDataIndicadorAPI();
-    } else console.log("aca2");
+    }
   }, [selectedCountries]);
 
   useEffect(() => {
@@ -314,30 +618,66 @@ const Home = () => {
           return DEFAULT_MAP_COLOR;
         }
 
-        if (!colorScaleRef.current) {
-          const domanMin =
-            minValueIndicator > 1
-              ? Math.log10(minValueIndicator)
-              : Math.sqrt(minValueIndicator);
+        const domanMin =
+          minValueIndicator > 1
+            ? Math.log10(minValueIndicator)
+            : Math.sqrt(minValueIndicator);
 
-          const domainMax =
-            maxValueIndicator > 1
-              ? Math.log10(maxValueIndicator)
-              : Math.sqrt(maxValueIndicator);
+        const domainMax =
+          maxValueIndicator > 1
+            ? Math.log10(maxValueIndicator)
+            : Math.sqrt(maxValueIndicator);
+
+        // const result = normalize(value, minValueIndicator, maxValueIndicator);
+
+        if (!colorScaleRef.current) {
+          // const domanMin =
+          //   minValueIndicator > 1
+          //     ? Math.log10(minValueIndicator)
+          //     : Math.sqrt(minValueIndicator);
+
+          // const domainMax =
+          //   maxValueIndicator > 1
+          //     ? Math.log10(maxValueIndicator)
+          //     : Math.sqrt(maxValueIndicator);
 
           colorScaleRef.current = chroma
             .scale(chroma.brewer.OrRd)
-            .domain([minValueIndicator, domainMax])
+            // .domain([domanMin, domainMax])
             .mode("lch");
-
-          console.log({ domanMin, domainMax });
         }
 
-        const valueFinal = value > 1 ? Math.log10(value) : Math.sqrt(value);
+        // const valueFinal = value > 1 ? Math.log10(value) : Math.sqrt(value);
 
-        const colorCountry = colorScaleRef.current(valueFinal).hex();
+        const range = maxValueIndicator / minValueIndicator;
+        let normalized: number;
 
-        console.log({ colorCountry, value, valueFinal });
+        if (range > 1000) {
+          normalized = logNormalize(
+            value,
+            minValueIndicator,
+            maxValueIndicator
+          ); // Para grandes diferencias
+        } else if (minValueIndicator < 1) {
+          normalized = sqrtNormalize(
+            value,
+            minValueIndicator,
+            maxValueIndicator
+          ); // Para valores cercanos a 0
+        } else {
+          normalized = normalize(value, minValueIndicator, maxValueIndicator); // Estándar
+        }
+
+        // @ts-ignore
+        const colorCountry = colorScaleRef.current(normalized).hex();
+
+        // console.log({
+        //   colorCountry,
+        //   domanMin,
+        //   domainMax,
+        //   value,
+        //   normalized,
+        // });
 
         return colorCountry;
       } catch (error) {
@@ -346,6 +686,21 @@ const Home = () => {
     },
     [colorScaleRef, minValueIndicator, maxValueIndicator]
   );
+
+  function normalize(value: number, min: number, max: number) {
+    if (min === max) return 0; // Evita división por cero
+    return (value - min) / (max - min);
+  }
+  function sqrtNormalize(value: number, min: number, max: number) {
+    const sqrtMin = Math.sqrt(min);
+    const sqrtMax = Math.sqrt(max);
+    return (Math.sqrt(value) - sqrtMin) / (sqrtMax - sqrtMin);
+  }
+  function logNormalize(value: number, min: number, max: number) {
+    const logMin = Math.log10(min);
+    const logMax = Math.log10(max);
+    return (Math.log10(value) - logMin) / (logMax - logMin);
+  }
 
   const handleDataBarChartRace = () => {
     const dataBarChart: PropsBarChartRace = [];
