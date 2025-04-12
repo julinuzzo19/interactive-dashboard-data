@@ -12,16 +12,27 @@ export const sucNotif = (mensaje: string, duration = 3000) =>
     transition: Bounce,
   });
 
-export const errNotif = (mensaje, duration = 3000) => {
+export const errNotif = (mensaje, duration = 5000) => {
+  // toast.error(mensaje, {
+  //   autoClose: duration,
+  //   position: "top-left",
+  //   hideProgressBar: false,
+  //   closeOnClick: true,
+  //   pauseOnHover: true,
+  //   draggable: true,
+  //   progress: undefined,
+  //   theme: "dark",
+  //   transition: Bounce,
+  // });
   toast.error(mensaje, {
-    autoClose: duration,
-    position: "top-left",
+    position: "top-right",
+    autoClose: 5000,
     hideProgressBar: false,
-    closeOnClick: true,
+    closeOnClick: false,
     pauseOnHover: true,
     draggable: true,
     progress: undefined,
-    theme: "colored",
+    theme: "dark",
     transition: Bounce,
   });
 };

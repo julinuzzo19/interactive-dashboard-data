@@ -52,7 +52,7 @@ const ModalFunction = ({
               }}
               className={cn(
                 "px-4 py-2 rounded-full text-sm font-medium transition-colors whitespace-nowrap",
-                funcionShowData.value === func.value && "bg-blue-400"
+                funcionShowData.value === func.value && "bg-black text-white"
               )}
             >
               {func.label}

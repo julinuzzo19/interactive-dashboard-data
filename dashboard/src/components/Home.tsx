@@ -24,6 +24,8 @@ import ModalCountriesSelect from "./modals/ModalCountriesSelect";
 import { errNotif } from "./ui/Notifications";
 import { TecnicaPredictiva } from "@/hooks/predictions/predictions.interface";
 import { cn } from "@/lib/utils";
+import { IoMdCheckbox as Check } from "react-icons/io";
+import { RiCheckboxBlankLine as CheckEmpty } from "react-icons/ri";
 
 const LIMIT_COUNTRIES_GRAPH = 25;
 const LIMIT_COUNTRIES_RACE = 10;
@@ -1018,6 +1020,33 @@ const Home = () => {
               placeholder="Selecciona un indicador"
               value={currentIndicator}
               onChange={(data) => setCurrentIndicator(data)}
+              styles={{
+                control: (provided, state) => ({
+                  ...provided,
+                  borderColor: state.isFocused ? "black" : provided.borderColor,
+                  boxShadow: state.isFocused
+                    ? "0 0 0 1px black"
+                    : provided.boxShadow,
+                  "&:hover": {
+                    borderColor: state.isFocused
+                      ? "black"
+                      : provided.borderColor,
+                  },
+                }),
+                option: (provided, state) => ({
+                  ...provided,
+                  backgroundColor: state.isSelected
+                    ? "#616161" // color cuando está seleccionado
+                    : state.isFocused
+                    ? "#E0E0E0" // color cuando se hace hover
+                    : "white", // color normal
+                  color: state.isSelected ? "white" : "black",
+                  "&:active": {
+                    backgroundColor: "black", // color cuando se hace click
+                    color: "white",
+                  },
+                }),
+              }}
             />
           </div>
           {/* Fin selector */}
@@ -1127,28 +1156,46 @@ const Home = () => {
 
                 <div className="grid grid-rows-[1fr_1fr_1fr] items-center justify-center">
                   <article className="flex gap-2 justify-start items-center">
-                    <input
+                    {/* <input
                       type="checkbox"
                       disabled
+                      className="shrink-0 mt-0.5 border-gray-200 rounded-sm text-blue-600 focus:ring-blue-500 checked:border-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                       checked={filtrosSelected.INDICADOR}
-                    />
+                    /> */}
+                    {filtrosSelected.INDICADOR ? (
+                      <Check size={25} color="black" />
+                    ) : (
+                      <CheckEmpty size={25} color="black" />
+                    )}
                     <label htmlFor="">Indicador seleccionado</label>
                   </article>
                   <article className="flex gap-2 justify-start items-center">
-                    <input
+                    {/* <input
                       type="checkbox"
-                      disabled
+                      che={false}
+                      className="shrink-0 mt-0.5 border-gray-200 rounded-sm text-blue-600 focus:ring-blue-500 checked:border-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                       checked={filtrosSelected.PAISES}
-                    />
+                    /> */}
+                    {filtrosSelected.PAISES ? (
+                      <Check size={25} color="black" />
+                    ) : (
+                      <CheckEmpty size={25} color="black" />
+                    )}
                     <label htmlFor="">Países seleccionados</label>
                   </article>
 
                   <article className="flex gap-2 justify-start items-center">
-                    <input
+                    {/* <input
                       type="checkbox"
                       disabled
+                      className="shrink-0 mt-0.5 border-gray-200 rounded-sm text-blue-600 focus:ring-blue-500 checked:border-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                       checked={filtrosSelected.TIEMPO}
-                    />
+                    /> */}
+                    {filtrosSelected.TIEMPO ? (
+                      <Check size={25} color="black" />
+                    ) : (
+                      <CheckEmpty size={25} color="black" />
+                    )}
                     <label htmlFor="">Intervalo de tiempo seleccionado</label>
                   </article>
                 </div>
