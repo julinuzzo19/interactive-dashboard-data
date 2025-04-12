@@ -916,6 +916,29 @@ const Home = () => {
             </div>
           </div>
           {/* FIN FECHAS */}
+
+          {/* Selector de paises */}
+          <div className="flex flex-row justify-center items-center w-full mt-5">
+            <div className="flex flex-col text-center justify-center">
+              <div className="flex flex-row gap-2 justify-center items-center">
+                <span className="text-lg font-bold leading-none tracking-tight m-2 text-center">
+                  Países seleccionados
+                </span>
+                <FaInfoCircle
+                  role="button"
+                  onClick={() => setShowModalCountries(true)}
+                />
+              </div>
+              <div>
+                {selectedCountries?.length > 0
+                  ? countries.length === selectedCountries?.length
+                    ? "TODOS"
+                    : selectedCountries.length
+                  : "-"}
+              </div>
+            </div>
+          </div>
+          {/* FIN Selector de paises */}
           {/* FUNCION */}
           <div
             className={cn(
@@ -971,28 +994,6 @@ const Home = () => {
             </div>
           </div>
           {/* FIN FUNCION */}
-          {/* Selector de paises */}
-          <div className="flex flex-row justify-center items-center w-full mt-5">
-            <div className="flex flex-col text-center justify-center">
-              <div className="flex flex-row gap-2 justify-center items-center">
-                <span className="text-lg font-bold leading-none tracking-tight m-2 text-center">
-                  Países seleccionados
-                </span>
-                <FaInfoCircle
-                  role="button"
-                  onClick={() => setShowModalCountries(true)}
-                />
-              </div>
-              <div>
-                {selectedCountries?.length > 0
-                  ? countries.length === selectedCountries?.length
-                    ? "TODOS"
-                    : selectedCountries.length
-                  : "-"}
-              </div>
-            </div>
-          </div>
-          {/* FIN Selector de paises */}
         </div>
 
         <div className="w-full">

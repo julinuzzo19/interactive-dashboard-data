@@ -248,6 +248,7 @@ const useFetch = () => {
       { length: lastYearResult - firstYearResult + 1 },
       (_, i) => firstYearResult + i
     );
+
     setRangeYearsIndicator(dataYears.sort((a, b) => b - a));
   };
 
