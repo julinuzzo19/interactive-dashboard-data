@@ -140,17 +140,17 @@ const useFetch = () => {
             currentYearTo,
           });
 
-          console.log({ dataFinal });
+          console.log({ data: dataFinal });
 
           if (dataFinal?.length === 0) {
-            throw new Error("No data found");
+            throw new Error("Sin datos disponibles");
           }
 
           setDataIndicator(dataFinal);
         })
         .catch((err) => {
-          console.log({ err });
-          throw new Error("No data found");
+          // console.log({ err });
+          throw new Error("Sin datos disponibles");
         });
     }
   };

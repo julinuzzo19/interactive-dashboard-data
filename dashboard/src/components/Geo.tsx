@@ -15,8 +15,6 @@ const Geo = ({
 }) => {
   const { dispatch } = useContext(AppContext);
 
-  console.log({ countriesJson });
-
   const handleMouseEnter = useCallback((geo) => {
     dispatch({
       type: "setTooltipData",
