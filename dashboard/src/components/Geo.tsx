@@ -36,7 +36,6 @@ const Geo = ({
       <ComposableMap height={500} projectionConfig={{ scale: 180 }}>
         <Geographies geography={countriesJson}>
           {({ geographies }: { geographies: GeoCountryColor[] }) => {
-            console.log({ geographies });
             return geographies.map((geo) => {
               const valueCountry = data?.find(
                 (item) => item.countryiso3code === geo.id
