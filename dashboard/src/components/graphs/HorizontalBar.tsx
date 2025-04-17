@@ -24,7 +24,7 @@ const HorizontalBar = ({
     svg.selectAll("*").remove(); // Limpiar contenido previo
 
     const margin = { top: 20, right: 30, bottom: 20, left: 150 };
-    const dynamicHeight = data.length * 35 + margin.top + margin.bottom; // Aumentamos el factor a 50 para más espacio
+    const dynamicHeight = data.length * 35 + margin.top + margin.bottom;
     const chartWidth = width - margin.left - margin.right;
     const chartHeight = dynamicHeight - margin.top - margin.bottom;
 

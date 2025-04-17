@@ -46,9 +46,10 @@ const ModalFunction = ({
                       (item) => value === item.value
                     ) as FunctionValue
                   );
-                } else {
-                  setFuncionShowData(DEFAULT_VALUE_FUNCTION);
                 }
+                //  else {
+                //   setFuncionShowData(DEFAULT_VALUE_FUNCTION);
+                // }
               }}
               className={cn(
                 "px-4 py-2 rounded-full text-sm font-medium transition-colors whitespace-nowrap",
@@ -61,7 +62,7 @@ const ModalFunction = ({
         </div>
 
         {funcionShowData && (
-          <div>
+          <div className="h-56">
             <p className="text-xl font-bold mb-3">{funcionShowData.label}</p>
             {funcionShowData.value === "AVERAGE" && (
               <div className="font-serif">
