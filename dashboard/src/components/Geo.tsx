@@ -4,6 +4,7 @@ import { useCallback, useContext } from "react";
 import { IndicatorValue } from "../interfaces/Indicador";
 import { AppContext } from "@/store/Context";
 import TooltipCountry from "./TooltipCountry";
+import countriesJson from "../assets/countries_map.json";
 
 const Geo = ({
   generateColorByValue,
@@ -13,6 +14,8 @@ const Geo = ({
   data: IndicatorValue[];
 }) => {
   const { dispatch } = useContext(AppContext);
+
+  console.log({ countriesJson });
 
   const handleMouseEnter = useCallback((geo) => {
     dispatch({
@@ -31,8 +34,9 @@ const Geo = ({
   return (
     <div className="h-full w-full">
       <ComposableMap height={500} projectionConfig={{ scale: 180 }}>
-        <Geographies geography="../assets/countries_map.json">
+        <Geographies geography={countriesJson}>
           {({ geographies }: { geographies: GeoCountryColor[] }) => {
+            console.log({ geographies });
             return geographies.map((geo) => {
               const valueCountry = data?.find(
                 (item) => item.countryiso3code === geo.id
