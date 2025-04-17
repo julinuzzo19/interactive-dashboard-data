@@ -21,8 +21,10 @@ const ModalFunction = ({
   functionSelected: FunctionValue;
   disabled: boolean;
 }) => {
-  const [funcionShowData, setFuncionShowData] =
-    useState<FunctionValue>(functionSelected);
+  const [funcionShowData, setFuncionShowData] = useState<FunctionValue>({
+    label: "Máximo",
+    value: "MAX",
+  });
   return (
     <Modal isOpen={show} onClose={() => setShow(false)}>
       <div>

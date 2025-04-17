@@ -7,7 +7,7 @@ import Geo from "./Geo";
 import chroma from "chroma-js";
 import HorizontalBar from "./graphs/HorizontalBar";
 import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
-import countriesJson from "../../public/features.json";
+import countriesJson from "../assets/countries_map.json";
 import BarChartRace, { PropsBarChartRace } from "./graphs/BarChartRace";
 import { TopicSelector } from "./Topics";
 import { FaInfoCircle } from "react-icons/fa";

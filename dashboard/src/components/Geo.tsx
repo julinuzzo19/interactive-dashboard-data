@@ -31,7 +31,7 @@ const Geo = ({
   return (
     <div className="h-full w-full">
       <ComposableMap height={500} projectionConfig={{ scale: 180 }}>
-        <Geographies geography="../../public/features.json">
+        <Geographies geography="../assets/countries_map.json">
           {({ geographies }: { geographies: GeoCountryColor[] }) => {
             return geographies.map((geo) => {
               const valueCountry = data?.find(
