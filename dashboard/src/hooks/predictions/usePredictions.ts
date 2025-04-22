@@ -331,8 +331,7 @@ const usePredictions = () => {
 
     // Si no hay tecnica predilecta, por defecto regresion lineal
     const tecnicaDeterminadaGlobal =
-      objectTecnicasCount[0] === objectTecnicasCount[1] &&
-      objectTecnicasCount[1] === objectTecnicasCount[2]
+      objectTecnicasCount[0] === objectTecnicasCount[1]
         ? "REGRESION LINEAL"
         : (Object.entries(objectTecnicasCount).sort(
             (a, b) => b[1] - a[1]
