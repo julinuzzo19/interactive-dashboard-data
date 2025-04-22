@@ -271,9 +271,6 @@ const usePredictions = () => {
       (n * sumX2 - sumX ** 2) * (n * sumY2 - sumY ** 2)
     );
 
-    // if (denominator === 0) {
-    //   return null;
-    // }
     const result = numerator / denominator;
 
     return result;
@@ -368,13 +365,6 @@ const usePredictions = () => {
             for (let i = 1; i < values.length; i++) {
               diferencias.push(values[i] / values[i - 1]);
             }
-
-            const correlacionPearson = pearsonCorrelation(years, values);
-
-            const promedioCrecimiento =
-              diferencias.reduce((a, b) => a + b, 0) / diferencias.length;
-
-            // console.log({ years, values });
 
             if (values.length < 2) {
               // console.log("No se puede predecir valor sin datos históricos");
