@@ -6,11 +6,11 @@ const usePredictions = () => {
 
   const determinarTecnicaPredictiva = (
     values: IndicatorValue[]
-  ): TecnicaPredictiva | "" => {
+  ): TecnicaPredictiva | null => {
     try {
       validateHandlePrediction(values);
 
-      let tecnicaDeterminada: TecnicaPredictiva = "";
+      let tecnicaDeterminada: TecnicaPredictiva | null = null;
 
       // Formatear los datos
       const valuesSorted = values.sort(
@@ -314,7 +314,6 @@ const usePredictions = () => {
       "REGRESION LINEAL": 0,
       "REGRESION EXPONENCIAL": 0,
       "REGRESION LOGISTICA": 0,
-      "": 0,
     };
 
     // Determinar tecnica de prediccion por votacion
@@ -325,17 +324,21 @@ const usePredictions = () => {
         }
         const tecnicaDeterminada = determinarTecnicaPredictiva(valuesCountry);
 
-        objectTecnicasCount[tecnicaDeterminada]++;
+        if (tecnicaDeterminada) {
+          objectTecnicasCount[tecnicaDeterminada]++;
+        }
       }
     );
 
     // Si no hay tecnica predilecta, por defecto regresion lineal
+    const tecnicasSorted = Object.entries(objectTecnicasCount).sort(
+      (a, b) => b[1] - a[1]
+    );
+
     const tecnicaDeterminadaGlobal =
-      objectTecnicasCount[0] === objectTecnicasCount[1]
+      tecnicasSorted[0][1] === tecnicasSorted[1][1]
         ? "REGRESION LINEAL"
-        : (Object.entries(objectTecnicasCount).sort(
-            (a, b) => b[1] - a[1]
-          )[0][0] as TecnicaPredictiva) || "REGRESION LINEAL";
+        : (tecnicasSorted[0][0] as TecnicaPredictiva);
 
     // console.log({
     //   objectTecnicasCount,
