@@ -6,11 +6,11 @@ const usePredictions = () => {
 
   const determinarTecnicaPredictiva = (
     values: IndicatorValue[]
-  ): TecnicaPredictiva | "" => {
+  ): TecnicaPredictiva | null => {
     try {
       validateHandlePrediction(values);
 
-      let tecnicaDeterminada: TecnicaPredictiva = "";
+      let tecnicaDeterminada: TecnicaPredictiva | null = null;
 
       // Formatear los datos
       const valuesSorted = values.sort(
@@ -271,9 +271,6 @@ const usePredictions = () => {
       (n * sumX2 - sumX ** 2) * (n * sumY2 - sumY ** 2)
     );
 
-    // if (denominator === 0) {
-    //   return null;
-    // }
     const result = numerator / denominator;
 
     return result;
@@ -314,7 +311,6 @@ const usePredictions = () => {
       "REGRESION LINEAL": 0,
       "REGRESION EXPONENCIAL": 0,
       "REGRESION LOGISTICA": 0,
-      "": 0,
     };
 
     // Determinar tecnica de prediccion por votacion
@@ -325,18 +321,21 @@ const usePredictions = () => {
         }
         const tecnicaDeterminada = determinarTecnicaPredictiva(valuesCountry);
 
-        objectTecnicasCount[tecnicaDeterminada]++;
+        if (tecnicaDeterminada) {
+          objectTecnicasCount[tecnicaDeterminada]++;
+        }
       }
     );
 
     // Si no hay tecnica predilecta, por defecto regresion lineal
+    const tecnicasSorted = Object.entries(objectTecnicasCount).sort(
+      (a, b) => b[1] - a[1]
+    );
+
     const tecnicaDeterminadaGlobal =
-      objectTecnicasCount[0] === objectTecnicasCount[1] &&
-      objectTecnicasCount[1] === objectTecnicasCount[2]
+      tecnicasSorted[0][1] === tecnicasSorted[1][1]
         ? "REGRESION LINEAL"
-        : (Object.entries(objectTecnicasCount).sort(
-            (a, b) => b[1] - a[1]
-          )[0][0] as TecnicaPredictiva) || "REGRESION LINEAL";
+        : (tecnicasSorted[0][0] as TecnicaPredictiva);
 
     // console.log({
     //   objectTecnicasCount,
@@ -366,13 +365,6 @@ const usePredictions = () => {
             for (let i = 1; i < values.length; i++) {
               diferencias.push(values[i] / values[i - 1]);
             }
-
-            const correlacionPearson = pearsonCorrelation(years, values);
-
-            const promedioCrecimiento =
-              diferencias.reduce((a, b) => a + b, 0) / diferencias.length;
-
-            // console.log({ years, values });
 
             if (values.length < 2) {
               // console.log("No se puede predecir valor sin datos históricos");
