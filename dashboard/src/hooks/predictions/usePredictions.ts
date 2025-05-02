@@ -30,7 +30,7 @@ const usePredictions = () => {
       if (valuesIndicator.length <= 2) {
         // Si solo hay 2 valores o menos, no participa en votacion
       }
-      // Si la correlación es baja o hay muchas variaciones irregulares.
+      // Si la correlación no es muy alta o hay muchas variaciones irregulares.
       else if (Math.abs(correlacionPearson) <= 0.7) {
         tecnicaDeterminada = "REGRESION LOGISTICA";
       } else {
@@ -49,9 +49,8 @@ const usePredictions = () => {
         if (promedioCrecimiento <= 1.1) {
           tecnicaDeterminada = "REGRESION LINEAL";
         }
-        // Si el promedio de crecimiento es mayor, usa regresion exponencial
+        // evita predicciones demasiado extremas cuando hay pocos datos.
         else if (valuesIndicator.length < 5 && promedioCrecimiento <= 1.3) {
-          // evita predicciones demasiado extremas cuando hay pocos datos.
           tecnicaDeterminada = "REGRESION LOGISTICA";
         } else if (promedioCrecimiento <= 1.3 && valuesIndicator.length >= 5) {
           tecnicaDeterminada = "REGRESION EXPONENCIAL";
@@ -210,7 +209,7 @@ const usePredictions = () => {
 
     // Definir L (límite superior)
     if (L === null) {
-      L = Math.max(...values) * 1.1; // Un 10% más que el máximo para evitar saturación
+      L = Math.max(...values);
     }
 
     // Evitar problemas numéricos en la transformación log-odds
