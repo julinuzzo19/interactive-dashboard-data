@@ -6,10 +6,6 @@
 
 npm install // para instalar las librerias utilizadas
 
-## Paso 2
-
-npm run build // para compilar el proyecto y obtener una version optimizada
-
 ## Paso 3
 
 npm run start // para correr el proyecto

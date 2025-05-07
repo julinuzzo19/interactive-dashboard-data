@@ -3,12 +3,11 @@ import {
   useRef,
   MouseEvent,
   useEffect,
-  useMemo,
   Dispatch,
   SetStateAction,
 } from "react";
-import { cn } from "@/lib/utils";
 import { ChevronRight } from "lucide-react";
+import { cn } from "@/utils/mergeStyles";
 
 export interface TopicInput {
   id: string;

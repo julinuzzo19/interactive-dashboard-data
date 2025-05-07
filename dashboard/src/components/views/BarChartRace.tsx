@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import * as d3 from "d3";
-import { formatPrecio } from "@/utils/formatPrecio";
+import { formatValue } from "@/utils/formatValue";
 
 export type PropsBarChartRace = {
   year: number;
@@ -119,7 +119,7 @@ const BarChartRace = ({
         )
         .attr("fill", "black")
         .attr("font-size", "12px")
-        .text((d) => `${d.name} ${formatPrecio(d.value)}`);
+        .text((d) => `${d.name} ${formatValue(d.value)}`);
 
       labels
         .transition()
@@ -129,7 +129,7 @@ const BarChartRace = ({
           "y",
           (d) => (yScale(d.name) as number) + yScale.bandwidth() / 2 + 5
         )
-        .text((d) => `${d.name} ${formatPrecio(d.value)}`);
+        .text((d) => `${d.name} ${formatValue(d.value)}`);
 
       labels.exit().remove();
     };

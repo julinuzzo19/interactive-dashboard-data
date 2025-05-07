@@ -1,24 +1,21 @@
 import { Dispatch, SetStateAction, useState } from "react";
-import Modal from "../Modal";
+import Modal from "./ModalContainer";
 import {
-  DEFAULT_VALUE_FUNCTION,
   FUNCTIONS_LIST,
   FunctionType,
   FunctionValue,
 } from "@/hooks/useFunctions";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/mergeStyles";
 
 const ModalFunction = ({
   show,
   setShow,
   setFunctionSelected,
-  functionSelected,
   disabled,
 }: {
   show: boolean;
   setShow: Dispatch<SetStateAction<boolean>>;
   setFunctionSelected: Dispatch<SetStateAction<FunctionValue>>;
-  functionSelected: FunctionValue;
   disabled: boolean;
 }) => {
   const [funcionShowData, setFuncionShowData] = useState<FunctionValue>({
@@ -49,9 +46,6 @@ const ModalFunction = ({
                     ) as FunctionValue
                   );
                 }
-                //  else {
-                //   setFuncionShowData(DEFAULT_VALUE_FUNCTION);
-                // }
               }}
               className={cn(
                 "px-4 py-2 rounded-full text-sm font-medium transition-colors whitespace-nowrap",

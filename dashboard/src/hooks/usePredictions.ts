@@ -1,5 +1,5 @@
 import { IndicatorValue } from "@/interfaces/Indicador";
-import { TecnicaPredictiva } from "./predictions.interface";
+import { TecnicaPredictiva } from "@/interfaces/predictions";
 
 const usePredictions = () => {
   // analizar variaciones entre rango de años para determinar tecnicas a utilizar
@@ -25,7 +25,6 @@ const usePredictions = () => {
         .map((item) => item.value);
 
       const correlacionPearson = pearsonCorrelation(years, valuesIndicator);
-      // console.log({ years, valuesIndicator, correlacionPearson });
 
       if (valuesIndicator.length <= 2) {
         // Si solo hay 2 valores o menos, no participa en votacion
@@ -42,8 +41,6 @@ const usePredictions = () => {
 
         const promedioCrecimiento =
           diferencias.reduce((a, b) => a + b, 0) / diferencias.length;
-
-        // console.log({ promedioCrecimiento, correlacionPearson });
 
         // Si el promedio de crecimiento es hasta un 10%, usa regresión lineal
         if (promedioCrecimiento <= 1.1) {
@@ -85,20 +82,14 @@ const usePredictions = () => {
       .filter((item) => item?.value)
       .map((item) => item.value);
 
-    // console.log({ years, values:  valuesIndicator });
-
     if (years.length < 2) {
-      // throw new Error(
       console.log(
         "Para predecir valor es necesario contar con al menos 2 valores de año"
       );
-      // );
     } else if (valuesIndicator.length < 1) {
-      // throw new Error(
       console.log(
         "Para predecir valor es necesario contar con al menos 2 valores de indicador"
       );
-      // );
     }
   };
 
@@ -154,9 +145,6 @@ const usePredictions = () => {
     const xNormalized = (yearToPredict - mediaYear) / stdX;
     const valuePredicted = a * Math.exp(b * xNormalized);
 
-    // console.log({ a, lnA, b, xNormalized, valuePredicted });
-    // }
-
     const valueFinal = parseFloat(valuePredicted.toFixed(3));
     return valueFinal;
   }
@@ -164,8 +152,6 @@ const usePredictions = () => {
     // X: años de los datos
     // Y: valores de los datos ordenados con el año en X
     // PredictYear: Año a predecir valor
-
-    // console.log({ x, y });
 
     // Número de años disponibles
     let n = x.length;
@@ -286,12 +272,9 @@ const usePredictions = () => {
   }) => {
     const dataFinal: IndicatorValue[] = [];
 
-    // console.log({ currentYearFrom, currentYearTo, data });
-
     const dataSorted = data.sort((a, b) => parseInt(a.date) - parseInt(b.date));
 
     // Agrupar por paises
-
     let objectCountriesData: { [key in string]: IndicatorValue[] } = {};
 
     dataSorted.forEach((item) => {

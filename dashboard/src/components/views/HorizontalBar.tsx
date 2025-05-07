@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { useRef, useEffect } from "react";
 import * as d3 from "d3";
-import { tecnicaUtilizada } from "@/hooks/predictions/predictions.interface";
+import { tecnicaUtilizada } from "@/interfaces/predictions";
 
 const HorizontalBar = ({
   data,

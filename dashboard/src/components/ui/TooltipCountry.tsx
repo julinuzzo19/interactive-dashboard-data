@@ -1,6 +1,6 @@
 import { AppContext } from "@/store/Context";
-import { formatPrecio } from "@/utils/formatPrecio";
-import { useContext, useEffect } from "react";
+import { formatValue } from "@/utils/formatValue";
+import { useContext } from "react";
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 
@@ -16,7 +16,7 @@ const TooltipCountry = () => {
           <h3>{tooltipData.properties?.name}</h3>
           <p className="text-sm italic">{tooltipData.properties?.continent}</p>
           <b>
-            {formatPrecio(tooltipData.value)}{" "}
+            {formatValue(tooltipData.value)}{" "}
             {hasYearFunction && tooltipData.date && `(${tooltipData.date})`}
           </b>
           {tooltipData?.tecnicaUtilizada && (

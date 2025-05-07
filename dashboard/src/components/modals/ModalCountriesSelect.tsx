@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useState } from "react";
-import Modal from "../Modal";
 import { ICountry, IRegion } from "@/interfaces/Countries";
+import Modal from "./ModalContainer";
 
 const ModalCountriesSelect = ({
   show,
@@ -16,14 +16,6 @@ const ModalCountriesSelect = ({
   countries: ICountry[];
 }) => {
   const [currentCountries, setCurrentCountries] = useState<string[]>([]);
-
-  // useEffect(() => {
-  //   console.log({ regions, countries });
-  // }, [regions, countries]);
-
-  // useEffect(() => {
-  //   console.log({ currentCountries });
-  // }, [currentCountries]);
 
   const handleConfirmCountries = () => {
     setSelectedCountries(currentCountries);

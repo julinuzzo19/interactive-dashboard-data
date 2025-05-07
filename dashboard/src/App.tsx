@@ -8,7 +8,6 @@ import Home from "./components/Home";
 function App() {
   return (
     <BrowserRouter>
-      {/* <Header /> */}
       <main>
         <ToastContainer
           position="top-right"
@@ -17,9 +16,9 @@ function App() {
         />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="*" element={<Home />} />
         </Routes>
       </main>
-      {/* <Footer /> */}
     </BrowserRouter>
   );
 }

@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
-import Modal from "../Modal";
-import { cn } from "@/lib/utils";
+import Modal from "./ModalContainer";
+import { cn } from "@/utils/mergeStyles";
 
 const ModalBusqueda = ({
   show,
@@ -26,17 +26,30 @@ const ModalBusqueda = ({
               type="checkbox"
               disabled
               checked={filtrosSelected.INDICADOR}
+              name="indicadorCheck"
             />
-            <label htmlFor="">Indicador seleccionado</label>
+            <label htmlFor="indicadorCheck">Indicador seleccionado</label>
           </article>
           <article className="flex gap-2 justify-center items-center">
-            <input type="checkbox" disabled checked={filtrosSelected.PAISES} />
-            <label htmlFor="">Países seleccionados</label>
+            <input
+              type="checkbox"
+              disabled
+              checked={filtrosSelected.PAISES}
+              name="countriesCheck"
+            />
+            <label htmlFor="countriesCheck">Países seleccionados</label>
           </article>
 
           <article className="flex gap-2 justify-center items-center">
-            <input type="checkbox" disabled checked={filtrosSelected.TIEMPO} />
-            <label htmlFor="">Intervalo de tiempo seleccionado</label>
+            <input
+              type="checkbox"
+              disabled
+              checked={filtrosSelected.TIEMPO}
+              name="tiempoCheck"
+            />
+            <label htmlFor="tiempoCheck">
+              Intervalo de tiempo seleccionado
+            </label>
           </article>
         </div>
 

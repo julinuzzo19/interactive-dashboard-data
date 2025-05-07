@@ -1,4 +1,4 @@
-const Modal = ({ isOpen, onClose, children, width = "60vw" }) => {
+const ModalContainer = ({ isOpen, onClose, children, width = "60vw" }) => {
   if (!isOpen) return null;
 
   const handleBackgroundClick = (e) => {
@@ -30,4 +30,4 @@ const Modal = ({ isOpen, onClose, children, width = "60vw" }) => {
   );
 };
 
-export default Modal;
+export default ModalContainer;

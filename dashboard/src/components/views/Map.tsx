@@ -1,12 +1,12 @@
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
-import { GeoCountryColor } from "../interfaces/Geo";
+import { GeoCountryColor } from "../../interfaces/Geo";
 import { useCallback, useContext } from "react";
-import { IndicatorValue } from "../interfaces/Indicador";
+import { IndicatorValue } from "../../interfaces/Indicador";
 import { AppContext } from "@/store/Context";
-import TooltipCountry from "./TooltipCountry";
-import countriesJson from "../assets/countries_map.json";
+import TooltipCountry from "../ui/TooltipCountry";
+import countriesJson from "../../assets/countries_map.json";
 
-const Geo = ({
+const Map = ({
   generateColorByValue,
   data,
 }: {
@@ -74,4 +74,4 @@ const Geo = ({
   );
 };
 
-export default Geo;
+export default Map;

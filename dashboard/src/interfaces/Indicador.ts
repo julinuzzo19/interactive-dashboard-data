@@ -1,4 +1,4 @@
-import { TecnicaPredictiva } from "@/hooks/predictions/predictions.interface";
+import { TecnicaPredictiva } from "@/interfaces/predictions";
 
 export type Item = { id: string; value: string };
 

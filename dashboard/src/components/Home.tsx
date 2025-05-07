@@ -1,15 +1,15 @@
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
-import useFetch, { USE_MOCK } from "../hooks/useFetch";
+import useFetch from "../hooks/useFetch";
 import "../App.css";
 import Select, { SingleValue } from "react-select";
 import "react-tooltip/dist/react-tooltip.css";
-import Geo from "./Geo";
+import Map from "./views/Map";
 import chroma from "chroma-js";
-import HorizontalBar from "./graphs/HorizontalBar";
+import HorizontalBar from "./views/HorizontalBar";
 import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
 import countriesJson from "../assets/countries_map.json";
-import BarChartRace, { PropsBarChartRace } from "./graphs/BarChartRace";
-import { TopicSelector } from "./Topics";
+import BarChartRace, { PropsBarChartRace } from "./views/BarChartRace";
+import { TopicSelector } from "./ui/Topics";
 import { FaInfoCircle } from "react-icons/fa";
 import ModalMetadata from "./modals/ModalMetadata";
 import { IndicatorValue } from "@/interfaces/Indicador";
@@ -22,10 +22,10 @@ import ModalFunction from "./modals/ModalFunction";
 import { AppContext } from "@/store/Context";
 import ModalCountriesSelect from "./modals/ModalCountriesSelect";
 import { errNotif } from "./ui/Notifications";
-import { TecnicaPredictiva } from "@/hooks/predictions/predictions.interface";
-import { cn } from "@/lib/utils";
+import { TecnicaPredictiva } from "@/interfaces/predictions";
 import { IoMdCheckbox as Check } from "react-icons/io";
 import { RiCheckboxBlankLine as CheckEmpty } from "react-icons/ri";
+import { cn } from "@/utils/mergeStyles";
 
 const LIMIT_COUNTRIES_GRAPH = 25;
 const LIMIT_COUNTRIES_RACE = 10;
@@ -44,6 +44,7 @@ const Home = () => {
     regions,
     countries,
     getRegionsCountriesAPI,
+    allTopics,
   } = useFetch();
   const { getValueFunction } = useFunctions();
   const [currentYearFrom, setCurrentYearFrom] = useState(0);
@@ -53,14 +54,7 @@ const Home = () => {
       label: string;
       value: string;
     }>
-  >({
-    ...(USE_MOCK
-      ? {
-          label: "Población, hombres  (SP.POP.TOTL.MA.IN)",
-          value: "SP.POP.TOTL.MA.IN",
-        }
-      : { label: "Buscar...", value: "" }),
-  });
+  >({ label: "Buscar...", value: "" });
   const [minValueIndicator, setMinValueIndicator] = useState(0);
   const [maxValueIndicator, setMaxValueIndicator] = useState(0);
   const [selectedView, setSelectedView] = useState<
@@ -75,9 +69,7 @@ const Home = () => {
   const colorScaleRef = useRef<chroma.Scale<chroma.Color> | null>(null);
   const [seeMore, setSeeMore] = useState(false);
   const [offset, setOffset] = useState(0);
-  const [allTopics, setAllTopics] = useState<{ id: string; value: string }[]>(
-    []
-  );
+
   const [selectedTopic, setSelectedTopic] = useState<string>("");
   const [showModalMetadata, setShowModalMetadata] = useState(false);
   const [dataValues, setDataValues] = useState<IndicatorValue[]>([]);
@@ -91,329 +83,22 @@ const Home = () => {
   >([]);
   // Funciones
   const [functionSelected, setFunctionSelected] = useState<FunctionValue>({
-    ...(USE_MOCK
-      ? {
-          value: "MAX",
-          label: "Maximo",
-        }
-      : { label: "", value: "" }),
+    label: "",
+    value: "",
   });
   const [showModalFunction, setShowModalFunction] = useState(false);
   const [showModalCountries, setShowModalCountries] = useState(false);
-  const [selectedCountries, setSelectedCountries] = useState<string[]>(
-    USE_MOCK
-      ? // ["ARG", "BRA"]
-        [
-          "ABW",
-          "AFE",
-          "AFG",
-          "AFR",
-          "AFW",
-          "AGO",
-          "ALB",
-          "AND",
-          "ARB",
-          "ARE",
-          "ARG",
-          "ARM",
-          "ASM",
-          "ATG",
-          "AUS",
-          "AUT",
-          "AZE",
-          "BDI",
-          "BEA",
-          "BEC",
-          "BEL",
-          "BEN",
-          "BFA",
-          "BGD",
-          "BGR",
-          "BHI",
-          "BHR",
-          "BHS",
-          "BIH",
-          "BLA",
-          "BLR",
-          "BLZ",
-          "BMN",
-          "BMU",
-          "BOL",
-          "BRA",
-          "BRB",
-          "BRN",
-          "BSS",
-          "BTN",
-          "BWA",
-          "CAA",
-          "CAF",
-          "CAN",
-          "CEA",
-          "CEB",
-          "CEU",
-          "CHE",
-          "CHI",
-          "CHL",
-          "CHN",
-          "CIV",
-          "CLA",
-          "CME",
-          "CMR",
-          "COD",
-          "COG",
-          "COL",
-          "COM",
-          "CPV",
-          "CRI",
-          "CSA",
-          "CSS",
-          "CUB",
-          "CUW",
-          "CYM",
-          "CYP",
-          "CZE",
-          "DEA",
-          "DEC",
-          "DEU",
-          "DJI",
-          "DLA",
-          "DMA",
-          "DMN",
-          "DNK",
-          "DNS",
-          "DOM",
-          "DSA",
-          "DSF",
-          "DSS",
-          "DZA",
-          "EAP",
-          "EAR",
-          "EAS",
-          "ECA",
-          "ECS",
-          "ECU",
-          "EGY",
-          "EMU",
-          "ERI",
-          "ESP",
-          "EST",
-          "ETH",
-          "EUU",
-          "FCS",
-          "FIN",
-          "FJI",
-          "FRA",
-          "FRO",
-          "FSM",
-          "FXS",
-          "GAB",
-          "GBR",
-          "GEO",
-          "GHA",
-          "GIB",
-          "GIN",
-          "GMB",
-          "GNB",
-          "GNQ",
-          "GRC",
-          "GRD",
-          "GRL",
-          "GTM",
-          "GUM",
-          "GUY",
-          "HIC",
-          "HKG",
-          "HND",
-          "HPC",
-          "HRV",
-          "HTI",
-          "HUN",
-          "IBB",
-          "IBD",
-          "IBT",
-          "IDA",
-          "IDB",
-          "IDN",
-          "IDX",
-          "IMN",
-          "IND",
-          "INX",
-          "IRL",
-          "IRN",
-          "IRQ",
-          "ISL",
-          "ISR",
-          "ITA",
-          "JAM",
-          "JOR",
-          "JPN",
-          "KAZ",
-          "KEN",
-          "KGZ",
-          "KHM",
-          "KIR",
-          "KNA",
-          "KOR",
-          "KWT",
-          "LAC",
-          "LAO",
-          "LBN",
-          "LBR",
-          "LBY",
-          "LCA",
-          "LCN",
-          "LDC",
-          "LIC",
-          "LIE",
-          "LKA",
-          "LMC",
-          "LMY",
-          "LSO",
-          "LTE",
-          "LTU",
-          "LUX",
-          "LVA",
-          "MAC",
-          "MAF",
-          "MAR",
-          "MCO",
-          "MDA",
-          "MDE",
-          "MDG",
-          "MDV",
-          "MEA",
-          "MEX",
-          "MHL",
-          "MIC",
-          "MKD",
-          "MLI",
-          "MLT",
-          "MMR",
-          "MNA",
-          "MNE",
-          "MNG",
-          "MNP",
-          "MOZ",
-          "MRT",
-          "MUS",
-          "MWI",
-          "MYS",
-          "NAC",
-          "NAF",
-          "NAM",
-          "NCL",
-          "NER",
-          "NGA",
-          "NIC",
-          "NLD",
-          "NOR",
-          "NPL",
-          "NRS",
-          "NRU",
-          "NXS",
-          "NZL",
-          "OED",
-          "OMN",
-          "OSS",
-          "PAK",
-          "PAN",
-          "PER",
-          "PHL",
-          "PLW",
-          "PNG",
-          "POL",
-          "PRE",
-          "PRI",
-          "PRK",
-          "PRT",
-          "PRY",
-          "PSE",
-          "PSS",
-          "PST",
-          "PYF",
-          "QAT",
-          "ROU",
-          "RRS",
-          "RUS",
-          "RWA",
-          "SAS",
-          "SAU",
-          "SDN",
-          "SEN",
-          "SGP",
-          "SLB",
-          "SLE",
-          "SLV",
-          "SMR",
-          "SOM",
-          "SRB",
-          "SSA",
-          "SSD",
-          "SSF",
-          "SST",
-          "STP",
-          "SUR",
-          "SVK",
-          "SVN",
-          "SWE",
-          "SWZ",
-          "SXM",
-          "SXZ",
-          "SYC",
-          "SYR",
-          "TCA",
-          "TCD",
-          "TEA",
-          "TEC",
-          "TGO",
-          "THA",
-          "TJK",
-          "TKM",
-          "TLA",
-          "TLS",
-          "TMN",
-          "TON",
-          "TSA",
-          "TSS",
-          "TTO",
-          "TUN",
-          "TUR",
-          "TUV",
-          "TZA",
-          "UGA",
-          "UKR",
-          "UMC",
-          "URY",
-          "USA",
-          "UZB",
-          "VCT",
-          "VEN",
-          "VGB",
-          "VIR",
-          "VNM",
-          "VUT",
-          "WLD",
-          "WSM",
-          "XKX",
-          "XZN",
-          "YEM",
-          "ZAF",
-          "ZMB",
-          "ZWE",
-        ]
-      : []
-  );
-  //
+  const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
   const [filtrosSelected, setFiltrosSelected] = useState<{
     PAISES: boolean;
     INDICADOR: boolean;
     TIEMPO: boolean;
   }>({
-    PAISES: USE_MOCK,
-    INDICADOR: USE_MOCK,
-    TIEMPO: USE_MOCK,
+    PAISES: false,
+    INDICADOR: false,
+    TIEMPO: false,
   });
-  const [busquedaRealizada, setBusquedaRealizada] = useState<boolean>(USE_MOCK);
+  const [busquedaRealizada, setBusquedaRealizada] = useState<boolean>(false);
 
   // useEffect(() => {
   //   console.log({ dataValues, dataBarChartRace, dataGraph1, dataIndicator });
@@ -429,6 +114,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
+    // Si hay paises seleccionados, aparece como completo el filtro de paises
     setFiltrosSelected((prevState) => ({
       ...prevState,
       PAISES: selectedCountries.length > 0,
@@ -436,19 +122,14 @@ const Home = () => {
   }, [selectedCountries]);
 
   useEffect(() => {
+    // Si hay indicador seleccionado, aparece como completo el filtro de indicador
     if (currentIndicator?.value) {
       setFiltrosSelected((prevState) => ({ ...prevState, INDICADOR: true }));
     }
   }, [currentIndicator]);
 
   useEffect(() => {
-    // console.log({ currentIndicator });
-    if (currentIndicator?.value) {
-      setFiltrosSelected((prevState) => ({ ...prevState, INDICADOR: true }));
-    }
-  }, [currentIndicator]);
-
-  useEffect(() => {
+    // Si hay intervalo de tiempo seleccionado, aparece como completo el filtro de tiempo
     setFiltrosSelected((prevState) => ({
       ...prevState,
       TIEMPO: Boolean(currentYearFrom && currentYearTo),
@@ -456,22 +137,8 @@ const Home = () => {
   }, [currentYearFrom, currentYearTo]);
 
   useEffect(() => {
-    if (USE_MOCK) {
-      if (rangeYearsIndicator?.length > 0) {
-        setCurrentYearFrom(2020);
-        setCurrentYearTo(2022);
-      }
-    }
-    // else {
-    // setCurrentYearFrom(rangeYearsIndicator[0]);
-    // setCurrentYearTo(rangeYearsIndicator[0]);
-    // }
-  }, [rangeYearsIndicator]);
-
-  useEffect(() => {
     if (functionSelected) {
       handleFunctionData();
-
       dispatch({
         type: "setHasYearFunction",
         payload: ["MAX", "MIN", "RECIENTE", "ANTIGUO"].includes(
@@ -525,7 +192,7 @@ const Home = () => {
   }, [currentIndicator?.value, selectedCountries]);
 
   useEffect(() => {
-    // console.log({ selectedCountries, dataIndicator });
+    // Si se seleccionan nuevos paises, se vuelve a consultar a la api sobre el indicador en ese pais
     if (
       selectedCountries.some(
         (item) => !dataIndicator.some((elem) => elem.countryiso3code === item)
@@ -545,9 +212,11 @@ const Home = () => {
     );
   }, []);
 
-  useEffect(() => {
-    getTopicsAllIndicators();
-  }, [indicators]);
+  // useEffect(() => {
+  //   console.log({ indicators });
+  //   // Se obtienen los topicos disponibles
+  //   getTopicsAllIndicators();
+  // }, [indicators]);
 
   useEffect(() => {
     if (selectedView === "GRAPH1") {
@@ -758,16 +427,15 @@ const Home = () => {
           )
         : dataValues;
 
-    console.log({ dataValuesFiltered, countries });
     const data = dataValuesFiltered
       .filter(
         (item) =>
           countries.find((elem) => elem.id == item.countryiso3code)?.name
       )
       .map((item) => {
-        const countryFound = countries
-          // .filter((elem) => elem.region.value !== "Agregados")
-          .find((elem) => elem.id == item.countryiso3code);
+        const countryFound = countries.find(
+          (elem) => elem.id == item.countryiso3code
+        );
 
         const value = item?.value || 0;
 
@@ -782,19 +450,6 @@ const Home = () => {
       ?.slice(0, offset + LIMIT_COUNTRIES_GRAPH);
 
     setDataGraph1(data);
-  };
-
-  const getTopicsAllIndicators = () => {
-    const topics: { id: string; value: string }[] = [];
-
-    indicators.forEach((indicator) =>
-      indicator.topics.forEach((topic) => {
-        if (!topics.some((item) => item.id === topic.id)) {
-          topics.push(topic);
-        }
-      })
-    );
-    setAllTopics(topics);
   };
 
   const handleFunctionData = () => {
@@ -854,6 +509,7 @@ const Home = () => {
         Dashboard de Indicadores de salud global
       </h2>
 
+      {/* Topicos */}
       <div className="w-full flex flex-col justify-center items-center mt-5 mb-5">
         <TopicSelector
           topics={allTopics}
@@ -861,8 +517,10 @@ const Home = () => {
           selectedTopic={selectedTopic}
         />
       </div>
+      {/*  */}
 
       <div className="grid grid-cols-[15%_68%_11%] gap-4 w-full">
+        {/* Container de filtros */}
         <div className="flex flex-col w-full bg-gray-100 border rounded-xl p-4 mt-5 text-center">
           <span className="text-2xl font-semibold leading-none tracking-tight text-center">
             Filtros:
@@ -881,7 +539,7 @@ const Home = () => {
                 <span>Desde</span>
                 <select
                   disabled={!Boolean(currentIndicator?.value)}
-                  className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-center"
+                  className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-center"
                   value={currentYearFrom}
                   onChange={(e) => setCurrentYearFrom(parseInt(e.target.value))}
                 >
@@ -899,7 +557,7 @@ const Home = () => {
                 <span>Hasta</span>
                 <select
                   disabled={!Boolean(currentIndicator?.value)}
-                  className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-center"
+                  className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-center"
                   value={currentYearTo}
                   onChange={(e) => setCurrentYearTo(parseInt(e.target.value))}
                 >
@@ -938,7 +596,7 @@ const Home = () => {
               </div>
             </div>
           </div>
-          {/* FIN Selector de paises */}
+          {/*  */}
           {/* FUNCION */}
           <div
             className={cn(
@@ -972,7 +630,7 @@ const Home = () => {
                     selectedView !== "BAR_CHART_RACE"
                   )
                 }
-                className="appearance-none w-10/12 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-center"
+                className="appearance-none w-10/12 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-center"
                 value={functionSelected.value}
                 onChange={(e) =>
                   setFunctionSelected(
@@ -993,8 +651,9 @@ const Home = () => {
               </select>
             </div>
           </div>
-          {/* FIN FUNCION */}
+          {/*  */}
         </div>
+        {/*  */}
 
         <div className="w-full">
           {/* Selector de indicadores */}
@@ -1050,8 +709,9 @@ const Home = () => {
               }}
             />
           </div>
-          {/* Fin selector */}
+          {/*   */}
 
+          {/* Indicador seleccionado */}
           {currentIndicator?.value && (
             <div className="text-center">
               <h2 className="font-semibold leading-none tracking-tight mb-2 mt-4">
@@ -1066,7 +726,9 @@ const Home = () => {
               </div>
             </div>
           )}
+          {/*  */}
 
+          {/* Selector de vista */}
           <div className="text-center">
             <h2 className="text-xl font-semibold leading-none tracking-tight mb-5 mt-5">
               Seleccione la vista
@@ -1099,12 +761,14 @@ const Home = () => {
               </TabsList>
             </Tabs>
           </div>
+          {/*  */}
 
+          {/* Vistas */}
           <section>
             {busquedaRealizada ? (
               <>
                 {selectedView === "MAP" && (
-                  <Geo
+                  <Map
                     data={dataValues}
                     generateColorByValue={generateColorByValue}
                   />
@@ -1154,50 +818,32 @@ const Home = () => {
                   Seleccione los filtros correspondientes para realizar la
                   búsqueda
                 </h2>
-
                 <div className="grid grid-rows-[1fr_1fr_1fr] items-center justify-center">
                   <article className="flex gap-2 justify-start items-center">
-                    {/* <input
-                      type="checkbox"
-                      disabled
-                      className="shrink-0 mt-0.5 border-gray-200 rounded-sm text-blue-600 focus:ring-blue-500 checked:border-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                      checked={filtrosSelected.INDICADOR}
-                    /> */}
                     {filtrosSelected.INDICADOR ? (
                       <Check size={25} color="black" />
                     ) : (
                       <CheckEmpty size={25} color="black" />
                     )}
-                    <label htmlFor="">Indicador seleccionado</label>
-                  </article>
-                  <article className="flex gap-2 justify-start items-center">
-                    {/* <input
-                      type="checkbox"
-                      che={false}
-                      className="shrink-0 mt-0.5 border-gray-200 rounded-sm text-blue-600 focus:ring-blue-500 checked:border-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                      checked={filtrosSelected.PAISES}
-                    /> */}
-                    {filtrosSelected.PAISES ? (
-                      <Check size={25} color="black" />
-                    ) : (
-                      <CheckEmpty size={25} color="black" />
-                    )}
-                    <label htmlFor="">Países seleccionados</label>
+                    <label>Indicador seleccionado</label>
                   </article>
 
                   <article className="flex gap-2 justify-start items-center">
-                    {/* <input
-                      type="checkbox"
-                      disabled
-                      className="shrink-0 mt-0.5 border-gray-200 rounded-sm text-blue-600 focus:ring-blue-500 checked:border-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                      checked={filtrosSelected.TIEMPO}
-                    /> */}
                     {filtrosSelected.TIEMPO ? (
                       <Check size={25} color="black" />
                     ) : (
                       <CheckEmpty size={25} color="black" />
                     )}
-                    <label htmlFor="">Intervalo de tiempo seleccionado</label>
+                    <label>Intervalo de tiempo seleccionado</label>
+                  </article>
+
+                  <article className="flex gap-2 justify-start items-center">
+                    {filtrosSelected.PAISES ? (
+                      <Check size={25} color="black" />
+                    ) : (
+                      <CheckEmpty size={25} color="black" />
+                    )}
+                    <label>Países seleccionados</label>
                   </article>
                 </div>
 
@@ -1229,9 +875,11 @@ const Home = () => {
               </div>
             )}
           </section>
+          {/*  */}
         </div>
       </div>
 
+      {/* Modals */}
       {showModalMetadata && (
         <ModalMetadata
           show={showModalMetadata}
@@ -1244,7 +892,6 @@ const Home = () => {
           show={showModalFunction}
           setShow={setShowModalFunction}
           setFunctionSelected={setFunctionSelected}
-          functionSelected={functionSelected}
           disabled={
             !(
               dataValues?.length > 0 &&
@@ -1254,7 +901,6 @@ const Home = () => {
           }
         />
       )}
-
       <ModalCountriesSelect
         show={showModalCountries}
         setShow={setShowModalCountries}
@@ -1262,13 +908,7 @@ const Home = () => {
         countries={countries}
         regions={regions}
       />
-
-      {/* <ModalBusqueda
-        show={showModalBusqueda}
-        setShow={setShowModalBusqueda}
-        filtrosSelected={filtrosSelected}
-        setBusquedaRealizada={setBusquedaRealizada}
-      /> */}
+      {/*  */}
     </div>
   );
 };
