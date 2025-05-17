@@ -107,7 +107,7 @@ const useFetch = () => {
           currentYearTo,
         });
 
-        console.log({ data: dataFinal });
+        console.log({ dataProcesada: dataFinal });
 
         if (dataFinal?.length < 1) {
           throw new Error("Sin datos disponibles");
@@ -116,12 +116,17 @@ const useFetch = () => {
         setDataIndicator(dataFinal);
       })
       .catch((err) => {
+        console.log({ err });
         throw new Error("Sin datos disponibles");
       });
 
     // Se obtienen los metadatos del indicador seleccionado
-    const metadata = await getMetadataIndicator(indicator);
-    setMetadataIndicator(metadata);
+    try {
+      const metadata = await getMetadataIndicator(indicator);
+      setMetadataIndicator(metadata);
+    } catch (error) {
+      throw new Error("Error al obtener metadatos del indicador");
+    }
   };
 
   const getMetadataIndicator = async (
@@ -135,9 +140,11 @@ const useFetch = () => {
         BASE_URL_WB + `/en/indicator/${indicatorCode}?format=json&source=2`
       ),
       axios.get(
-        BASE_URL_WB + `/es/indicator/${indicatorCode}?format=json&source=2`
+        BASE_URL_WB_ES + ` /indicator/${indicatorCode}?format=json&source=2`
       ),
-    ]);
+    ]).catch((err) => {
+      throw new Error("Error al obtener metadatos del indicador");
+    });
 
     metadataEnglish = metadataEnglishResult?.data?.[1]?.[0] || {};
     metadataEspañol = metadataEspañolResult?.data?.[1]?.[0] || {};

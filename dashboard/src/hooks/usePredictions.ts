@@ -17,44 +17,41 @@ import { useEffect } from "react";
 
 const usePredictions = () => {
   useEffect(() => {
-    predeterminarTecnicasPredictivas();
+    // predeterminarTecnicasPredictivas();
   }, []);
 
   const predeterminarTecnicasPredictivas = async () => {
     // const DATA = (INDICATOR as IndicatorValue[]).filter(
     //   (item) => item.countryiso3code === "ARG"
     // );
-
-    processDataFetchPredictions({
-      data: EXP as any,
-      currentYearFrom: 1960,
-      currentYearTo: 2025,
-    });
+    // processDataFetchPredictions({
+    //   data: LINEAL as any,
+    //   currentYearFrom: 1960,
+    //   currentYearTo: 2025,
+    // });
   };
 
   const determinarTecnicaPredictiva = (
     data: IndicatorValue[]
   ): TecnicaPredictiva | null => {
     try {
-      console.log({ data });
       // Filtrar y ordenar los datos
       const { years, values } = processData(data);
 
       console.log({ years, values });
-
       validateHandlePrediction(values, years);
 
       // Variables para determinar la técnica
       const correlacionPearson = pearsonCorrelation(years, values);
       const promedioCrecimiento = getPromedioCrecimiento(values);
-      const seEstabililza = isGrowthDecelerating(values);
+      const seEstabiliza = isGrowthDecelerating(values);
 
       let tecnicaDeterminada: TecnicaPredictiva | null = null;
 
       /*  Condiciones para determinar la técnica  */
 
       if (correlacionPearson <= 0.7) {
-        if (seEstabililza) {
+        if (seEstabiliza) {
           // Si la correlación es baja y se estabiliza
           tecnicaDeterminada = "REGRESION LOGISTICA";
         } else {
@@ -64,10 +61,16 @@ const usePredictions = () => {
       } else {
         // Correlacion fuerte
 
-        if (promedioCrecimiento <= 1.1) {
+        if (promedioCrecimiento <= 1.1 && promedioCrecimiento >= 0.9) {
           // Correlacion fuerte y crecimiento muy estable
           tecnicaDeterminada = "REGRESION LINEAL";
-        } else if (seEstabililza) {
+        } else if (promedioCrecimiento < 0.9) {
+          if (seEstabiliza) {
+            tecnicaDeterminada = "REGRESION LOGISTICA";
+          } else {
+            tecnicaDeterminada = "REGRESION LINEAL";
+          }
+        } else if (seEstabiliza) {
           // Correlación fuerte, el indicador muestra desaceleración progresiva
           tecnicaDeterminada = "REGRESION LOGISTICA";
         } else if (promedioCrecimiento <= 1.3 && values.length >= 5) {
@@ -102,13 +105,13 @@ const usePredictions = () => {
         years,
         correlacionPearson,
         promedioCrecimiento,
-        seEstabililza,
+        seEstabiliza,
         tecnicaDeterminada,
       });
 
       return tecnicaDeterminada;
     } catch (error) {
-      console.log({ error });
+      console.log({ errorMessage: (error as Error).message });
       return null;
     }
   };
@@ -206,6 +209,8 @@ const usePredictions = () => {
 
     // Calculo de ordenada al origen
     let b = (sumY - m * sumX) / n;
+
+    // console.log({ m, b });
 
     // Calculo de valor del indicador en el año a predecir
     const result = m * predictYear + b;
@@ -319,7 +324,7 @@ const usePredictions = () => {
         }
       });
 
-    // console.log({ objectCountriesData });
+    console.log({ objectCountriesData });
 
     let objectTecnicasCount: { [key in TecnicaPredictiva]: number } = {
       "REGRESION LINEAL": 0,
@@ -352,10 +357,10 @@ const usePredictions = () => {
         ? "REGRESION LINEAL"
         : (tecnicasSorted[0][0] as TecnicaPredictiva);
 
-    // console.log({
-    //   objectTecnicasCount,
-    //   tecnicaDeterminadaGlobal,
-    // });
+    console.log({
+      objectTecnicasCount,
+      tecnicaDeterminadaGlobal,
+    });
 
     // Calcular predicciones
     Object.entries(objectCountriesData).forEach(
@@ -420,7 +425,7 @@ const usePredictions = () => {
               item.value = parseFloat(resultValue.toFixed(3));
             }
 
-            console.log(item.date, item.value, data[0].countryiso3code);
+            console.log(item.date, item.value, item.countryiso3code);
             // console.log({
             // item,
             // date: item.date,
@@ -506,7 +511,6 @@ const usePredictions = () => {
     determinarTecnicaPredictiva,
     linearRegression,
     processDataFetchPredictions,
-    predeterminarTecnicasPredictivas,
   };
 };
 

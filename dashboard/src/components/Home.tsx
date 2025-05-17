@@ -108,7 +108,6 @@ const Home = () => {
   //   console.log({ dataValues, dataGraph1, dataIndicator, selectedCountries });
   // }, [dataValues, dataGraph1, dataIndicator, selectedCountries]);
 
-  // Carga inicial
   useEffect(() => {
     getRegionsCountriesAPI();
   }, []);
@@ -212,12 +211,6 @@ const Home = () => {
     );
   }, []);
 
-  // useEffect(() => {
-  //   console.log({ indicators });
-  //   // Se obtienen los topicos disponibles
-  //   getTopicsAllIndicators();
-  // }, [indicators]);
-
   useEffect(() => {
     if (selectedView === "GRAPH1") {
       handleDataGraph();
@@ -270,10 +263,13 @@ const Home = () => {
         selectedCountries: selectedCountries,
       });
     } catch (error) {
-      console.log({ error });
-      errNotif("No hay datos para el indicador seleccionado");
-      setDataIndicator([]);
-      // console.log("No hay datos para el indicador seleccionado");
+      // console.log({ error });
+      const messageError = (error as Error).message;
+      errNotif(messageError);
+
+      if (messageError === "Sin datos disponibles") {
+        setDataIndicator([]);
+      }
     }
   };
 
