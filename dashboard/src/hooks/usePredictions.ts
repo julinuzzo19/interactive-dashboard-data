@@ -1,14 +1,30 @@
 import { IndicatorValue } from "@/interfaces/Indicador";
 import { TecnicaPredictiva } from "@/interfaces/predictions";
+import INDICATOR from "../data/indicators/SP_POP_TOTL_MA_IN.json";
 
 const usePredictions = () => {
-  // analizar variaciones entre rango de años para determinar tecnicas a utilizar
+  // Versión browser-friendly que procesa cada archivo de indicador individual
+  const predeterminarTecnicasPredictivas = async () => {
+    const DATA = INDICATOR as IndicatorValue[];
 
+    // Determinar la técnica predictiva para este indicador
+    processDataFetchPredictions({
+      data: DATA.filter((item) => item.countryiso3code === "ARG"),
+      currentYearFrom: 1960,
+      currentYearTo: 2025,
+    });
+  };
+
+  // analizar variaciones entre rango de años para determinar tecnicas a utilizar
   const determinarTecnicaPredictiva = (
     values: IndicatorValue[]
   ): TecnicaPredictiva | null => {
     try {
-      validateHandlePrediction(values);
+      const isValid = validateHandlePrediction(values);
+
+      if (!isValid) {
+        return null;
+      }
 
       let tecnicaDeterminada: TecnicaPredictiva | null = null;
 
@@ -20,17 +36,22 @@ const usePredictions = () => {
       const years = valuesSorted
         .filter((item) => item?.value)
         .map((item) => parseInt(item.date));
+
       const valuesIndicator = valuesSorted
         .filter((item) => item?.value)
         .map((item) => item.value);
 
-      const correlacionPearson = pearsonCorrelation(years, valuesIndicator);
+      console.log({ valuesIndicator, years });
 
       if (valuesIndicator.length <= 2) {
         // Si solo hay 2 valores o menos, no participa en votacion
+        return null;
       }
+
+      const correlacionPearson = pearsonCorrelation(years, valuesIndicator);
+
       // Si la correlación no es muy alta o hay muchas variaciones irregulares.
-      else if (Math.abs(correlacionPearson) <= 0.7) {
+      if (Math.abs(correlacionPearson) <= 0.7) {
         tecnicaDeterminada = "REGRESION LOGISTICA";
       } else {
         // 2️⃣ Calcular el crecimiento relativo entre puntos consecutivos
@@ -41,6 +62,10 @@ const usePredictions = () => {
 
         const promedioCrecimiento =
           diferencias.reduce((a, b) => a + b, 0) / diferencias.length;
+
+        const seEstabililza = isGrowthDecelerating(valuesIndicator);
+
+        console.log({ promedioCrecimiento, seEstabililza });
 
         // Si el promedio de crecimiento es hasta un 10%, usa regresión lineal
         if (promedioCrecimiento <= 1.1) {
@@ -57,6 +82,11 @@ const usePredictions = () => {
         }
       }
 
+      console.log({
+        correlacionPearson,
+        valuesIndicator: valuesIndicator.length,
+      });
+
       return tecnicaDeterminada;
     } catch (error) {
       console.log({ error });
@@ -66,9 +96,11 @@ const usePredictions = () => {
 
   const validateHandlePrediction = (values: IndicatorValue[]) => {
     if (values.length === 1) {
-      throw new Error(
+      // throw new Error(
+      console.log(
         "Para predecir valor es necesario contar con al menos 2 elementos y un valor en uno"
       );
+      return false;
     }
 
     const valuesSorted = values.sort(
@@ -86,11 +118,15 @@ const usePredictions = () => {
       console.log(
         "Para predecir valor es necesario contar con al menos 2 valores de año"
       );
+      return false;
     } else if (valuesIndicator.length < 1) {
       console.log(
         "Para predecir valor es necesario contar con al menos 2 valores de indicador"
       );
+      return false;
     }
+
+    return true;
   };
 
   // Función para calcular la regresión exponencial
@@ -319,10 +355,10 @@ const usePredictions = () => {
         ? "REGRESION LINEAL"
         : (tecnicasSorted[0][0] as TecnicaPredictiva);
 
-    // console.log({
-    //   objectTecnicasCount,
-    //   tecnicaDeterminadaGlobal,
-    // });
+    console.log({
+      objectTecnicasCount,
+      tecnicaDeterminadaGlobal,
+    });
 
     // Calcular predicciones
     Object.entries(objectCountriesData).forEach(
@@ -383,14 +419,12 @@ const usePredictions = () => {
               item.value = parseFloat(resultValue.toFixed(3));
             }
 
-            // console.log({
-            //   correlacionPearson,
-            //   promedioCrecimiento,
-            //   item,
-            //   date: item.date,
-            //   countryCode: item.countryiso3code,
-            //   value: item.value,
-            // });
+            console.log({
+              // item,
+              date: item.date,
+              value: item.value,
+              // countryCode: item.countryiso3code,
+            });
 
             item.tecnicaUtilizada = tecnicaDeterminadaGlobal;
 
@@ -413,10 +447,29 @@ const usePredictions = () => {
     return dataFinal;
   };
 
+  function isGrowthDecelerating(values: number[]) {
+    const rates: number[] = [];
+    for (let i = 1; i < values.length; i++) {
+      const rate = (values[i] - values[i - 1]) / values[i - 1];
+      rates.push(rate);
+    }
+
+    let decelerating = true;
+    for (let i = 1; i < rates.length; i++) {
+      if (rates[i] > rates[i - 1]) {
+        decelerating = false;
+        break;
+      }
+    }
+
+    return decelerating;
+  }
+
   return {
     determinarTecnicaPredictiva,
     linearRegression,
     processDataFetchPredictions,
+    predeterminarTecnicasPredictivas,
   };
 };
 

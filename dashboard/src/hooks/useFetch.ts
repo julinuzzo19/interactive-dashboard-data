@@ -9,7 +9,7 @@ import { ICountry, IRegion } from "@/interfaces/Countries";
 import { filterDataApi } from "@/utils/filterDataAPI";
 import usePredictions from "@/hooks/usePredictions";
 
-const BASE_URL_WB = "https://api.worldbank.org/v2";
+export const BASE_URL_WB = "https://api.worldbank.org/v2";
 const BASE_URL_WB_ES = "https://api.worldbank.org/v2/es";
 const CODE_TOPIC_HEALTH = 8;
 const LIMIT_INDICATORS = 1000;
@@ -28,7 +28,12 @@ const useFetch = () => {
   const [metadataIndicator, setMetadataIndicator] = useState<
     Partial<IndicatorMetadata>
   >({});
-  const { processDataFetchPredictions } = usePredictions();
+  const { processDataFetchPredictions, predeterminarTecnicasPredictivas } =
+    usePredictions();
+
+  useEffect(() => {
+    predeterminarTecnicasPredictivas();
+  }, []);
 
   useEffect(() => {
     getIndicadores();
@@ -41,6 +46,7 @@ const useFetch = () => {
           `/topic/${CODE_TOPIC_HEALTH}/indicator?format=json&per_page=${LIMIT_INDICATORS}&source=2`
       )
       .then((res) => {
+        console.log({ res });
         // Se obtienen todos los indicadores de salud disponibles y se filtran los que no tienen nombre
         const data: Indicador[] = (res.data[1] || []).filter(
           (item) => item.name

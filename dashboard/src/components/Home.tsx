@@ -100,13 +100,13 @@ const Home = () => {
   });
   const [busquedaRealizada, setBusquedaRealizada] = useState<boolean>(false);
 
-  // useEffect(() => {
-  //   console.log({ dataValues, dataBarChartRace, dataGraph1, dataIndicator });
-  // }, [dataValues, dataBarChartRace, dataGraph1, dataIndicator]);
+  useEffect(() => {
+    console.log({ dataValues, dataBarChartRace, dataGraph1, dataIndicator });
+  }, [dataValues, dataBarChartRace, dataGraph1, dataIndicator]);
 
-  // useEffect(() => {
-  //   console.log({ dataValues, dataGraph1, dataIndicator, selectedCountries });
-  // }, [dataValues, dataGraph1, dataIndicator, selectedCountries]);
+  useEffect(() => {
+    console.log({ dataValues, dataGraph1, dataIndicator, selectedCountries });
+  }, [dataValues, dataGraph1, dataIndicator, selectedCountries]);
 
   // Carga inicial
   useEffect(() => {
