@@ -28,12 +28,7 @@ const useFetch = () => {
   const [metadataIndicator, setMetadataIndicator] = useState<
     Partial<IndicatorMetadata>
   >({});
-  const { processDataFetchPredictions, predeterminarTecnicasPredictivas } =
-    usePredictions();
-
-  useEffect(() => {
-    predeterminarTecnicasPredictivas();
-  }, []);
+  const { processDataFetchPredictions } = usePredictions();
 
   useEffect(() => {
     getIndicadores();
