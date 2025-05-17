@@ -38,7 +38,6 @@ const usePredictions = () => {
       // Filtrar y ordenar los datos
       const { years, values } = processData(data);
 
-      console.log({ years, values });
       validateHandlePrediction(values, years);
 
       // Variables para determinar la técnica
@@ -66,8 +65,10 @@ const usePredictions = () => {
           tecnicaDeterminada = "REGRESION LINEAL";
         } else if (promedioCrecimiento < 0.9) {
           if (seEstabiliza) {
+            // El indicador cae pero tiende a estabilizarse, típico de una curva con forma de S.
             tecnicaDeterminada = "REGRESION LOGISTICA";
           } else {
+            // Descenso constante sin evidencia de estabilización; la caída lineal es más realista
             tecnicaDeterminada = "REGRESION LINEAL";
           }
         } else if (seEstabiliza) {
