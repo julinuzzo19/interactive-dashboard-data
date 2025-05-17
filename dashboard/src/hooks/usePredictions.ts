@@ -1,36 +1,7 @@
 import { IndicatorValue } from "@/interfaces/Indicador";
 import { TecnicaPredictiva } from "@/interfaces/predictions";
-import EXP from "../data/indicators/EXP.json";
-import LOGISTIC from "../data/indicators/LOGISTIC.json";
-import LINEAL from "../data/indicators/LINEAL.json";
-import INDICATOR from "../data/indicators/SP_POP_TOTL_MA_IN.json";
-import INDICATOR2 from "../data/indicators/SG_VAW_NEGL_ZS.json";
-import INDICATOR3 from "../data/indicators/SH_H2O_BASW_RU_ZS.json";
-import INDICATOR4 from "../data/indicators/SG_VAW_ARGU_ZS.json";
-import INDICATOR5 from "../data/indicators/SP_POP_DPND_OL.json";
-import INDICATOR6 from "../data/indicators/SP_UWT_TFRT.json";
-import INDICATOR7 from "../data/indicators/SH_CON_1524_MA_ZS.json";
-import INDICATOR8 from "../data/indicators/SH_DYN_MORT_FE.json";
-import INDICATOR9 from "../data/indicators/SH_HIV_PMTC_ZS.json";
-import INDICATOR10 from "../data/indicators/SP_POP_7074_FE_5Y.json";
-import { useEffect } from "react";
 
 const usePredictions = () => {
-  useEffect(() => {
-    // predeterminarTecnicasPredictivas();
-  }, []);
-
-  const predeterminarTecnicasPredictivas = async () => {
-    // const DATA = (INDICATOR as IndicatorValue[]).filter(
-    //   (item) => item.countryiso3code === "ARG"
-    // );
-    // processDataFetchPredictions({
-    //   data: LINEAL as any,
-    //   currentYearFrom: 1960,
-    //   currentYearTo: 2025,
-    // });
-  };
-
   const determinarTecnicaPredictiva = (
     data: IndicatorValue[]
   ): TecnicaPredictiva | null => {
