@@ -298,23 +298,8 @@ const Home = () => {
         // const result = normalize(value, minValueIndicator, maxValueIndicator);
 
         if (!colorScaleRef.current) {
-          // const domanMin =
-          //   minValueIndicator > 1
-          //     ? Math.log10(minValueIndicator)
-          //     : Math.sqrt(minValueIndicator);
-
-          // const domainMax =
-          //   maxValueIndicator > 1
-          //     ? Math.log10(maxValueIndicator)
-          //     : Math.sqrt(maxValueIndicator);
-
-          colorScaleRef.current = chroma
-            .scale(chroma.brewer.OrRd)
-            // .domain([domanMin, domainMax])
-            .mode("lch");
+          colorScaleRef.current = chroma.scale(chroma.brewer.OrRd).mode("lch");
         }
-
-        // const valueFinal = value > 1 ? Math.log10(value) : Math.sqrt(value);
 
         const range = maxValueIndicator / minValueIndicator;
         let normalized: number;
@@ -335,16 +320,7 @@ const Home = () => {
           normalized = normalize(value, minValueIndicator, maxValueIndicator); // Estándar
         }
 
-        // @ts-ignore
         const colorCountry = colorScaleRef.current(normalized).hex();
-
-        // console.log({
-        //   colorCountry,
-        //   domanMin,
-        //   domainMax,
-        //   value,
-        //   normalized,
-        // });
 
         return colorCountry;
       } catch (error) {

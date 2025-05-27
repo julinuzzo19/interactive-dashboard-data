@@ -54,24 +54,6 @@ const usePredictions = () => {
         }
       }
 
-      // // Si la correlación no es muy alta o hay muchas variaciones irregulares.
-      // if (correlacionPearson <= 0.7) {
-      //   tecnicaDeterminada = "REGRESION LOGISTICA";
-      // } else {
-      //   // Si el promedio de crecimiento es hasta un 10% mas, usa regresión lineal
-      //   if (promedioCrecimiento <= 1.1) {
-      //     tecnicaDeterminada = "REGRESION LINEAL";
-      //   }
-      //   // evita predicciones demasiado extremas cuando hay pocos datos.
-      //   else if (valuesIndicator.length < 5 && promedioCrecimiento <= 1.3) {
-      //     tecnicaDeterminada = "REGRESION LOGISTICA";
-      //   } else if (promedioCrecimiento <= 1.3 && valuesIndicator.length >= 5) {
-      //     tecnicaDeterminada = "REGRESION EXPONENCIAL";
-      //   } else if (promedioCrecimiento > 1.3) {
-      //     // para comportamientos mezclados de crecimiento y decrecimiento o variaciones de la tasa de crecimiento
-      //     tecnicaDeterminada = "REGRESION LOGISTICA";
-      //   }
-
       console.table({
         values,
         years,
@@ -398,12 +380,6 @@ const usePredictions = () => {
             }
 
             console.log(item.date, item.value, item.countryiso3code);
-            // console.log({
-            // item,
-            // date: item.date,
-            // value: item.value,
-            // countryCode: item.countryiso3code,
-            // });
 
             item.tecnicaUtilizada = tecnicaDeterminadaGlobal;
 
