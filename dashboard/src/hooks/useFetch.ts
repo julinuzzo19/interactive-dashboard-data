@@ -116,7 +116,6 @@ const useFetch = () => {
         setDataIndicator(dataFinal);
       })
       .catch((err) => {
-        console.log({ err });
         throw new Error("Sin datos disponibles");
       });
 

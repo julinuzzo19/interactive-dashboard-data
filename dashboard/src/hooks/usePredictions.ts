@@ -54,18 +54,18 @@ const usePredictions = () => {
         }
       }
 
-      console.table({
-        values,
-        years,
-        correlacionPearson,
-        promedioCrecimiento,
-        seEstabiliza,
-        tecnicaDeterminada,
-      });
+      // console.table({
+      //   values,
+      //   years,
+      //   correlacionPearson,
+      //   promedioCrecimiento,
+      //   seEstabiliza,
+      //   tecnicaDeterminada,
+      // });
 
       return tecnicaDeterminada;
     } catch (error) {
-      console.log({ errorMessage: (error as Error).message });
+      // console.log({ errorMessage: (error as Error).message });
       return null;
     }
   };
@@ -322,7 +322,7 @@ const usePredictions = () => {
         valuesCountry.forEach((item) => {
           const dateItem = parseInt(item.date);
 
-          if (!(dateItem >= currentYearFrom && dateItem <= currentYearTo)) {
+          if (dateItem < currentYearFrom || dateItem > currentYearTo) {
             return;
           }
 
@@ -359,7 +359,7 @@ const usePredictions = () => {
               item.value = parseFloat(resultValue.toFixed(3));
             } else if (tecnicaDeterminadaGlobal === "REGRESION EXPONENCIAL") {
               if (new Set(values).size < 2) {
-                console.log("Se necesitan al menos 2 valores diferentes en x.");
+                // console.log("Se necesitan al menos 2 valores diferentes en x.");
                 return;
               }
 
@@ -379,16 +379,21 @@ const usePredictions = () => {
               item.value = parseFloat(resultValue.toFixed(3));
             }
 
-            console.log(item.date, item.value, item.countryiso3code);
+            console.log(
+              item.date,
+              item.countryiso3code,
+              tecnicaDeterminadaGlobal,
+              item.value
+            );
 
             item.tecnicaUtilizada = tecnicaDeterminadaGlobal;
 
             if (!item.value) {
-              console.log("El valor no fue predicho correctamente");
+              // console.log("El valor no fue predicho correctamente");
               return;
             }
             if (item.value == Infinity) {
-              console.log("El valor tiende a infinito.");
+              // console.log("El valor tiende a infinito.");
               return;
             }
           }

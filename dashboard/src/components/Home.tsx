@@ -155,11 +155,18 @@ const Home = () => {
       currentYearFrom &&
       currentYearTo !== currentYearFrom &&
       !functionSelected?.value &&
-      selectedView !== "BAR_CHART_RACE"
+      selectedView !== "BAR_CHART_RACE" &&
+      dataIndicator.length > 0
     ) {
       setShowModalFunction(true);
     }
-  }, [currentYearFrom, currentYearTo, selectedCountries, busquedaRealizada]);
+  }, [
+    currentYearFrom,
+    currentYearTo,
+    selectedCountries,
+    busquedaRealizada,
+    dataIndicator,
+  ]);
 
   useEffect(() => {
     setOffset(0);
@@ -263,7 +270,6 @@ const Home = () => {
         selectedCountries: selectedCountries,
       });
     } catch (error) {
-      // console.log({ error });
       const messageError = (error as Error).message;
       errNotif(messageError);
 
@@ -284,18 +290,6 @@ const Home = () => {
         ) {
           return DEFAULT_MAP_COLOR;
         }
-
-        const domanMin =
-          minValueIndicator > 1
-            ? Math.log10(minValueIndicator)
-            : Math.sqrt(minValueIndicator);
-
-        const domainMax =
-          maxValueIndicator > 1
-            ? Math.log10(maxValueIndicator)
-            : Math.sqrt(maxValueIndicator);
-
-        // const result = normalize(value, minValueIndicator, maxValueIndicator);
 
         if (!colorScaleRef.current) {
           colorScaleRef.current = chroma.scale(chroma.brewer.OrRd).mode("lch");
@@ -324,7 +318,8 @@ const Home = () => {
 
         return colorCountry;
       } catch (error) {
-        console.log({ errorgenerateColorByValue: error });
+        // console.log({ errorgenerateColorByValue: error });
+        console.log("Error al generar el color por valor");
       }
     },
     [colorScaleRef, minValueIndicator, maxValueIndicator]
