@@ -54,14 +54,14 @@ const usePredictions = () => {
         }
       }
 
-      // console.table({
-      //   values,
-      //   years,
-      //   correlacionPearson,
-      //   promedioCrecimiento,
-      //   seEstabiliza,
-      //   tecnicaDeterminada,
-      // });
+      console.table({
+        values,
+        years,
+        correlacionPearson,
+        promedioCrecimiento,
+        seEstabiliza,
+        tecnicaDeterminada,
+      });
 
       return tecnicaDeterminada;
     } catch (error) {
@@ -175,9 +175,8 @@ const usePredictions = () => {
   function logisticRegressionPredict(
     years: number[],
     values: number[],
-    targetYear: number,
-    L: any = null
-  ) {
+    targetYear: number
+  ): number {
     // Normalizar años para estabilidad numérica
     const minYear = Math.min(...years);
     const maxYear = Math.max(...years);
@@ -185,19 +184,34 @@ const usePredictions = () => {
       (y) => (y - minYear) / (maxYear - minYear)
     );
 
-    // Definir L (límite superior)
-    if (L === null) {
-      L = Math.max(...values);
-    }
+    // Determinar si el comportamiento es decreciente
+    const esDecreciente = values[0] > values[values.length - 1];
+    const ajuste = 0.1; // Ajuste de 10% para no tomar el limite como un valor actual de la serie
+    const maxValue = Math.max(...values);
+    const minValue = Math.min(...values);
 
-    // Evitar problemas numéricos en la transformación log-odds
+    // Definir L según la dirección
+    let L = esDecreciente
+      ? minValue - Math.abs(minValue * ajuste) // alejarse hacia abajo
+      : maxValue + Math.abs(maxValue * ajuste); // alejarse hacia arriba
+
     const epsilon = 1e-10;
+
+    // Transformar a log-odds según la dirección
     const logOdds = values.map((v) => {
-      if (v >= L) v = L - epsilon; // Evitar que v sea igual o mayor que L
-      return Math.log(v / (L - v));
+      if (esDecreciente) {
+        const numerador = v - L;
+        const denominador = Math.max(...values) - v;
+        const clampedNumerador = Math.max(numerador, epsilon);
+        const clampedDenominador = Math.max(denominador, epsilon);
+        return Math.log(clampedNumerador / clampedDenominador);
+      } else {
+        if (v >= L) v = L - epsilon; // evitar división por cero
+        return Math.log(v / (L - v));
+      }
     });
 
-    // Calcular coeficientes de regresión lineal sobre log-odds
+    // Ajuste lineal sobre log-odds
     const n = normalizedYears.length;
     const sumX = normalizedYears.reduce((a, b) => a + b, 0);
     const sumY = logOdds.reduce((a, b) => a + b, 0);
@@ -210,14 +224,15 @@ const usePredictions = () => {
     const b = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
     const a = (sumY - b * sumX) / n;
 
-    // Normalizar año objetivo
+    // Predecir para el año objetivo
     const normalizedTargetYear = (targetYear - minYear) / (maxYear - minYear);
     const predictedLogOdds = a + b * normalizedTargetYear;
 
-    // Convertir log-odds a valor predicho
-    const predictedValue = L / (1 + Math.exp(-predictedLogOdds));
+    const prediction = 1 / (1 + Math.exp(-predictedLogOdds));
 
-    return predictedValue;
+    return esDecreciente
+      ? L + (Math.max(...values) - L) * prediction
+      : L * prediction;
   }
 
   function pearsonCorrelation(x, y) {
@@ -340,7 +355,7 @@ const usePredictions = () => {
                   ) && item.date
               )
               .forEach((item) => {
-                values.push(parseInt(item.value));
+                values.push(parseFloat(item.value));
                 years.push(parseInt(item.date));
               });
 
